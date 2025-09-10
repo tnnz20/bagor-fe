@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import NavigationSheet from "./NavigationSheet.vue";
 import NavMenu from "./NavMenu.vue";
-import { Button } from "./ui/button";
+import { Button } from "../../../ui/button";
 </script>
 
 <template>

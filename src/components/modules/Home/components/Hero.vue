@@ -12,7 +12,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import FlipWords from "./ui/flip-words/FlipWords.vue";
+import FlipWords from "@/components/ui/flip-words/FlipWords.vue";
 
 // Data untuk avatar users
 const avatars = [

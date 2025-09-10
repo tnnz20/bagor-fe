@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useAttrs } from "vue";
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-} from "@/components/ui/navigation-menu";
+} from "@/components/ui/navigation-menu"
+import { useAttrs } from "vue";
 
 const attrs = useAttrs(); // forward semua atribut/props ke NavigationMenu
 </script>
