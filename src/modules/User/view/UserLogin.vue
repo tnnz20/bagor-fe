@@ -5,7 +5,7 @@
         <div
           class="bg-primary text-primary-foreground flex h-6 w-6 items-center justify-center rounded-md"
         >
-          <GalleryVerticalEnd class-name="size-4" />
+          <Icons.GalleryVerticalEnd class-name="size-4" />
         </div>
         Acme Inc.
       </RouterLink>
@@ -26,6 +26,6 @@
 </template>
 
 <script setup lang="ts">
-import { GalleryVerticalEnd } from 'lucide-vue-next';
+import { Icons } from '@/components/icons';
 import LoginForm from '../components/LoginForm.vue';
 </script>
