@@ -1,5 +1,6 @@
-import { GalleryVerticalEnd } from 'lucide-vue-next';
+import { GalleryVerticalEnd, Menu } from 'lucide-vue-next';
 
 export const Icons = {
   GalleryVerticalEnd,
+  Menu,
 };
