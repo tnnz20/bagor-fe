@@ -1,0 +1,31 @@
+{
+  "semi": true,
+  "trailingComma": "es5",
+  "singleQuote": true,
+  "printWidth": 80,
+  "tabWidth": 2,
+  "useTabs": false,
+  "bracketSpacing": true,
+  "bracketSameLine": false,
+  "arrowParens": "avoid",
+  "plugins": [
+    "@ianvs/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss"
+  ],
+  "importOrder": [
+    "^vue$",
+    "^vue-router$",
+    "^@vue/(.*)$",
+    "^~/composables/(.*)$",
+    "^~/stores/(.*)$",
+    "^~/plugins/(.*)$",
+    "^~/lib/(.*)$",
+    "^~/utils/(.*)$",
+    "^~/types/(.*)$",
+    "^~/components/(.*)$",
+    "^@?\\w",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
+}

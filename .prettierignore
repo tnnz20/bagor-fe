@@ -1,0 +1,17 @@
+# Build outputs
+/build
+/public/build
+/.cache
+
+# Dependencies
+/node_modules
+
+# Config files
+*.config.js
+*.config.ts
+
+# Environment files
+.env*
+
+# Generated files
+/app/tailwind.css
