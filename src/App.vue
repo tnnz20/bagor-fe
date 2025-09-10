@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import Navbar from "./components/Navbar.vue";
+// Tidak perlu import Navbar/Hero di App jika hanya muncul di Home
 </script>
 
 <template>
-  <Navbar />
+  <RouterView />
 </template>
