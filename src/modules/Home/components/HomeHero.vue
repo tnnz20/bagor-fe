@@ -1,52 +1,45 @@
 <!-- Hero206.vue -->
 
 <script setup lang="ts">
-import {
-  ChevronLeft,
-  ChevronRight,
-  Copy,
-  Plus,
-  RotateCw,
-  Share,
-} from "lucide-vue-next";
-import { cn } from "@/lib/utils";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import FlipWords from "@/components/ui/flip-words/FlipWords.vue";
+import { Icons } from '@/components/icons';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import FlipWords from '@/components/ui/flip-words/FlipWords.vue';
+import { cn } from '@/lib/utils';
 
 // Data untuk avatar users
 const avatars = [
   {
-    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-2.webp",
-    fallback: "AB",
+    src: 'https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-2.webp',
+    fallback: 'AB',
   },
   {
-    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-5.webp",
-    fallback: "AB",
+    src: 'https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-5.webp',
+    fallback: 'AB',
   },
   {
-    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-6.webp",
-    fallback: "AB",
+    src: 'https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-6.webp',
+    fallback: 'AB',
   },
 ];
 
 // Configuration untuk browser mockup
 const mockupConfig = {
-  url: "https://shadcnblocks.com/block/hero206",
+  url: 'https://shadcnblocks.com/block/hero206',
   dashboardUrlDesktop:
-    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/dashboard/dashboard-1.png",
+    'https://deifkwefumgah.cloudfront.net/shadcnblocks/block/dashboard/dashboard-1.png',
   dashboardUrlMobile:
-    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/dashboard/dashboard-mobile-1.png",
+    'https://deifkwefumgah.cloudfront.net/shadcnblocks/block/dashboard/dashboard-mobile-1.png',
 };
 </script>
 
 <template>
   <section class="bg-background">
-    <div class="container mx-auto relative pt-32 pb-8">
+    <div class="relative container mx-auto pt-32 pb-8">
       <!-- Header Section -->
       <header class="mx-auto max-w-3xl text-center">
         <h1
-          class="mx-auto font-anton text-foreground text-5xl font-semibold uppercase md:text-7xl"
+          class="font-anton text-foreground mx-auto text-5xl font-semibold uppercase md:text-7xl"
         >
           Penilaian <br />
           Kinerja Lebih
@@ -71,7 +64,7 @@ const mockupConfig = {
       <!-- Badge with Avatars -->
       <Badge
         variant="outline"
-        class="mx-auto mt-10 flex w-fit cursor-pointer items-center justify-center rounded-full border py-1 pl-2 pr-3 font-normal transition-all ease-in-out hover:gap-3"
+        class="mx-auto mt-10 flex w-fit cursor-pointer items-center justify-center rounded-full border py-1 pr-3 pl-2 font-normal transition-all ease-in-out hover:gap-3"
       >
         <!-- Avatar Loop -->
         <Avatar
@@ -83,7 +76,7 @@ const mockupConfig = {
           <AvatarFallback>{{ avatar.fallback }}</AvatarFallback>
         </Avatar>
 
-        <p class="ml-6 capitalize tracking-tight md:text-lg">
+        <p class="ml-6 tracking-tight capitalize md:text-lg">
           Dipercaya oleh
           <span class="text-foreground font-bold">100+</span> pengguna.
         </p>
@@ -96,12 +89,12 @@ const mockupConfig = {
         <!-- Browser Mockup (Inline) -->
         <div
           :class="
-            cn('rounded-4xl relative w-full overflow-hidden border', 'w-full')
+            cn('relative w-full overflow-hidden rounded-4xl border', 'w-full')
           "
         >
           <!-- Browser Header -->
           <div
-            class="bg-muted lg:gap-25 flex items-center justify-between gap-10 px-8 py-4"
+            class="bg-muted flex items-center justify-between gap-10 px-8 py-4 lg:gap-25"
           >
             <!-- Traffic Light Buttons -->
             <div class="flex items-center gap-2">
@@ -109,8 +102,8 @@ const mockupConfig = {
               <div class="size-3 rounded-full bg-yellow-500" />
               <div class="size-3 rounded-full bg-green-500" />
               <div class="ml-6 hidden items-center gap-2 opacity-40 lg:flex">
-                <ChevronLeft class="size-5" />
-                <ChevronRight class="size-5" />
+                <Icons.ChevronLeft class="size-5" />
+                <Icons.ChevronRight class="size-5" />
               </div>
             </div>
 
@@ -120,15 +113,15 @@ const mockupConfig = {
                 class="bg-background relative hidden w-full rounded-full px-4 py-1 text-center text-sm tracking-tight md:block"
               >
                 {{ mockupConfig.url }}
-                <RotateCw class="absolute right-3 top-2 size-3.5" />
+                <Icons.RotateCw class="absolute top-2 right-3 size-3.5" />
               </p>
             </div>
 
             <!-- Browser Actions -->
             <div class="flex items-center gap-4 opacity-40">
-              <Share class="size-4" />
-              <Plus class="size-4" />
-              <Copy class="size-4" />
+              <Icons.Share class="size-4" />
+              <Icons.Plus class="size-4" />
+              <Icons.Copy class="size-4" />
             </div>
           </div>
 
@@ -138,7 +131,7 @@ const mockupConfig = {
             <img
               :src="mockupConfig.dashboardUrlDesktop"
               alt=""
-              class="object-cover hidden aspect-video h-full w-full object-top md:block"
+              class="hidden aspect-video h-full w-full object-cover object-top md:block"
             />
             <!-- Mobile Image -->
             <img

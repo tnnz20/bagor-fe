@@ -1,61 +1,57 @@
 <script setup lang="ts">
-import { Separator } from "@/components/ui/separator";
-import {
-  DribbbleIcon,
-  GithubIcon,
-  TwitchIcon,
-  TwitterIcon,
-} from "lucide-vue-next";
+import { Icons } from '@/components/icons';
+import { Separator } from '@/components/ui/separator';
+import type { MenuItem } from '@/types';
 
 // Data untuk footer links
-const footerLinks = [
+const footerLinks: MenuItem[] = [
   {
-    title: "Overview",
-    href: "#",
+    title: 'Overview',
+    href: '#',
   },
   {
-    title: "Features",
-    href: "#",
+    title: 'Features',
+    href: '#',
   },
   {
-    title: "Pricing",
-    href: "#",
+    title: 'Pricing',
+    href: '#',
   },
   {
-    title: "Careers",
-    href: "#",
+    title: 'Careers',
+    href: '#',
   },
   {
-    title: "Help",
-    href: "#",
+    title: 'Help',
+    href: '#',
   },
   {
-    title: "Privacy",
-    href: "#",
+    title: 'Privacy',
+    href: '#',
   },
 ];
 
 // Data untuk social media links
-const socialLinks = [
+const socialLinks: MenuItem[] = [
   {
-    icon: TwitterIcon,
-    href: "#",
-    label: "Twitter",
+    title: 'Twitter',
+    icon: Icons.Twitter,
+    href: '#',
   },
   {
-    icon: DribbbleIcon,
-    href: "#",
-    label: "Dribbble",
+    title: 'Dribbble',
+    icon: Icons.Dribbble,
+    href: '#',
   },
   {
-    icon: TwitchIcon,
-    href: "#",
-    label: "Twitch",
+    title: 'Twitch',
+    icon: Icons.Twitch,
+    href: '#',
   },
   {
-    icon: GithubIcon,
-    href: "#",
-    label: "GitHub",
+    title: 'GitHub',
+    icon: Icons.Github,
+    href: '#',
   },
 ];
 
@@ -65,13 +61,11 @@ const currentYear = new Date().getFullYear();
 
 <template>
   <div class="flex flex-col">
-    <!-- Spacer untuk content di atas -->
-
     <!-- Footer -->
     <footer class="border-t">
-      <div class="max-w-(--breakpoint-xl) mx-auto">
+      <div class="mx-auto max-w-(--breakpoint-xl)">
         <!-- Logo dan Navigation -->
-        <div class="py-12 flex flex-col justify-start items-center">
+        <div class="flex flex-col items-center justify-start py-12">
           <!-- Logo SVG -->
           <svg
             id="logo-7"
@@ -92,14 +86,14 @@ const currentYear = new Date().getFullYear();
           </svg>
 
           <!-- Navigation Links -->
-          <ul class="mt-6 flex items-center gap-4 flex-wrap">
+          <ul class="mt-6 flex flex-wrap items-center gap-4">
             <li v-for="link in footerLinks" :key="link.title">
-              <a
-                :href="link.href"
+              <RouterLink
+                to="link.href"
                 class="text-muted-foreground hover:text-foreground"
               >
                 {{ link.title }}
-              </a>
+              </RouterLink>
             </li>
           </ul>
         </div>
@@ -109,7 +103,7 @@ const currentYear = new Date().getFullYear();
 
         <!-- Copyright & Social Links -->
         <div
-          class="py-8 flex flex-col-reverse sm:flex-row items-center justify-between gap-x-2 gap-y-5 px-6 xl:px-0"
+          class="flex flex-col-reverse items-center justify-between gap-x-2 gap-y-5 px-6 py-8 sm:flex-row xl:px-0"
         >
           <!-- Copyright -->
           <span class="text-muted-foreground">
@@ -119,13 +113,13 @@ const currentYear = new Date().getFullYear();
           </span>
 
           <!-- Social Media Icons -->
-          <div class="flex items-center gap-5 text-muted-foreground">
+          <div class="text-muted-foreground flex items-center gap-5">
             <a
               v-for="social in socialLinks"
-              :key="social.label"
+              :key="social.title"
               :href="social.href"
               target="_blank"
-              :aria-label="social.label"
+              :aria-label="social.title"
               class="hover:text-foreground transition-colors"
             >
               <component :is="social.icon" class="h-5 w-5" />

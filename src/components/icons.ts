@@ -1,6 +1,35 @@
-import { GalleryVerticalEnd, Menu } from 'lucide-vue-next';
+import {
+  ChevronLeft,
+  ChevronRight,
+  Copy,
+  Dribbble,
+  GalleryVerticalEnd,
+  Github,
+  Menu,
+  Plus,
+  RotateCw,
+  Share,
+  Timer,
+  Twitch,
+  Twitter,
+  Zap,
+  ZoomIn,
+} from 'lucide-vue-next';
 
 export const Icons = {
   GalleryVerticalEnd,
   Menu,
+  Timer,
+  Zap,
+  ZoomIn,
+  Dribbble,
+  Github,
+  Twitch,
+  Twitter,
+  ChevronLeft,
+  ChevronRight,
+  Copy,
+  Plus,
+  RotateCw,
+  Share,
 };
