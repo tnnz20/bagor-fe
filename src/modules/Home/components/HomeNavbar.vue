@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import NavigationSheet from "./NavigationSheet.vue";
-import NavMenu from "./NavMenu.vue";
+import NavigationSheet from "./HomeNavigationSheet.vue";
+import NavMenu from "./HomeNavMenu.vue";
 import { Button } from "../../../components/ui/button";
 </script>
 
@@ -20,6 +20,10 @@ import { Button } from "../../../components/ui/button";
           <NavigationSheet />
         </div>
       </div>
+
+
+      
+      
     </div>
   </nav>
 </template>

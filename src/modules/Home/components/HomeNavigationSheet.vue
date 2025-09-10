@@ -2,7 +2,7 @@
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-vue-next";
 import Button from "@/components/ui/button/Button.vue";
-import NavMenu from "./NavMenu.vue";
+import NavMenu from "./HomeNavMenu.vue";
 </script>
 
 <template>
