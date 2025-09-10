@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import NavigationSheet from "./NavigationSheet.vue";
 import NavMenu from "./NavMenu.vue";
-import { Button } from "../../../ui/button";
+import { Button } from "../../../components/ui/button";
 </script>
 
 <template>
@@ -13,7 +13,7 @@ import { Button } from "../../../ui/button";
       <!-- Desktop Menu -->
       <NavMenu class="hidden md:block" />
       <div class="flex items-center gap-3">
-        <Button class="rounded-full">Login</Button>
+        <Button class="rounded-full"><RouterLink to="/login">Login</RouterLink></Button>
 
         <!-- Menu Mobile -->
         <div class="md:hidden">
