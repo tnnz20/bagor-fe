@@ -1,6 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router';
-import HomeView from './views/HomeView.vue';
-
+import Home from './views/Home.vue';
 
 export const HomeRoutes: RouteRecordRaw[] = [
   {
@@ -9,7 +8,7 @@ export const HomeRoutes: RouteRecordRaw[] = [
     children: [
       {
         path: '',
-        component: HomeView,
+        component: Home,
       },
     ],
   },

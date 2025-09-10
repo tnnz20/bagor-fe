@@ -1,5 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router';
-import DashboardView from './views/DashboardView.vue';
+import Dashboard from './views/Dashboard.vue';
 
 export const DashboardRoutes: RouteRecordRaw[] = [
   {
@@ -8,7 +8,7 @@ export const DashboardRoutes: RouteRecordRaw[] = [
     children: [
       {
         path: '',
-        component: DashboardView,
+        component: Dashboard,
       },
     ],
   },
