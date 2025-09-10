@@ -1,3 +1,5 @@
+import type { Component } from 'vue';
+
 // Base model with common fields
 export interface BaseModel {
   isDelete?: boolean;
@@ -8,8 +10,8 @@ export interface BaseModel {
 //  Menu link type
 export interface MenuItem {
   title: string;
-  href: string;
-  icon?: string;
+  href?: string;
+  icon?: string | Component;
   description?: string;
 }
 
