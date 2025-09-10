@@ -1,4 +1,4 @@
-import UserLogin from '@/modules/User/view/UserLogin.vue';
+import UserLogin from '@/modules/User/views/UserLogin.vue';
 import type { RouteRecordRaw } from 'vue-router';
 import AuthLayout from './layouts/AuthLayout.vue';
 
