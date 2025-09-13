@@ -5,7 +5,6 @@ import Home from './views/Home.vue';
 export const HomeRoutes: RouteRecordRaw[] = [
   {
     path: '/',
-    name: 'Home',
     meta: {
       title: 'Bagor',
       description: 'Bagor Home Page',
@@ -13,6 +12,7 @@ export const HomeRoutes: RouteRecordRaw[] = [
     children: [
       {
         path: '',
+        name: 'Home',
         component: Home,
       },
     ],
