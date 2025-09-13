@@ -1,13 +1,18 @@
 import {
+  Calendar,
   ChevronLeft,
   ChevronRight,
   Copy,
   Dribbble,
   GalleryVerticalEnd,
   Github,
+  Home,
+  Inbox,
   Menu,
   Plus,
   RotateCw,
+  Search,
+  Settings,
   Share,
   Timer,
   Twitch,
@@ -17,6 +22,7 @@ import {
 } from 'lucide-vue-next';
 
 export const Icons = {
+  Home,
   GalleryVerticalEnd,
   Menu,
   Timer,
@@ -32,4 +38,8 @@ export const Icons = {
   Plus,
   RotateCw,
   Share,
+  Search,
+  Settings,
+  Inbox,
+  Calendar,
 };
