@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import type { MenuItem } from '@/types';
+
 import { Icons } from '@/components/icons';
 import { Separator } from '@/components/ui/separator';
-import type { MenuItem } from '@/types';
 
 // Data untuk footer links
 const footerLinks: MenuItem[] = [
@@ -86,7 +87,7 @@ const currentYear = new Date().getFullYear();
           </svg>
 
           <!-- Navigation Links -->
-          <ul class="mt-6 flex flex-wrap items-center gap-4">
+          <ul class="mt-6 flex flex-wrap items-center gap-4 p-4 md:p-0">
             <li v-for="link in footerLinks" :key="link.title">
               <RouterLink
                 to="link.href"
