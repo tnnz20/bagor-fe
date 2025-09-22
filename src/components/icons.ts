@@ -22,8 +22,10 @@ import {
   Share,
   Sparkles,
   Timer,
+  Trash2,
   Twitch,
   Twitter,
+  X,
   Zap,
   ZoomIn,
 } from 'lucide-vue-next';
@@ -56,4 +58,6 @@ export const Icons = {
   LogOut,
   Sparkles,
   Command,
+  Trash2,
+  X,
 };

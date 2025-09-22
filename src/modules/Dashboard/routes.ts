@@ -1,5 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router';
 
+import { FeedBackRoutes } from '../Feedback/routes';
 import DashboardLayout from './layouts/DashboardLayout.vue';
 import Dashboard from './views/Dashboard.vue';
 
@@ -17,6 +18,7 @@ export const DashboardRoutes: RouteRecordRaw[] = [
         name: 'Dashboard',
         component: Dashboard,
       },
+      ...FeedBackRoutes,
     ],
   },
 ];

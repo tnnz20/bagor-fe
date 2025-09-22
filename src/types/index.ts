@@ -2,9 +2,9 @@ import type { Component } from 'vue';
 
 // Base model with common fields
 export interface BaseModel {
-  isDelete?: boolean;
-  created_at: string;
-  updated_at: string;
+  deleted_at?: number | null;
+  created_at: number;
+  updated_at: number;
 }
 
 //  Menu link type
