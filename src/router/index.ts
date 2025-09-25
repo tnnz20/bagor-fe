@@ -1,12 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
+import Notfound from '@/Notfound.vue';
+
 import { DashboardRoutes } from '@/modules/Dashboard/routes';
 import { HomeRoutes } from '@/modules/Home/routes';
 import { UserRoutes } from '@/modules/User/routes';
 
 const router = createRouter({
   history: createWebHistory(),
-  routes: [...HomeRoutes, ...UserRoutes, ...DashboardRoutes],
+  routes: [
+    ...HomeRoutes,
+    ...UserRoutes,
+    ...DashboardRoutes,
+    { path: '/:pathMatch(.*)*', name: 'NotFound', component: Notfound },
+  ],
 });
 
 router.beforeEach((to, _, next) => {

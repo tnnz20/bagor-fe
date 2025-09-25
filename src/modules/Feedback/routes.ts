@@ -4,7 +4,7 @@ import Feedback from './views/Feedback.vue';
 
 export const FeedBackRoutes: RouteRecordRaw[] = [
   {
-    path: 'feedback',
+    path: 'saran',
     name: 'Feedback',
     component: Feedback,
     meta: {

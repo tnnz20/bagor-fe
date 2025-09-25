@@ -1,16 +1,21 @@
 <template>
   <Sidebar v-bind="props">
     <SidebarHeader>
-      <HeaderSidebar />
+      <HeaderSidebar :user="data.user" />
     </SidebarHeader>
     <SidebarContent>
-      <!-- Todo: Make it a Components -->
       <SidebarGroup>
-        <SidebarGroupLabel>Application</SidebarGroupLabel>
+        <SidebarGroupLabel>Menu</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
             <SidebarMenuItem v-for="nav in navItems" :key="nav.title">
-              <SidebarMenuButton asChild>
+              <SidebarMenuButton
+                class="p-4"
+                :class="
+                  cn('hover:bg-primary hover:text-accent h-12 rounded-2xl')
+                "
+                asChild
+              >
                 <a :href="nav.href">
                   <component :is="nav.icon" />
                   <span>{{ nav.title }}</span>
@@ -22,13 +27,15 @@
       </SidebarGroup>
     </SidebarContent>
     <SidebarFooter>
-      <FooterSidebar :user="data.user" />
+      <FooterSidebar />
     </SidebarFooter>
   </Sidebar>
 </template>
 
 <script setup lang="ts">
 import type { MenuItem } from '@/types';
+
+import { cn } from '@/lib/utils';
 
 import { Icons } from '@/components/icons';
 import {
@@ -57,29 +64,29 @@ const data = {
 
 const navItems: MenuItem[] = [
   {
-    title: 'Home',
-    href: '#',
-    icon: Icons.Home,
+    title: 'Panduan',
+    href: '/dashboard/panduan',
+    icon: Icons.BookOpenText,
   },
   {
-    title: 'Inbox',
-    href: '#',
-    icon: Icons.Inbox,
+    title: 'Saran',
+    href: '/dashboard/saran',
+    icon: Icons.MessageSquareDot,
   },
   {
-    title: 'Calendar',
-    href: '#',
-    icon: Icons.Calendar,
+    title: 'Data Pegawai',
+    href: '/dashboard/pegawao',
+    icon: Icons.FileText,
   },
   {
-    title: 'Search',
-    href: '#',
-    icon: Icons.Search,
+    title: 'Pertanyaan',
+    href: '/dashboard/pertanyaan',
+    icon: Icons.MessageCircleQuestionMark,
   },
   {
-    title: 'Settings',
-    href: '#',
-    icon: Icons.Settings,
+    title: 'Berita Acara',
+    href: '/dashboard/berita-acara',
+    icon: Icons.BookCheck,
   },
 ];
 
