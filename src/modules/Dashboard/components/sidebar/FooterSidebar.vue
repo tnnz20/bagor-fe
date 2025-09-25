@@ -16,23 +16,5 @@
 <script setup lang="ts">
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
-import {
-  SidebarMenu,
-  SidebarMenuItem,
-  useSidebar,
-} from '@/components/ui/sidebar';
-
-interface User {
-  name: string;
-  email: string;
-  avatar: string;
-}
-
-interface Props {
-  user: User;
-}
-
-const props = defineProps<Props>();
-
-const { isMobile } = useSidebar();
+import { SidebarMenu, SidebarMenuItem } from '@/components/ui/sidebar';
 </script>
