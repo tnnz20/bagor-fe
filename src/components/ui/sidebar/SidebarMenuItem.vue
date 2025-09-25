@@ -1,17 +1,18 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from "vue"
-import { cn } from "@/lib/utils"
+import type { HTMLAttributes } from 'vue';
+
+import { cn } from '@/lib/utils';
 
 const props = defineProps<{
-  class?: HTMLAttributes["class"]
-}>()
+  class?: HTMLAttributes['class'];
+}>();
 </script>
 
 <template>
   <li
     data-slot="sidebar-menu-item"
     data-sidebar="menu-item"
-    :class="cn('group/menu-item relative', props.class)"
+    :class="cn('group/menu-item relative h-[46px] justify-center', props.class)"
   >
     <slot />
   </li>

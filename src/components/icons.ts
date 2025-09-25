@@ -1,6 +1,8 @@
 import {
   BadgeCheck,
   Bell,
+  BookCheck,
+  BookOpenText,
   Calendar,
   ChevronLeft,
   ChevronRight,
@@ -9,12 +11,15 @@ import {
   Copy,
   CreditCard,
   Dribbble,
+  FileText,
   GalleryVerticalEnd,
   Github,
   Home,
   Inbox,
   LogOut,
   Menu,
+  MessageCircleQuestionMark,
+  MessageSquareDot,
   Plus,
   RotateCw,
   Search,
@@ -32,6 +37,10 @@ import {
 
 export const Icons = {
   Home,
+  BookCheck,
+  MessageCircleQuestionMark,
+  FileText,
+  BookOpenText,
   GalleryVerticalEnd,
   Menu,
   Timer,
@@ -60,4 +69,5 @@ export const Icons = {
   Command,
   Trash2,
   X,
+  MessageSquareDot,
 };
