@@ -5,7 +5,7 @@
         <CardTitle class="text-xl font-medium">Pegawai Terbaik</CardTitle>
       </CardHeader>
       <CardContent class="p-6">
-        <div class="flex items-end justify-center space-x-8">
+        <div class="flex items-end justify-center">
           <!-- 2nd Place -->
           <div class="flex flex-col items-center space-y-3">
             <div class="relative">
@@ -18,18 +18,13 @@
             <div class="text-center">
               <p class="text-foreground text-sm font-medium">Sarah Johnson</p>
               <div
-                class="mt-1 inline-flex items-center rounded-full bg-orange-100 px-2.5 py-0.5 text-xs font-medium text-orange-800"
+                class="mt-1 inline-flex items-center rounded-full bg-[#F88D4C] px-2.5 py-0.5 text-xs font-medium text-white"
               >
                 9.8
               </div>
             </div>
             <div class="relative">
-              <div class="h-16 w-16 rounded-t-lg bg-gradient-to-t from-orange-400 to-orange-300 shadow-sm"></div>
-              <div
-                class="absolute -top-2 left-1/2 flex h-6 w-6 -translate-x-1/2 items-center justify-center rounded-full bg-slate-400 text-xs font-bold text-white"
-              >
-                2
-              </div>
+              <img src="@/assets/images/Rank2.png" alt="2nd Place" />
             </div>
           </div>
 
@@ -52,18 +47,13 @@
             <div class="text-center">
               <p class="text-foreground text-sm font-semibold">Ahmad Rahman</p>
               <div
-                class="mt-1 inline-flex items-center rounded-full bg-yellow-100 px-2.5 py-0.5 text-xs font-bold text-yellow-800"
+                class="mt-1 inline-flex items-center rounded-full bg-[#F88D4C] px-2.5 py-0.5 text-xs font-bold text-white"
               >
                 10.0
               </div>
             </div>
             <div class="relative">
-              <div class="h-24 w-16 rounded-t-lg bg-gradient-to-t from-yellow-400 to-yellow-300 shadow-sm"></div>
-              <div
-                class="absolute -top-2 left-1/2 flex h-6 w-6 -translate-x-1/2 items-center justify-center rounded-full bg-yellow-500 text-xs font-bold text-white"
-              >
-                1
-              </div>
+              <img src="@/assets/images/Rank1.png" alt="1nd Place" />
             </div>
           </div>
 
@@ -79,18 +69,13 @@
             <div class="text-center">
               <p class="text-foreground text-sm font-medium">Maya Sari</p>
               <div
-                class="mt-1 inline-flex items-center rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-medium text-amber-800"
+                class="mt-1 inline-flex items-center rounded-full bg-[#F88D4C] px-2.5 py-0.5 text-xs font-medium text-white"
               >
                 9.0
               </div>
             </div>
             <div class="relative">
-              <div class="h-12 w-16 rounded-t-lg bg-gradient-to-t from-amber-400 to-amber-300 shadow-sm"></div>
-              <div
-                class="absolute -top-2 left-1/2 flex h-6 w-6 -translate-x-1/2 items-center justify-center rounded-full bg-amber-600 text-xs font-bold text-white"
-              >
-                3
-              </div>
+              <img src="@/assets/images/Rank3.png" alt="3rd Place" />
             </div>
           </div>
         </div>
