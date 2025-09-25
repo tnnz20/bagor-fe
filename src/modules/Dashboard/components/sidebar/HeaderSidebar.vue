@@ -3,11 +3,16 @@
     <SidebarMenuItem>
       <SidebarMenuButton size="lg" as-child>
         <div>
-          <Avatar
-            class="bg-primary text-accent flex h-8 w-8 items-center justify-center rounded-lg"
-          >
-            <AvatarImage :src="user.avatar" :alt="user.name" />
-            <AvatarFallback class="rounded-lg font-medium uppercase">
+          <Avatar>
+            <AvatarImage
+              v-if="user.avatar"
+              :src="user.avatar"
+              :alt="user.name"
+            />
+            <AvatarFallback
+              v-else
+              class="bg-primary text-accent font-medium uppercase"
+            >
               {{ fallbackName }}
             </AvatarFallback>
           </Avatar>
@@ -27,6 +32,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   SidebarMenu,
   SidebarMenuButton,
