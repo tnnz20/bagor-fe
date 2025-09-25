@@ -6,7 +6,7 @@
     <SidebarContent>
       <!-- Todo: Make it a Components -->
       <SidebarGroup>
-        <SidebarGroupLabel>Application</SidebarGroupLabel>
+        <SidebarGroupLabel>Menu</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
             <SidebarMenuItem v-for="nav in navItems" :key="nav.title">
@@ -57,29 +57,29 @@ const data = {
 
 const navItems: MenuItem[] = [
   {
-    title: 'Home',
+    title: 'Panduan',
     href: '#',
-    icon: Icons.Home,
+    icon: Icons.BookOpenText,
   },
   {
-    title: 'Inbox',
+    title: 'Saran',
     href: '#',
-    icon: Icons.Inbox,
+    icon: Icons.MessageSquareDot,
   },
   {
-    title: 'Calendar',
+    title: 'Data Pegawai',
     href: '#',
-    icon: Icons.Calendar,
+    icon: Icons.FileText,
   },
   {
-    title: 'Search',
+    title: 'Pertanyaan',
     href: '#',
-    icon: Icons.Search,
+    icon: Icons.MessageCircleQuestionMark,
   },
   {
-    title: 'Settings',
+    title: 'Berita Acara',
     href: '#',
-    icon: Icons.Settings,
+    icon: Icons.BookCheck,
   },
 ];
 
