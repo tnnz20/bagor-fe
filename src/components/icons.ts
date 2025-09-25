@@ -1,4 +1,5 @@
 import {
+  ArrowLeft,
   BadgeCheck,
   Bell,
   BookCheck,
@@ -70,4 +71,5 @@ export const Icons = {
   Trash2,
   X,
   MessageSquareDot,
+  ArrowLeft,
 };
