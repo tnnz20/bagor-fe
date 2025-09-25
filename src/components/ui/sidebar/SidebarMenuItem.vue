@@ -12,7 +12,7 @@ const props = defineProps<{
   <li
     data-slot="sidebar-menu-item"
     data-sidebar="menu-item"
-    :class="cn('group/menu-item relative h-[46px] justify-center', props.class)"
+    :class="cn('group/menu-item relative', props.class)"
   >
     <slot />
   </li>
