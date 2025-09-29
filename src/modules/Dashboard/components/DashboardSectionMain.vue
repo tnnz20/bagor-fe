@@ -36,7 +36,7 @@ import CardDescription from '@/components/ui/card/CardDescription.vue';
 import DashboardTableContent from './section/DashboardTableContent.vue';
 import DashboardTopEmployeeContent from './section/DashboardTopEmployeeContent.vue';
 
-import type { Employee } from '@/types/employe';
+import type { Employee } from '@/types/employee';
 
 const employees: Employee[] = [
   {

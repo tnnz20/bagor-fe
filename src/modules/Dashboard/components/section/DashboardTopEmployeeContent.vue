@@ -86,7 +86,7 @@ import { cn, getInitials } from '@/lib/utils';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-import type { Employee } from '@/types/employe';
+import type { Employee } from '@/types/employee';
 
 interface DashboardTopEmployeeContentProps {
   employees: Employee[];

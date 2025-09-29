@@ -96,7 +96,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { valueUpdater } from '@/components/ui/table/utils';
 import DashboardDataTableDropdown from './DashboardDataTableDropdown.vue';
 
-import type { Employee } from '@/types/employe';
+import type { Employee } from '@/types/employee';
 
 interface DashboardTableContentProps {
   employees: Employee[];
