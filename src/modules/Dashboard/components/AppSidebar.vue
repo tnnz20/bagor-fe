@@ -9,17 +9,11 @@
         <SidebarGroupContent>
           <SidebarMenu>
             <SidebarMenuItem v-for="nav in navItems" :key="nav.title">
-              <SidebarMenuButton
-                class="p-4"
-                :class="
-                  cn('hover:bg-primary hover:text-accent h-12 rounded-2xl')
-                "
-                asChild
-              >
-                <a :href="nav.href">
+              <SidebarMenuButton class="p-4" :class="cn('hover:bg-primary hover:text-accent h-12 rounded-2xl')" asChild>
+                <RouterLink :to="nav.href as string" exactActiveClass="bg-primary text-accent">
                   <component :is="nav.icon" />
                   <span>{{ nav.title }}</span>
-                </a>
+                </RouterLink>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
@@ -63,6 +57,11 @@ const data = {
 };
 
 const navItems: MenuItem[] = [
+  {
+    title: 'Dashboard',
+    href: '/dashboard',
+    icon: Icons.Home,
+  },
   {
     title: 'Panduan',
     href: '/dashboard/panduan',
