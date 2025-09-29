@@ -2,28 +2,19 @@
   <SidebarMenu>
     <SidebarMenuItem>
       <SidebarMenuButton size="lg" as-child>
-        <div>
+        <RouterLink to="/dashboard">
           <Avatar>
-            <AvatarImage
-              v-if="user.avatar"
-              :src="user.avatar"
-              :alt="user.name"
-            />
-            <AvatarFallback
-              v-else
-              class="bg-primary text-accent font-medium uppercase"
-            >
+            <AvatarImage v-if="user.avatar" :src="user.avatar" :alt="user.name" />
+            <AvatarFallback v-else class="bg-primary text-accent font-medium uppercase">
               {{ fallbackName }}
             </AvatarFallback>
           </Avatar>
 
           <div class="grid flex-1 text-left text-sm leading-tight">
-            <span class="truncate font-semibold">{{
-              user.name.substring(0, 15)
-            }}</span>
+            <span class="truncate font-semibold">{{ user.name.substring(0, 15) }}</span>
             <span class="truncate text-xs">{{ user.email }}</span>
           </div>
-        </div>
+        </RouterLink>
       </SidebarMenuButton>
     </SidebarMenuItem>
   </SidebarMenu>
@@ -33,11 +24,7 @@
 import { computed } from 'vue';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import {
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from '@/components/ui/sidebar';
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 
 interface User {
   name: string;
