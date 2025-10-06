@@ -12,9 +12,8 @@ const Users: User[] = [
     employeeType: 'Struktural',
     isActive: true,
     avatar: 'https://github.com/shadcn.png',
-
-    created_at: Date.now() - 2592000000, // 30 days ago
-    updated_at: Date.now() - 86400000,
+    created_at: 1757145600000, // September 6, 2025
+    updated_at: 1759651200000, // October 5, 2025
   },
   {
     id: 2,
@@ -27,8 +26,8 @@ const Users: User[] = [
     employeeType: 'Struktural',
     isActive: true,
     avatar: 'https://github.com/vercel.png',
-    created_at: Date.now() - 1814400000, // 21 days ago
-    updated_at: Date.now() - 172800000,
+    created_at: 1757923200000, // September 15, 2025
+    updated_at: 1759564800000, // October 4, 2025
   },
   {
     id: 3,
@@ -40,8 +39,8 @@ const Users: User[] = [
     position: 'Analis Organisasi dan Tata Laksana',
     employeeType: 'Fungsional',
     isActive: true,
-    created_at: Date.now() - 1209600000, // 14 days ago
-    updated_at: Date.now() - 259200000,
+    created_at: 1758528000000, // September 22, 2025
+    updated_at: 1759478400000, // October 3, 2025
   },
   {
     id: 4,
@@ -53,8 +52,8 @@ const Users: User[] = [
     position: 'Analis Hukum',
     employeeType: 'Fungsional',
     isActive: false,
-    created_at: Date.now() - 604800000, // 7 days ago
-    updated_at: Date.now() - 345600000, // 4 days ago
+    created_at: 1759132800000, // September 29, 2025
+    updated_at: 1759392000000, // October 2, 2025
   },
   {
     id: 5,
@@ -67,8 +66,8 @@ const Users: User[] = [
     employeeType: 'Fungsional',
     isActive: true,
     avatar: 'https://github.com/nuxt.png',
-    created_at: Date.now() - 432000000, // 5 days ago
-    updated_at: Date.now() - 432000000,
+    created_at: 1759305600000, // October 1, 2025
+    updated_at: 1759305600000, // October 1, 2025
   },
   {
     id: 6,
@@ -80,8 +79,8 @@ const Users: User[] = [
     position: 'Kepala Sub Bagian Pemerintahan',
     employeeType: 'Struktural',
     isActive: true,
-    created_at: Date.now() - 1728000000, // 20 days ago
-    updated_at: Date.now() - 345600000,
+    created_at: 1758009600000, // September 16, 2025
+    updated_at: 1759392000000, // October 2, 2025
   },
   {
     id: 7,
@@ -93,8 +92,8 @@ const Users: User[] = [
     position: 'Analis Kesejahteraan Sosial',
     employeeType: 'Kontrak',
     isActive: true,
-    created_at: Date.now() - 864000000, // 10 days ago
-    updated_at: Date.now() - 518400000,
+    created_at: 1758873600000, // September 26, 2025
+    updated_at: 1759219200000, // September 30, 2025
   },
   {
     id: 8,
@@ -107,8 +106,8 @@ const Users: User[] = [
     employeeType: 'Fungsional',
     isActive: true,
     avatar: 'https://github.com/microsoft.png',
-    created_at: Date.now() - 1296000000, // 15 days ago
-    updated_at: Date.now() - 259200000,
+    created_at: 1758441600000, // September 21, 2025
+    updated_at: 1759478400000, // October 3, 2025
   },
   {
     id: 9,
@@ -120,8 +119,8 @@ const Users: User[] = [
     position: 'Pejabat Pengadaan',
     employeeType: 'Fungsional',
     isActive: true,
-    created_at: Date.now() - 1555200000, // 18 days ago
-    updated_at: Date.now() - 691200000,
+    created_at: 1758182400000, // September 18, 2025
+    updated_at: 1759046400000, // September 28, 2025
   },
   {
     id: 10,
@@ -134,8 +133,8 @@ const Users: User[] = [
     employeeType: 'Struktural',
     isActive: true,
     avatar: 'https://github.com/tailwindlabs.png',
-    created_at: Date.now() - 1036800000, // 12 days ago
-    updated_at: Date.now() - 172800000,
+    created_at: 1758700800000, // September 24, 2025
+    updated_at: 1759564800000, // October 4, 2025
   },
 ];
 
