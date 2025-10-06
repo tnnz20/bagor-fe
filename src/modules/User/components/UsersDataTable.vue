@@ -5,7 +5,7 @@
       <Input
         v-model="globalFilter"
         class="max-w-sm"
-        placeholder="Search users..."
+        placeholder="Cari pengguna..."
         @input="table.setGlobalFilter($event.target.value)"
       />
       <div class="flex items-center space-x-2">
@@ -156,7 +156,7 @@
 
       <div class="flex items-center space-x-6 lg:space-x-8">
         <div class="flex items-center space-x-2">
-          <p class="text-sm font-medium">Rows per page</p>
+          <p class="text-sm font-medium">Baris per halaman</p>
           <DropdownMenu>
             <DropdownMenuTrigger as-child>
               <Button variant="outline" size="sm" class="h-8 px-3">
@@ -177,7 +177,7 @@
         </div>
 
         <div class="flex w-[100px] items-center justify-center text-sm font-medium">
-          Page {{ table.getState().pagination.pageIndex + 1 }} of {{ table.getPageCount() }}
+          Halaman {{ table.getState().pagination.pageIndex + 1 }} dari {{ table.getPageCount() }}
         </div>
 
         <div class="flex items-center space-x-2">

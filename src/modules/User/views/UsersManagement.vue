@@ -25,7 +25,7 @@
     <Card>
       <CardHeader>
         <CardTitle>Daftar Pengguna</CardTitle>
-        <CardDescription> A list of all users in the system with their roles and status </CardDescription>
+        <CardDescription> Daftar seluruh pengguna dalam sistem beserta peran dan status mereka </CardDescription>
       </CardHeader>
       <CardContent>
         <UsersDataTable :users="users" @edit-user="handleEditUser" @delete-user="handleDeleteUser" />
@@ -95,7 +95,7 @@ const handleEditUser = (user: User) => {
 };
 
 const handleDeleteUser = (user: User) => {
-  if (confirm(`Are you sure you want to delete ${user.firstName} ${user.lastName}?`)) {
+  if (confirm(`Apakah Anda yakin ingin menghapus ${user.firstName} ${user.lastName}?`)) {
     const index = users.value.findIndex(u => u.id === user.id);
     if (index !== -1) {
       users.value[index] = {
