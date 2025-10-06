@@ -8,7 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 
 // Helper function to format timestamp to Indonesian date format
 export const formatDate = (timestamp: number): string => {
-  return new Date(timestamp * 1000).toLocaleDateString('id-ID', {
+  return new Date(timestamp).toLocaleDateString('id-ID', {
     year: 'numeric',
     month: 'short',
     day: 'numeric',
