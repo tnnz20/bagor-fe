@@ -1,4 +1,5 @@
 import {
+  AlertTriangle,
   ArrowLeft,
   ArrowUpDown,
   BookCheck,
@@ -41,6 +42,7 @@ import {
 
 // Export only the icons that are actually used in the project
 export const Icons = {
+  AlertTriangle,
   ArrowLeft,
   ArrowUpDown,
   BookCheck,
