@@ -87,6 +87,11 @@ const navItems: MenuItem[] = [
     href: '/dashboard/berita-acara',
     icon: Icons.BookCheck,
   },
+  {
+    title: 'Kelola Pengguna',
+    href: '/dashboard/users',
+    icon: Icons.Users,
+  },
 ];
 
 const props = withDefaults(defineProps<SidebarProps>(), {
