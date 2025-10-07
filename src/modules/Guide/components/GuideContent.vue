@@ -5,10 +5,10 @@
     <Card class="p-6 shadow-lg">
       <div class="flex justify-between">
         <h2 class="text-2xl font-semibold">Panduan Lupa Password</h2>
-        <Icons.NotebookText class="h-8 w-8 text-[#CFD4DD]" />
+        <Icons.NotebookText class="text-muted-foreground/50 h-8 w-8" />
       </div>
       <CardContent class="mb-2">
-        <p class="text-justify text-sm text-[#6B7280]">
+        <p class="text-muted-foreground text-justify text-sm">
           Fitur lupa password memungkinkan pengguna untuk mengatur ulang kata sandi mereka dengan aman ketika tidak
           dapat mengakses akun. Proses dimulai ketika pengguna berada pada halaman login dan mengklik tombol atau link
           "Lupa Password?" yang biasanya ditempatkan di bawah form login. Link ini akan mengarahkan pengguna ke halaman
@@ -33,14 +33,14 @@
           <br /><br />
         </p>
         <h3 class="mt-2 text-lg font-semibold">Metode Alternatif Recovery</h3>
-        <p class="mt-2 text-justify text-sm text-[#6B7280]">
+        <p class="text-muted-foreground mt-2 text-justify text-sm">
           Selain metode email/SMS, aplikasi dapat menyediakan opsi tambahan seperti pertanyaan keamanan yang telah
           ditetapkan sebelumnya atau akses melalui biometrik (sidik jari/wajah) untuk membuka aplikasi yang terkunci.
           Untuk mencegah lupa password di masa mendatang, pengguna dapat menggunakan password manager untuk menyimpan
           semua kredensial secara aman.
         </p>
         <RouterLink
-          to="download/panduan-lupa-password"
+          to="/download/panduan-lupa-password"
           class="group hover:text-primary mt-4 flex cursor-pointer items-center gap-2"
         >
           <Icons.Paperclip class="group-hover:text-primary h-4 w-4 text-black" />
@@ -54,6 +54,6 @@
 
 <script setup lang="ts">
 import { Icons } from '@/components/icons';
-import Card from '@/components/ui/card/Card.vue';
+import { Card, CardContent } from '@/components/ui/card';
 import YoutubeVideoPlayer from './YoutubeVideoPlayer.vue';
 </script>
