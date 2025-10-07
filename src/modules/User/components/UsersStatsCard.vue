@@ -6,8 +6,8 @@
         <Icons.Users class="text-muted-foreground h-4 w-4" />
       </CardHeader>
       <CardContent>
-        <div class="text-2xl font-bold">{{ totalUsers }}</div>
-        <p class="text-muted-foreground text-xs">+{{ newUsersThisMonth }} from last month</p>
+        <div class="text-2xl font-bold">{{ props.totalUsers }}</div>
+        <p class="text-muted-foreground text-xs">+{{ props.newUsersThisMonth }} from last month</p>
       </CardContent>
     </Card>
 
@@ -17,9 +17,9 @@
         <Icons.BookCheck class="text-muted-foreground h-4 w-4" />
       </CardHeader>
       <CardContent>
-        <div class="text-2xl font-bold">{{ totalUsersWithPositionFungsional }}</div>
+        <div class="text-2xl font-bold">{{ props.totalUsersWithPositionFungsional }}</div>
         <p class="text-muted-foreground text-xs">
-          {{ Math.round((totalUsersWithPositionFungsional / totalUsers) * 100) }}% of total
+          {{ Math.round((props.totalUsersWithPositionFungsional / props.totalUsers) * 100) }}% of total
         </p>
       </CardContent>
     </Card>
@@ -30,9 +30,9 @@
         <Icons.Home class="text-muted-foreground h-4 w-4" />
       </CardHeader>
       <CardContent>
-        <div class="text-2xl font-bold">{{ totalUsersWithPositionStruktural }}</div>
+        <div class="text-2xl font-bold">{{ props.totalUsersWithPositionStruktural }}</div>
         <p class="text-muted-foreground text-xs">
-          {{ Math.round((totalUsersWithPositionStruktural / totalUsers) * 100) }}% of total
+          {{ Math.round((props.totalUsersWithPositionStruktural / props.totalUsers) * 100) }}% of total
         </p>
       </CardContent>
     </Card>
@@ -43,9 +43,9 @@
         <Icons.Timer class="text-muted-foreground h-4 w-4" />
       </CardHeader>
       <CardContent>
-        <div class="text-2xl font-bold">{{ totalUsersWithPositionKontrak }}</div>
+        <div class="text-2xl font-bold">{{ props.totalUsersWithPositionKontrak }}</div>
         <p class="text-muted-foreground text-xs">
-          {{ Math.round((totalUsersWithPositionKontrak / totalUsers) * 100) }}% of total
+          {{ Math.round((props.totalUsersWithPositionKontrak / props.totalUsers) * 100) }}% of total
         </p>
       </CardContent>
     </Card>
@@ -64,17 +64,11 @@ interface UsersStatsCardProps {
   totalUsersWithPositionKontrak: number;
 }
 
-const {
-  totalUsers,
-  newUsersThisMonth,
-  totalUsersWithPositionFungsional,
-  totalUsersWithPositionStruktural,
-  totalUsersWithPositionKontrak,
-} = withDefaults(defineProps<UsersStatsCardProps>(), {
+const props = withDefaults(defineProps<UsersStatsCardProps>(), {
   totalUsers: 0,
   newUsersThisMonth: 0,
-  totalUsersWithPositionKontrak: 0,
   totalUsersWithPositionFungsional: 0,
   totalUsersWithPositionStruktural: 0,
+  totalUsersWithPositionKontrak: 0,
 });
 </script>
