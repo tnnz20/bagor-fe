@@ -1,5 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router';
 
+import { BeritaAcaraRoutes } from '../BeritaAcara/routes';
 import { FeedBackRoutes } from '../Feedback/routes';
 import { GuideRoutes } from '../Guide/routes';
 import { UserDashboardRoutes } from '../User/routes';
@@ -23,6 +24,7 @@ export const DashboardRoutes: RouteRecordRaw[] = [
       ...FeedBackRoutes,
       ...GuideRoutes,
       ...UserDashboardRoutes,
+      ...BeritaAcaraRoutes,
     ],
   },
 ];
