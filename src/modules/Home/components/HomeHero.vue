@@ -1,11 +1,12 @@
 <!-- Hero206.vue -->
 
 <script setup lang="ts">
+import { cn } from '@/lib/utils';
+
 import { Icons } from '@/components/icons';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import FlipWords from '@/components/ui/flip-words/FlipWords.vue';
-import { cn } from '@/lib/utils';
 
 // Data untuk avatar users
 const avatars = [
@@ -25,11 +26,9 @@ const avatars = [
 
 // Configuration untuk browser mockup
 const mockupConfig = {
-  url: 'https://shadcnblocks.com/block/hero206',
-  dashboardUrlDesktop:
-    'https://deifkwefumgah.cloudfront.net/shadcnblocks/block/dashboard/dashboard-1.png',
-  dashboardUrlMobile:
-    'https://deifkwefumgah.cloudfront.net/shadcnblocks/block/dashboard/dashboard-mobile-1.png',
+  url: 'www.yourapp.com/dashboard',
+  dashboardUrlDesktop: 'https://deifkwefumgah.cloudfront.net/shadcnblocks/block/dashboard/dashboard-1.png',
+  dashboardUrlMobile: 'https://deifkwefumgah.cloudfront.net/shadcnblocks/block/dashboard/dashboard-mobile-1.png',
 };
 </script>
 
@@ -38,9 +37,7 @@ const mockupConfig = {
     <div class="relative container mx-auto pt-32 pb-8">
       <!-- Header Section -->
       <header class="mx-auto max-w-3xl text-center">
-        <h1
-          class="font-anton text-foreground mx-auto text-5xl font-semibold uppercase md:text-7xl"
-        >
+        <h1 class="font-anton text-foreground mx-auto text-5xl font-semibold uppercase md:text-7xl">
           Penilaian <br />
           Kinerja Lebih
           <FlipWords
@@ -49,15 +46,11 @@ const mockupConfig = {
             class="font-anton text-foreground text-5xl font-semibold uppercase md:text-7xl"
           />
         </h1>
-        <p
-          class="text-muted-foreground my-7 max-w-3xl tracking-tight md:text-xl"
-        >
-          Tinggalkan proses penilaian tahunan yang kaku, subjektif, dan memakan
-          waktu. [Nama Aplikasi] adalah platform intuitif yang merevolusi cara
-          Anda mengelola, mengukur, dan mengembangkan kinerja tim. Dapatkan
-          wawasan mendalam untuk membuat keputusan yang lebih baik, tingkatkan
-          keterlibatan karyawan, dan ciptakan budaya kerja yang adil dan
-          transparan.
+        <p class="text-muted-foreground my-7 max-w-3xl tracking-tight md:text-xl">
+          Tinggalkan proses penilaian tahunan yang kaku, subjektif, dan memakan waktu. [Nama Aplikasi] adalah platform
+          intuitif yang merevolusi cara Anda mengelola, mengukur, dan mengembangkan kinerja tim. Dapatkan wawasan
+          mendalam untuk membuat keputusan yang lebih baik, tingkatkan keterlibatan karyawan, dan ciptakan budaya kerja
+          yang adil dan transparan.
         </p>
       </header>
 
@@ -83,19 +76,11 @@ const mockupConfig = {
       </Badge>
 
       <!-- Browser Mockup Section -->
-      <div
-        class="relative mt-12 flex h-full w-full flex-col items-center justify-center p-8"
-      >
+      <div class="relative mt-12 flex h-full w-full flex-col items-center justify-center p-8">
         <!-- Browser Mockup (Inline) -->
-        <div
-          :class="
-            cn('relative w-full overflow-hidden rounded-4xl border', 'w-full')
-          "
-        >
+        <div :class="cn('relative w-full overflow-hidden rounded-4xl border', 'w-full')">
           <!-- Browser Header -->
-          <div
-            class="bg-muted flex items-center justify-between gap-10 px-8 py-4 lg:gap-25"
-          >
+          <div class="bg-muted flex items-center justify-between gap-10 px-8 py-4 lg:gap-25">
             <!-- Traffic Light Buttons -->
             <div class="flex items-center gap-2">
               <div class="size-3 rounded-full bg-red-500" />
@@ -134,20 +119,12 @@ const mockupConfig = {
               class="hidden aspect-video h-full w-full object-cover object-top md:block"
             />
             <!-- Mobile Image -->
-            <img
-              :src="mockupConfig.dashboardUrlMobile"
-              alt=""
-              class="block h-full w-full object-cover md:hidden"
-            />
+            <img :src="mockupConfig.dashboardUrlMobile" alt="" class="block h-full w-full object-cover md:hidden" />
           </div>
 
           <!-- Mobile URL Bar -->
-          <div
-            class="bg-muted absolute bottom-0 z-10 flex w-full items-center justify-center py-3 md:hidden"
-          >
-            <p
-              class="relative flex items-center gap-2 rounded-full px-8 py-1 text-center text-sm tracking-tight"
-            >
+          <div class="bg-muted absolute bottom-0 z-10 flex w-full items-center justify-center py-3 md:hidden">
+            <p class="relative flex items-center gap-2 rounded-full px-8 py-1 text-center text-sm tracking-tight">
               {{ mockupConfig.url }}
             </p>
           </div>
