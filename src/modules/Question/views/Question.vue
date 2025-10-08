@@ -26,7 +26,7 @@
           :current-question="currentQuestion"
           :current-question-index="currentQuestionIndex"
           :is-quiz-complete="isQuizComplete"
-          :sorted-questions-lenght="sortedQuestions.length"
+          :sorted-questions-length="sortedQuestions.length"
           :user-answers="userAnswers"
           @go-to-next="goToNext"
           @go-to-previous="goToPrevious"

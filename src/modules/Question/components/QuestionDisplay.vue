@@ -8,7 +8,7 @@
           <div class="bg-muted h-2 flex-1 overflow-hidden rounded-full">
             <div
               class="bg-primary h-full transition-all duration-300"
-              :style="{ width: `${((currentQuestionIndex + 1) / sortedQuestionsLenght) * 100}%` }"
+              :style="{ width: `${((currentQuestionIndex + 1) / sortedQuestionsLength) * 100}%` }"
             ></div>
           </div>
         </div>
@@ -70,7 +70,7 @@
 
           <div class="flex space-x-2">
             <Button
-              v-if="currentQuestionIndex < sortedQuestionsLenght - 1"
+              v-if="currentQuestionIndex < sortedQuestionsLength - 1"
               :disabled="userAnswers[currentQuestion.id] === undefined"
               @click="$emit('goToNext')"
             >
@@ -79,7 +79,7 @@
             </Button>
 
             <Button
-              v-if="currentQuestionIndex === sortedQuestionsLenght - 1 && isQuizComplete"
+              v-if="currentQuestionIndex === sortedQuestionsLength - 1 && isQuizComplete"
               class="bg-green-600 hover:bg-green-700"
             >
               <Icons.BookCheck class="mr-2 h-4 w-4" />
@@ -103,14 +103,14 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import type { Question } from '@/types/question';
 
 interface QuestionDisplayProps {
-  sortedQuestionsLenght: number;
+  sortedQuestionsLength: number;
   currentQuestionIndex: number;
   currentQuestion: Question;
   userAnswers: Record<number, number>;
   isQuizComplete: boolean;
 }
 
-const { sortedQuestionsLenght, currentQuestionIndex, currentQuestion, userAnswers } =
+const { sortedQuestionsLength, currentQuestionIndex, currentQuestion, userAnswers } =
   defineProps<QuestionDisplayProps>();
 
 const emit = defineEmits<{
