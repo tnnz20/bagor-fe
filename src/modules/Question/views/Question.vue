@@ -145,6 +145,8 @@ import QuestionInfo from '../components/QuestionInfo.vue';
 import QuestionNavigation from '../components/QuestionNavigation.vue';
 import { questions } from '../data/questions';
 
+import type { Choice, Question } from '@/types/question';
+
 const route = useRoute();
 const router = useRouter();
 const localStorage = useLocalStorage('user-answers', {} as Record<number, number>);
@@ -218,9 +220,9 @@ const getAnswerLabel = (answerIndex: number) => {
   return String.fromCharCode(65 + answerIndex); // A, B, C, D
 };
 
-const getCorrectAnswerLabel = (question: any) => {
+const getCorrectAnswerLabel = (question: Question) => {
   const correctChoiceIndex = question.choices.reduce(
-    (maxIndex: number, choice: any, index: number) =>
+    (maxIndex: number, choice: Choice, index: number) =>
       choice.scores > question.choices[maxIndex].scores ? index : maxIndex,
     0
   );
