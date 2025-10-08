@@ -147,12 +147,13 @@ import { questions } from '../data/questions';
 
 const route = useRoute();
 const router = useRouter();
-const localStorage = useLocalStorage('quiz-answers', {} as Record<number, number>);
+const localStorage = useLocalStorage('user-answers', {} as Record<number, number>);
 
 const queryIndex = route.query.q ? parseInt(route.query.q as string) : 0;
 // Quiz state
 const currentQuestionIndex = ref(queryIndex);
-const userAnswers = ref<Record<number, number>>({});
+// Initialize userAnswers from localStorage if exists, otherwise empty object
+const userAnswers = ref<Record<number, number>>(localStorage.value || {});
 const showResults = ref(false);
 
 // Sort questions by order property
@@ -185,6 +186,7 @@ const selectAnswer = (questionId: number, answerIndex: number) => {
 
 const goToQuestion = (index: number) => {
   currentQuestionIndex.value = index;
+  router.push({ query: { q: index.toString() } });
 };
 
 const goToNext = () => {
@@ -243,6 +245,7 @@ const getScoreLabel = () => {
 const resetQuiz = () => {
   currentQuestionIndex.value = 0;
   userAnswers.value = {};
+  localStorage.value = {};
   showResults.value = false;
 };
 </script>
