@@ -11,15 +11,9 @@
             </BreadcrumbLink>
           </BreadcrumbItem>
 
-          <BreadcrumbSeparator
-            v-if="capitalizedSegments.length > 1"
-            class="hidden md:block"
-          />
+          <BreadcrumbSeparator v-if="capitalizedSegments.length > 1" class="hidden md:block" />
 
-          <BreadcrumbItem
-            v-if="capitalizedSegments.length > 1"
-            class="hidden md:block"
-          >
+          <BreadcrumbItem v-if="capitalizedSegments.length > 1" class="hidden md:block">
             <BreadcrumbPage>
               {{ capitalizedSegments[1] }}
             </BreadcrumbPage>
@@ -31,6 +25,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 import {
@@ -45,9 +40,19 @@ import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 
 const route = useRoute();
-const urlSegments = route.path.split('/').filter(segment => segment.length > 0);
 
-const capitalizedSegments = urlSegments.map(
-  segment => segment.charAt(0).toUpperCase() + segment.slice(1)
+const capitalizedSegments = computed(() =>
+  route.path
+    .split('/')
+    .filter(segment => segment.length > 0)
+    .map(segment => {
+      if (segment.includes('-')) {
+        return segment
+          .split('-')
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ');
+      }
+      return segment.charAt(0).toUpperCase() + segment.slice(1);
+    })
 );
 </script>
