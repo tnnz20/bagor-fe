@@ -1,6 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router';
 
 import Feedback from './views/Feedback.vue';
+import FeedbackUser from './views/FeedbackUser.vue';
 
 export const FeedBackRoutes: RouteRecordRaw[] = [
   {
@@ -10,6 +11,15 @@ export const FeedBackRoutes: RouteRecordRaw[] = [
     meta: {
       title: 'Bagor - Feedback',
       description: 'Bagor Feedback Page',
+    },
+  },
+  {
+    path: 'masukan',
+    name: 'FeedbackUser',
+    component: FeedbackUser,
+    meta: {
+      title: 'Bagor - User Feedback',
+      description: 'Bagor User Feedback Page',
     },
   },
 ];
