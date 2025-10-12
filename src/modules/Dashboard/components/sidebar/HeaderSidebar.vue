@@ -2,17 +2,12 @@
   <SidebarMenu>
     <SidebarMenuItem>
       <SidebarMenuButton size="lg" as-child>
-        <RouterLink to="/dashboard">
-          <Avatar>
-            <AvatarImage v-if="user.avatar" :src="user.avatar" :alt="user.name" />
-            <AvatarFallback v-else class="bg-primary text-accent font-medium uppercase">
-              {{ fallbackName }}
-            </AvatarFallback>
-          </Avatar>
-
+        <RouterLink to="/" class="rounded-lg border-1 bg-white shadow-md">
+          <div class="text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center">
+            <img src="@/assets/images/logo.png" alt="Logo Bagor" />
+          </div>
           <div class="grid flex-1 text-left text-sm leading-tight">
-            <span class="truncate font-semibold">{{ user.name.substring(0, 15) }}</span>
-            <span class="truncate text-xs">{{ user.email }}</span>
+            <span class="text-md truncate font-semibold">PENTAS JAPIN</span>
           </div>
         </RouterLink>
       </SidebarMenuButton>
@@ -21,26 +16,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Icons } from '@/components/icons';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-
-interface User {
-  name: string;
-  email: string;
-  avatar: string;
-}
-
-interface Props {
-  user: User;
-}
-const props = defineProps<Props>();
-
-const fallbackName = computed(() => {
-  return props.user?.name
-    .split(' ')
-    .map(chunk => chunk[0])
-    .join('');
-});
 </script>

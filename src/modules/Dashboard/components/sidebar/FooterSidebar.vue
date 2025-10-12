@@ -40,7 +40,7 @@
           <DropdownMenuGroup>
             <DropdownMenuItem>
               <Icons.BadgeCheck />
-              Update Profile
+              <RouterLink to="/dashboard/profile"> Update Profile </RouterLink>
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
