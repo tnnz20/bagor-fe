@@ -2,6 +2,8 @@ import {
   AlertTriangle,
   ArrowLeft,
   ArrowUpDown,
+  BadgeCheck,
+  Bell,
   BookCheck,
   BookOpenText,
   ChevronDown,
@@ -36,6 +38,7 @@ import {
   Search,
   Share,
   Shield,
+  Sparkles,
   Timer,
   Trash2,
   TvMinimalPlay,
@@ -52,6 +55,9 @@ import {
 // Export only the icons that are actually used in the project
 export const Icons = {
   Link,
+  Bell,
+  CreditCard,
+  BadgeCheck,
   Play,
   AlertTriangle,
   TvMinimalPlay,
@@ -97,4 +103,5 @@ export const Icons = {
   X,
   Zap,
   ZoomIn,
+  Sparkles,
 };

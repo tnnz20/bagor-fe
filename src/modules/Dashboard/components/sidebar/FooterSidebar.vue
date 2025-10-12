@@ -1,22 +1,84 @@
 <template>
   <SidebarMenu>
     <SidebarMenuItem>
-      <RouterLink to="#">
-        <Button
-          :class="cn('hover:bg-primary hover:text-accent w-full')"
-          variant="outline"
+      <DropdownMenu>
+        <DropdownMenuTrigger as-child>
+          <SidebarMenuButton
+            size="lg"
+            class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+          >
+            <Avatar class="h-8 w-8 rounded-lg">
+              <AvatarImage :src="user.avatar" :alt="user.name" />
+              <AvatarFallback class="rounded-lg"> AD </AvatarFallback>
+            </Avatar>
+            <div class="grid flex-1 text-left text-sm leading-tight">
+              <span class="truncate font-semibold">Super Admin</span>
+              <span class="truncate text-xs">superadmin@mail.com</span>
+            </div>
+            <Icons.ChevronsUpDown class="ml-auto size-4" />
+          </SidebarMenuButton>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent
+          class="w-[--reka-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+          :side="isMobile ? 'bottom' : 'right'"
+          align="end"
+          :side-offset="4"
         >
-          <Icons.LogOut />Logout
-        </Button>
-      </RouterLink>
+          <DropdownMenuLabel class="p-0 font-normal">
+            <div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+              <Avatar class="h-8 w-8 rounded-lg">
+                <AvatarImage :src="user.avatar" :alt="user.name" />
+                <AvatarFallback class="rounded-lg"> CN </AvatarFallback>
+              </Avatar>
+              <div class="grid flex-1 text-left text-sm leading-tight">
+                <span class="truncate font-semibold">Super Admin</span>
+                <span class="truncate text-xs">superadmin@mail.com</span>
+              </div>
+            </div>
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuGroup>
+            <DropdownMenuItem>
+              <Icons.BadgeCheck />
+              Update Profile
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>
+            <Icons.LogOut />
+            Log out
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </SidebarMenuItem>
   </SidebarMenu>
 </template>
 
 <script setup lang="ts">
-import { cn } from '@/lib/utils';
-
 import { Icons } from '@/components/icons';
-import { Button } from '@/components/ui/button';
-import { SidebarMenu, SidebarMenuItem } from '@/components/ui/sidebar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar';
+
+interface User {
+  name: string;
+  email: string;
+  avatar: string;
+}
+
+interface Props {
+  user: User;
+}
+
+const props = defineProps<Props>();
+
+const { isMobile } = useSidebar();
 </script>

@@ -21,7 +21,7 @@
       </SidebarGroup>
     </SidebarContent>
     <SidebarFooter>
-      <FooterSidebar />
+      <FooterSidebar :user="data.user" />
     </SidebarFooter>
   </Sidebar>
 </template>
