@@ -38,15 +38,19 @@
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem>
-              <Icons.BadgeCheck />
-              <RouterLink to="/dashboard/profile"> Update Profile </RouterLink>
+            <DropdownMenuItem as-child>
+              <RouterLink to="/dashboard/profile" class="flex cursor-pointer items-center">
+                <Icons.BadgeCheck class="mr-2 h-4 w-4" />
+                Edit Profile
+              </RouterLink>
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            <Icons.LogOut />
-            Log out
+          <DropdownMenuItem as-child>
+            <RouterLink to="/login" class="flex cursor-pointer items-center">
+              <Icons.LogOut class="mr-2 h-4 w-4" />
+              Log out
+            </RouterLink>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
