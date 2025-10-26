@@ -5,28 +5,17 @@
     <div class="w-full max-w-md space-y-8 text-center">
       <!-- 404 Large Number -->
       <div class="mb-8">
-        <h1
-          class="text-muted-foreground/30 text-9xl font-extrabold tracking-widest select-none"
-        >
-          404
-        </h1>
-        <div
-          class="bg-primary absolute -mt-4 ml-8 rotate-12 rounded px-2 text-sm"
-        >
-          <span class="text-primary-foreground font-semibold"
-            >Page Not Found</span
-          >
+        <h1 class="text-muted-foreground/30 text-9xl font-extrabold tracking-widest select-none">404</h1>
+        <div class="bg-primary absolute -mt-4 ml-8 rotate-12 rounded px-2 text-sm">
+          <span class="text-primary-foreground font-semibold">Page Not Found</span>
         </div>
       </div>
 
       <!-- Error Message -->
       <div class="space-y-4">
-        <h2 class="text-foreground text-3xl font-bold sm:text-4xl">
-          Ups! Halaman tidak ditemukan
-        </h2>
+        <h2 class="text-foreground text-3xl font-bold sm:text-4xl">Ups! Halaman tidak ditemukan</h2>
         <p class="text-muted-foreground mx-auto max-w-sm text-lg">
-          Halaman yang Anda cari tidak ada atau telah dipindahkan ke lokasi
-          lain.
+          Halaman yang Anda cari tidak ada atau telah dipindahkan ke lokasi lain.
         </p>
       </div>
 
@@ -36,11 +25,7 @@
         <Button
           @click="goBack"
           size="lg"
-          :class="
-            cn(
-              'transform shadow-lg transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-xl'
-            )
-          "
+          :class="cn('transform shadow-lg transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-xl')"
         >
           <Icons.ArrowLeft class="mr-2 h-4 w-4" />
           Go Back
@@ -51,11 +36,7 @@
           as-child
           variant="outline"
           size="lg"
-          :class="
-            cn(
-              'transform shadow-lg transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-xl'
-            )
-          "
+          :class="cn('transform shadow-lg transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-xl')"
         >
           <router-link to="/">
             <Icons.Home class="mr-2 h-4 w-4" />
@@ -70,9 +51,7 @@
           <div class="border-border w-full border-t"></div>
         </div>
         <div class="relative flex justify-center">
-          <span
-            class="from-background to-secondary/20 text-muted-foreground bg-gradient-to-br px-4 text-sm"
-          >
+          <span class="from-background to-secondary/20 text-muted-foreground bg-gradient-to-br px-4 text-sm">
             Lost in space?
           </span>
         </div>
@@ -88,12 +67,7 @@
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M19 14l-7 7m0 0l-7-7m7 7V3"
-            ></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
           </svg>
         </div>
       </div>
@@ -113,7 +87,7 @@ const router = useRouter();
 
 const goBack = () => {
   // Check if there's history to go back to
-  if (window.history.length > 1) {
+  if (globalThis.history.length > 1) {
     router.go(-1);
   } else {
     // If no history, go to home page
