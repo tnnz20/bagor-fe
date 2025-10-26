@@ -1,6 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-import UserLogin from '@/modules/User/views/UserLogin.vue';
+import AuthUserLogin from '@/modules/User/views/AuthUserLogin.vue';
 
 import AuthLayout from './layouts/AuthLayout.vue';
 import UsersManagement from './views/UsersManagement.vue';
@@ -17,7 +17,7 @@ export const UserRoutes: RouteRecordRaw[] = [
     children: [
       {
         path: 'login',
-        component: UserLogin,
+        component: AuthUserLogin,
       },
     ],
   },
