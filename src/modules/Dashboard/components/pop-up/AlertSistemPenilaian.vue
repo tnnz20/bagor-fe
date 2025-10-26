@@ -4,8 +4,8 @@
       <AlertDialogHeader>
         <AlertDialogTitle class="text-center">Sistem Penilaian Aplikasi KPI </AlertDialogTitle>
         <AlertDialogDescription class="max-h-[50vh] overflow-y-auto p-4 text-justify md:max-h-[100vh]">
-          <div class="grid-rows-3-3 grid gap-4">
-            <div class="row-span-1">
+          <div class="flex flex-col gap-4">
+            <div>
               Sistem penilaian dalam aplikasi KPI adalah platform digital yang dirancang untuk mengukur, memantau, dan
               mengevaluasi kinerja karyawan secara objektif berdasarkan indikator-indikator terukur yang telah
               ditetapkan perusahaan. Platform ini menyediakan data terorganisir dan analisis mendalam yang memungkinkan
@@ -14,7 +14,7 @@
               pembuatan KPI, pemantauan progres, pemberian umpan balik, hingga evaluasi akhir dalam satu sistem
               terpusat.
             </div>
-            <div class="row-span-1">
+            <div>
               Mekanisme penilaian menggunakan tiga bobot utama yaitu Bobot Penilaian KPI, Bobot Penilaian Kompetensi,
               dan Bobot Penilaian Core Values yang menjadi acuan untuk setiap jabatan. Proses evaluasi dilakukan secara
               bertingkat melibatkan penilaian diri (self-assessment), penilaian oleh atasan langsung, dan atasan penilai
@@ -23,7 +23,7 @@
               maksimum, serta "kemajuan" yang mengukur sejauh mana target tercapai menggunakan nilai garis dasar dan
               target.
             </div>
-            <div class="row-span-1">
+            <div>
               Aplikasi KPI melakukan otomatisasi pengumpulan data, analisis, dan evaluasi kinerja untuk mengurangi
               risiko kesalahan manual dan subjektivitas yang umum terjadi pada sistem penilaian konvensional. Sistem
               menyediakan dashboard interaktif dengan notifikasi otomatis jika ada metrik yang keluar dari batas yang
