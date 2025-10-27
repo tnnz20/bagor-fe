@@ -26,7 +26,29 @@
         <FormItem>
           <FormLabel>Password</FormLabel>
           <FormControl>
-            <Input id="password" type="password" required v-bind="componentField" autocomplete="current-password" />
+            <div class="relative">
+              <Input
+                id="password"
+                :type="typePassword"
+                required
+                v-bind="componentField"
+                :autocomplete="typePassword === 'password' ? 'current-password' : 'off'"
+                class="pr-10"
+              />
+
+              <!-- Eye toggle icon placed inside the input (right aligned) -->
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                @click="togglePassword"
+                class="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent"
+                aria-label="Toggle password visibility"
+              >
+                <Icons.Eye v-if="!showPassword" class="text-muted-foreground h-5 w-5" />
+                <Icons.EyeOff v-else class="text-muted-foreground h-5 w-5" />
+              </Button>
+            </div>
           </FormControl>
           <FormMessage />
         </FormItem>
@@ -47,6 +69,7 @@ import * as z from 'zod';
 
 import { cn } from '@/lib/utils';
 
+import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -109,4 +132,10 @@ const onSubmit = LoginForm.handleSubmit(values => {
 });
 
 const showPassword = ref(false);
+const typePassword = ref('password');
+
+function togglePassword() {
+  showPassword.value = !showPassword.value;
+  typePassword.value = showPassword.value ? 'text' : 'password';
+}
 </script>
