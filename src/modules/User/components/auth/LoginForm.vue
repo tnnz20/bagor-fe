@@ -42,6 +42,7 @@ import { ref } from 'vue';
 import { useMutation } from '@tanstack/vue-query';
 import { toTypedSchema } from '@vee-validate/zod';
 import { useForm } from 'vee-validate';
+import { toast } from 'vue-sonner';
 import * as z from 'zod';
 
 import { cn } from '@/lib/utils';
@@ -78,10 +79,26 @@ const LoginForm = useForm({
 const loginMutation = useMutation({
   mutationFn: loginUser,
   onSuccess: data => {
-    console.log('Login success:', data);
-    // redirect or set user state
+    toast.success('Login berhasil!');
+    console.log('Login successful:', data);
   },
   onError: (err: any) => {
+    const errData = err.response?.data || err.message || 'Terjadi kesalahan tak terduga';
+    let errMsg = '';
+
+    if (errData.code === 404) {
+      errMsg = 'Pengguna tidak ditemukan';
+    } else if (errData.code === 400) {
+      console.log(errData.error_description);
+      if (errData.error?.error_description === 'incorrect password') {
+        errMsg = 'Password salah';
+      } else {
+        errMsg = 'Username atau password salah';
+      }
+    } else {
+      errMsg = errData.message || errData;
+    }
+    toast.error(`Login gagal: ${errMsg}`);
     console.error('Login failed:', err.response?.data?.message || err.message);
   },
 });
