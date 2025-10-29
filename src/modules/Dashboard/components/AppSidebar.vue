@@ -74,7 +74,7 @@ const navItems: MenuItem[] = [
   },
   {
     title: 'Data Pegawai',
-    href: '/dashboard/pegawao',
+    href: '/dashboard/pegawai',
     icon: Icons.FileText,
   },
   {
