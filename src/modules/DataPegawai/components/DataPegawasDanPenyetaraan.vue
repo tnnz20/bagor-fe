@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 
+import { Icons } from '@/components/icons';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -119,7 +120,14 @@ const totalRows = computed(() => sections.length);
               {{ section.jabatan }}
             </Badge>
           </TableCell>
-          <TableCell class="w-fit text-center"> {{ section.attendance_percentage }}% </TableCell>
+          <TableCell class="text-center">
+            <div class="flex items-center justify-center gap-2">
+              <div class="rounded-sm bg-green-200 p-1">
+                <Icons.ChartLine class="h-3 w-3 text-green-500" />
+              </div>
+              {{ section.attendance_percentage }}%
+            </div>
+          </TableCell>
           <TableCell class="text-center">{{ section.score }}</TableCell>
           <TableCell class="flex items-center justify-center">
             <Button>Nilai</Button>

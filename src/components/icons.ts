@@ -6,6 +6,7 @@ import {
   Bell,
   BookCheck,
   BookOpenText,
+  ChartLine,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -56,6 +57,7 @@ import {
 export const Icons = {
   Link,
   Bell,
+  ChartLine,
   CreditCard,
   BadgeCheck,
   Play,
