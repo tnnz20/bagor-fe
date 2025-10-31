@@ -1,27 +1,24 @@
 <template>
-  <PopUpAlert v-model:is-open="isWelcomeOpen" @update:is-open="handleContinueDialog" />
-  <AlertSistemPenilaian v-model:is-open="isConfirmationOpen" @confirm="handleFinishDialog" />
+  <WelcomingDialog v-model:is-open="isWelcomingDialogOpen" />
+  <ExplanationDialog v-model:is-open="isConfirmationOpen" />
   <div class="flex flex-1 flex-col gap-4 p-4 pt-0">
     <DashboardSection />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 import DashboardSection from '../components/DashboardSection.vue';
-import AlertSistemPenilaian from '../components/pop-up/AlertSistemPenilaian.vue';
-import PopUpAlert from '../components/pop-up/PopUpAlert.vue';
+import ExplanationDialog from '../components/pop-up/ExplanationDialog.vue';
+import WelcomingDialog from '../components/pop-up/WelcomingDialog.vue';
 
-const isWelcomeOpen = ref(true);
+const isWelcomingDialogOpen = ref(true);
 const isConfirmationOpen = ref(false);
 
-const handleContinueDialog = () => {
-  isWelcomeOpen.value = false;
-  isConfirmationOpen.value = true;
-};
-
-const handleFinishDialog = () => {
-  isConfirmationOpen.value = false;
-};
+watch(isWelcomingDialogOpen, newValue => {
+  if (!newValue) {
+    isConfirmationOpen.value = true;
+  }
+});
 </script>

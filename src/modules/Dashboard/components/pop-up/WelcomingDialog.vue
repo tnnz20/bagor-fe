@@ -1,5 +1,5 @@
 <template>
-  <AlertDialog v-model:open="props.isOpen">
+  <AlertDialog v-model:open="isOpen">
     <AlertDialogContent>
       <AlertDialogHeader>
         <AlertDialogTitle class="text-center">Selamat Datang!</AlertDialogTitle>
@@ -20,7 +20,7 @@
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
-        <AlertDialogAction @click="$emit('update:isOpen')">Lanjutkan</AlertDialogAction>
+        <AlertDialogAction @click="isOpen = false">Lanjutkan</AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>
   </AlertDialog>
@@ -37,13 +37,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 
-const props = defineProps<{
-  isOpen: boolean;
-}>();
-
-defineEmits<{
-  'update:isOpen': [];
-}>();
+const isOpen = defineModel<boolean>('isOpen');
 
 const listUUD: string[] = [
   'Undang-Undang Nomor 20 Tahun 2023 tentang Aparatur Sipil Negara',

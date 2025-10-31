@@ -1,5 +1,5 @@
 <template>
-  <AlertDialog v-model:open="props.isOpen">
+  <AlertDialog v-model:open="isOpen">
     <AlertDialogContent>
       <AlertDialogHeader>
         <AlertDialogTitle class="text-center">Sistem Penilaian Aplikasi KPI </AlertDialogTitle>
@@ -35,7 +35,7 @@
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
-        <AlertDialogAction @click="$emit('update:isOpen')">Saya Mengerti</AlertDialogAction>
+        <AlertDialogAction @click="isOpen = false">Saya Mengerti</AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>
   </AlertDialog>
@@ -52,11 +52,5 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 
-const props = defineProps<{
-  isOpen: boolean;
-}>();
-
-defineEmits<{
-  'update:isOpen': [];
-}>();
+const isOpen = defineModel<boolean>('isOpen', { default: false });
 </script>
