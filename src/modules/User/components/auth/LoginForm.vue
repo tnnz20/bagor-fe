@@ -115,6 +115,7 @@ const loginMutation = useMutation({
     if (data?.code === 200) {
       authStore.setAuthenticated(true);
       router.push('/dashboard');
+      return;
     }
 
     authStore.setAuthenticated(false);
