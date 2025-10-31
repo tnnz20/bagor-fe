@@ -52,7 +52,9 @@
           <FormMessage />
         </FormItem>
       </FormField>
-      <Button type="submit" class="w-full cursor-pointer"> Login </Button>
+      <Button type="submit" class="w-full cursor-pointer" :disabled="loginMutation.isPending.value">
+        {{ loginMutation.isPending.value ? 'Loading...' : 'Login' }}
+      </Button>
     </div>
   </form>
 </template>
@@ -109,12 +111,11 @@ const LoginForm = useForm({
 const loginMutation = useMutation({
   mutationFn: loginUser,
   onSuccess: (data: BaseApi) => {
-    toast.success('Login berhasil!');
-    console.log('Login successful:', data.code);
-
     if (data?.code === 200) {
+      toast.success('Login berhasil!');
       authStore.setAuthenticated(true);
       router.push('/dashboard');
+      return;
     }
 
     authStore.setAuthenticated(false);
@@ -142,7 +143,6 @@ const loginMutation = useMutation({
 
 const onSubmit = LoginForm.handleSubmit(values => {
   loginMutation.mutate(values);
-  console.log('Form Values:', values);
 });
 
 const showPassword = ref(false);
