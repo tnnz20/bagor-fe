@@ -36,7 +36,6 @@
                 class="pr-10"
               />
 
-              <!-- Eye toggle icon placed inside the input (right aligned) -->
               <Button
                 type="button"
                 variant="ghost"
@@ -53,19 +52,22 @@
           <FormMessage />
         </FormItem>
       </FormField>
-      <Button type="submit" class="w-full"> Login </Button>
+      <Button type="submit" class="w-full cursor-pointer"> Login </Button>
     </div>
   </form>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 import { useMutation } from '@tanstack/vue-query';
 import { toTypedSchema } from '@vee-validate/zod';
 import { useForm } from 'vee-validate';
 import { toast } from 'vue-sonner';
 import * as z from 'zod';
+
+import { useAuthStore } from '@/stores/auth';
 
 import { cn } from '@/lib/utils';
 
@@ -74,6 +76,11 @@ import { Button } from '@/components/ui/button';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { loginUser } from '../../services/auth';
+
+import type { BaseApi } from '@/types/api';
+
+const router = useRouter();
+const authStore = useAuthStore();
 
 const authSchema = toTypedSchema(
   z.object({
@@ -101,9 +108,17 @@ const LoginForm = useForm({
 
 const loginMutation = useMutation({
   mutationFn: loginUser,
-  onSuccess: data => {
+  onSuccess: (data: BaseApi) => {
     toast.success('Login berhasil!');
-    console.log('Login successful:', data);
+    console.log('Login successful:', data.code);
+
+    if (data?.code === 200) {
+      authStore.setAuthenticated(true);
+      router.push('/dashboard');
+    }
+
+    authStore.setAuthenticated(false);
+    throw new Error(data?.message || 'Login gagal');
   },
   onError: (err: any) => {
     const errData = err.response?.data || err.message || 'Terjadi kesalahan tak terduga';
@@ -112,7 +127,6 @@ const loginMutation = useMutation({
     if (errData.code === 404) {
       errMsg = 'Pengguna tidak ditemukan';
     } else if (errData.code === 400) {
-      console.log(errData.error_description);
       if (errData.error?.error_description === 'incorrect password') {
         errMsg = 'Password salah';
       } else {
