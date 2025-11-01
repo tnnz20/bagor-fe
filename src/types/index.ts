@@ -1,5 +1,7 @@
 import type { Component } from 'vue';
 
+import type { UserRole } from './user';
+
 // Base model with common fields
 export interface BaseModel {
   deleted_at?: number | null;
@@ -12,6 +14,7 @@ export interface MenuItem {
   title: string;
   href?: string;
   icon?: string | Component;
+  role: UserRole[];
   description?: string;
 }
 
