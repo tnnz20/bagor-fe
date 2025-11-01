@@ -6,6 +6,7 @@ import { DashboardRoutes } from '@/modules/Dashboard/routes';
 import { HomeRoutes } from '@/modules/Home/routes';
 import { QuestionRoutes } from '@/modules/Question/routes';
 import { UserRoutes } from '@/modules/User/routes';
+import { useAuthStore } from '@/stores/auth';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -25,6 +26,25 @@ router.beforeEach((to, _, next) => {
 
   if (descriptionTag) {
     descriptionTag.setAttribute('content', metaDescription);
+  }
+
+  const authStore = useAuthStore();
+
+  if (to.meta.requiresAuth) {
+    if (authStore.isAuthenticated) {
+      next();
+    } else {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath },
+      });
+    }
+    return;
+  }
+
+  if (to.path === '/login' && authStore.isAuthenticated) {
+    next('/dashboard');
+    return;
   }
 
   next();
