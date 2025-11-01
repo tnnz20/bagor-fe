@@ -9,7 +9,7 @@ import Dashboard from './views/Dashboard.vue';
 
 export const DashboardRoutes: RouteRecordRaw[] = [
   {
-    path: '/dashboard',
+    path: '/',
     component: DashboardLayout,
     meta: {
       title: 'Bagor - Dashboard',
@@ -18,7 +18,7 @@ export const DashboardRoutes: RouteRecordRaw[] = [
     },
     children: [
       {
-        path: '',
+        path: '/dashboard',
         name: 'Dashboard',
         component: Dashboard,
         meta: {
