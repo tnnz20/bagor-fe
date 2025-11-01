@@ -1,6 +1,9 @@
 import ApiClient from '@/api/axios';
 
-export const getUser = async () => {
-  const res = await ApiClient.get(`/users/user`);
-  return res;
+import type { BaseApi } from '@/types/api';
+import type { User } from '@/types/user';
+
+export const getUser = async (): Promise<BaseApi<User>> => {
+  const res = await ApiClient.get<BaseApi<User>>(`/users/user`);
+  return res.data;
 };
