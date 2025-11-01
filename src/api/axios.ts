@@ -7,6 +7,7 @@ const ApiClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true,
 });
 
 export default ApiClient;
