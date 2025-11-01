@@ -110,10 +110,13 @@ const LoginForm = useForm({
 
 const loginMutation = useMutation({
   mutationFn: loginUser,
-  onSuccess: (data: BaseApi) => {
+  onSuccess: async (data: BaseApi) => {
     if (data?.code === 200) {
       toast.success('Login berhasil!');
       authStore.setAuthenticated(true);
+
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
       router.push('/dashboard');
       return;
     }
