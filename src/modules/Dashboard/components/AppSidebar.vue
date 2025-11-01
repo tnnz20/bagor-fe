@@ -1,14 +1,14 @@
 <template>
   <Sidebar v-bind="props">
     <SidebarHeader>
-      <HeaderSidebar :user="data.user" />
+      <HeaderSidebar :user="userData" />
     </SidebarHeader>
     <SidebarContent>
       <SidebarGroup>
         <SidebarGroupLabel>Menu</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
-            <SidebarMenuItem v-for="nav in navItems" :key="nav.title">
+            <SidebarMenuItem v-for="nav in filteredNavItems" :key="nav.title">
               <SidebarMenuButton class="p-4" :class="cn('hover:bg-primary hover:text-accent h-12 rounded-2xl')" asChild>
                 <RouterLink :to="nav.href as string" exactActiveClass="bg-primary text-accent">
                   <component :is="nav.icon" />
@@ -27,7 +27,10 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
+
 import type { MenuItem } from '@/types';
+import { useQuery } from '@tanstack/vue-query';
 
 import { cn } from '@/lib/utils';
 
@@ -48,53 +51,76 @@ import {
 import FooterSidebar from './sidebar/FooterSidebar.vue';
 import HeaderSidebar from './sidebar/HeaderSidebar.vue';
 
-const data = {
-  user: {
-    name: 'shadcn',
-    email: 'm@example.com',
-    avatar: '',
-  },
-};
+import type { BaseApi } from '@/types/api';
+import type { User } from '@/types/user';
+
+const props = withDefaults(defineProps<SidebarProps>(), {
+  variant: 'inset',
+});
+
+const { data } = useQuery<BaseApi<User>>({
+  queryKey: ['user'],
+  staleTime: 5 * 60 * 1000,
+});
+
+const userData = computed(() => {
+  return data.value?.data || undefined;
+});
+
+const currentUserRole = computed(() => {
+  return (data.value && (data.value as any).data && (data.value as any).data.Role) || null;
+});
 
 const navItems: MenuItem[] = [
   {
     title: 'Dashboard',
     href: '/dashboard',
     icon: Icons.Home,
+    role: ['admin'],
   },
   {
     title: 'Panduan',
-    href: '/dashboard/panduan',
+    href: '/panduan',
     icon: Icons.BookOpenText,
+    role: ['admin', 'manager', 'employee'],
   },
   {
     title: 'Saran',
-    href: '/dashboard/saran',
+    href: '/saran',
     icon: Icons.MessageSquareDot,
+    role: ['admin'],
   },
+
   {
     title: 'Data Pegawai',
-    href: '/dashboard/pegawao',
+    href: '/pegawai',
     icon: Icons.FileText,
+    role: ['admin', 'manager'],
   },
   {
     title: 'Pertanyaan',
-    href: '/dashboard/pertanyaan',
+    href: '/pertanyaan',
     icon: Icons.MessageCircleQuestionMark,
+    role: ['admin', 'manager'],
   },
   {
     title: 'Berita Acara',
-    href: '/dashboard/berita-acara',
+    href: '/berita-acara',
     icon: Icons.BookCheck,
+    role: ['admin', 'manager'],
   },
   {
     title: 'Kelola Pengguna',
-    href: '/dashboard/users',
+    href: '/users',
     icon: Icons.Users,
+    role: ['admin'],
   },
 ];
 
-const props = withDefaults(defineProps<SidebarProps>(), {
-  variant: 'inset',
+// Filter nav items based on user's role. If no role available, show only items allowed for 'employee' (or none depending on requirement)
+const filteredNavItems = computed(() => {
+  const role = currentUserRole.value;
+  if (!role) return navItems.filter(item => item.role.includes('employee'));
+  return navItems.filter(item => item.role.includes(role));
 });
 </script>
