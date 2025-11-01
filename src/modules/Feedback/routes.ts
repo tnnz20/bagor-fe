@@ -11,6 +11,7 @@ export const FeedBackRoutes: RouteRecordRaw[] = [
     meta: {
       title: 'Bagor - Feedback',
       description: 'Bagor Feedback Page',
+      roles: ['admin'],
     },
   },
   {
@@ -20,6 +21,7 @@ export const FeedBackRoutes: RouteRecordRaw[] = [
     meta: {
       title: 'Bagor - User Feedback',
       description: 'Bagor User Feedback Page',
+      roles: ['employee'],
     },
   },
 ];

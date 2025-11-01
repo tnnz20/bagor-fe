@@ -10,6 +10,7 @@ export const GuideRoutes: RouteRecordRaw[] = [
     meta: {
       title: 'Bagor - Guide',
       description: 'Bagor Guide Page',
+      roles: ['admin', 'manager', 'employee'],
     },
   },
 ];

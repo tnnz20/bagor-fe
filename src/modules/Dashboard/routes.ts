@@ -14,12 +14,16 @@ export const DashboardRoutes: RouteRecordRaw[] = [
     meta: {
       title: 'Bagor - Dashboard',
       description: 'Bagor Dashboard Page',
+      requiresAuth: true,
     },
     children: [
       {
         path: '',
         name: 'Dashboard',
         component: Dashboard,
+        meta: {
+          roles: ['admin'],
+        },
       },
       ...FeedBackRoutes,
       ...GuideRoutes,
