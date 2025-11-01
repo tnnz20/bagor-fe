@@ -22,3 +22,13 @@ export const getInitials = (name: string): string => {
     .map((n: string) => n[0])
     .join('');
 };
+
+export const getRoleDefaultRoute = (role: string): string => {
+  const roleRoutes: Record<string, string> = {
+    admin: '/dashboard', // Admin goes to dashboard home
+    manager: '/dashboard/pegawai', // Manager goes to data pegawai
+    employee: '/dashboard/saran', // Employee goes to saran
+  };
+
+  return roleRoutes[role] || '/dashboard/saran'; // Default fallback
+};
