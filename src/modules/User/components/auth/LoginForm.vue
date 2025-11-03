@@ -79,7 +79,7 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/comp
 import { Input } from '@/components/ui/input';
 import { loginUser } from '../../services/auth';
 
-import type { BaseApi } from '@/types/api';
+import type { BaseApi } from '@/types/index';
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -114,8 +114,6 @@ const loginMutation = useMutation({
     if (data?.code === 200) {
       toast.success('Login berhasil!');
       authStore.setAuthenticated(true);
-
-      await new Promise(resolve => setTimeout(resolve, 1000));
 
       router.push('/dashboard');
       return;

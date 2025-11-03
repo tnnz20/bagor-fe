@@ -1,6 +1,6 @@
 import ApiClient from '@/api/axios';
 
-import type { BaseApi } from '@/types/api';
+import type { BaseApi } from '@/types/index';
 import type { User } from '@/types/user';
 
 export const getUser = async (): Promise<BaseApi<User>> => {
