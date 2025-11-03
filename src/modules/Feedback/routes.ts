@@ -5,7 +5,7 @@ import FeedbackUser from './views/FeedbackUser.vue';
 
 export const FeedBackRoutes: RouteRecordRaw[] = [
   {
-    path: 'saran',
+    path: 'masukan',
     name: 'Feedback',
     component: Feedback,
     meta: {
@@ -15,7 +15,7 @@ export const FeedBackRoutes: RouteRecordRaw[] = [
     },
   },
   {
-    path: 'masukan',
+    path: 'saran',
     name: 'FeedbackUser',
     component: FeedbackUser,
     meta: {
