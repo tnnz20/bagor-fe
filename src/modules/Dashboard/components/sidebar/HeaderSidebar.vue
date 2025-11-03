@@ -2,7 +2,7 @@
   <SidebarMenu>
     <SidebarMenuItem>
       <SidebarMenuButton size="lg" as-child>
-        <RouterLink to="/" class="rounded-lg border-1 bg-white shadow-md">
+        <RouterLink to="/" class="rounded-lg border bg-white shadow-md">
           <div class="text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center">
             <img src="@/assets/images/logo.webp" alt="Logo Bagor" />
           </div>
