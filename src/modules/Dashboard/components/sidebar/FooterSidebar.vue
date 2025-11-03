@@ -42,7 +42,7 @@
           <DropdownMenuGroup>
             <DropdownMenuItem class="cursor-pointer">
               <Icons.UserRound />
-              <RouterLink to="/#">Profile Saya </RouterLink>
+              <RouterLink to="/profile">Profile Saya </RouterLink>
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
@@ -86,6 +86,7 @@ const props = defineProps<Props>();
 
 const fallbackName = computed(() => {
   return props.user?.Username.split(' ')
+    .filter(Boolean)
     .map(chunk => chunk[0])
     .join('');
 });
