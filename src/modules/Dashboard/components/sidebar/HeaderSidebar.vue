@@ -2,16 +2,12 @@
   <SidebarMenu>
     <SidebarMenuItem>
       <SidebarMenuButton size="lg" as-child>
-        <RouterLink to="/dashboard">
-          <Avatar>
-            <AvatarFallback class="bg-primary text-accent font-medium uppercase">
-              {{ fallbackName }}
-            </AvatarFallback>
-          </Avatar>
-
+        <RouterLink to="/" class="rounded-lg border-1 bg-white shadow-md">
+          <div class="text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center">
+            <img src="@/assets/images/logo.webp" alt="Logo Bagor" />
+          </div>
           <div class="grid flex-1 text-left text-sm leading-tight">
-            <span class="truncate font-semibold">{{ user?.Username.substring(0, 15) }}</span>
-            <span class="truncate text-xs">{{ user?.Email }}</span>
+            <span class="text-md truncate font-semibold">PENTAS JAPIN</span>
           </div>
         </RouterLink>
       </SidebarMenuButton>
@@ -20,21 +16,5 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-
-import type { User } from '@/types/user';
-
-interface Props {
-  user: User | undefined;
-}
-const props = defineProps<Props>();
-
-const fallbackName = computed(() => {
-  return props.user?.Username.split(' ')
-    .map(chunk => chunk[0])
-    .join('');
-});
 </script>

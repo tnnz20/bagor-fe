@@ -1,7 +1,7 @@
 <template>
   <Sidebar v-bind="props">
     <SidebarHeader>
-      <HeaderSidebar :user="userData" />
+      <HeaderSidebar />
     </SidebarHeader>
     <SidebarContent>
       <SidebarGroup>
@@ -21,7 +21,7 @@
       </SidebarGroup>
     </SidebarContent>
     <SidebarFooter>
-      <FooterSidebar />
+      <FooterSidebar :user="userData" />
     </SidebarFooter>
   </Sidebar>
 </template>
