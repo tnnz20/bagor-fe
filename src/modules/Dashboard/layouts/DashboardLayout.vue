@@ -75,7 +75,6 @@ const handleUserResponse = (response: any) => {
   if (currentPath === '/dashboard') {
     const defaultRoute = getRoleDefaultRoute(userRole);
     if (userRole !== 'admin') {
-      toast.error('Anda tidak memiliki akses ke halaman tersebut');
       router.replace(defaultRoute);
       return;
     }
@@ -87,11 +86,11 @@ const handleUserResponse = (response: any) => {
     if (!requiredRoles.includes(userRole)) {
       const defaultRoute = getRoleDefaultRoute(userRole);
       router.replace(defaultRoute);
+      toast.error('Anda tidak memiliki akses ke halaman tersebut');
     }
   }
 };
 
-// Watch for data updates and run handler (immediate to cover cached data)
 watch(data, val => handleUserResponse(val), { immediate: true });
 
 watch(isError, hasError => {
