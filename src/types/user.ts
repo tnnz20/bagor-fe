@@ -1,5 +1,3 @@
-import { boolean, number } from 'zod';
-
 import type { BaseModel } from '.';
 import type { Department, EmployeeType } from './employee';
 
