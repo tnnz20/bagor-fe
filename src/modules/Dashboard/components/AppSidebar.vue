@@ -10,7 +10,7 @@
           <SidebarMenu>
             <SidebarMenuItem v-for="nav in filteredNavItems" :key="nav.title">
               <SidebarMenuButton class="p-4" :class="cn('hover:bg-primary hover:text-accent h-12 rounded-2xl')" asChild>
-                <RouterLink :to="nav.href as string" exactActiveClass="bg-primary text-accent">
+                <RouterLink :to="{ path: `/${nav.href}` }" exactActiveClass="bg-primary text-accent">
                   <component :is="nav.icon" />
                   <span>{{ nav.title }}</span>
                 </RouterLink>
