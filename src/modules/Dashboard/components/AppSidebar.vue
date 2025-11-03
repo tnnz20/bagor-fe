@@ -74,50 +74,50 @@ const currentUserRole = computed(() => {
 const navItems: MenuItem[] = [
   {
     title: 'Dashboard',
-    href: '/dashboard',
+    href: 'dashboard',
     icon: Icons.Home,
     role: ['admin'],
   },
   {
     title: 'Panduan',
-    href: '/panduan',
+    href: 'panduan',
     icon: Icons.BookOpenText,
     role: ['admin', 'manager', 'employee'],
   },
   {
     title: 'Saran',
-    href: '/saran',
+    href: 'saran',
     icon: Icons.MessageSquareDot,
     role: ['admin', 'employee'],
   },
   {
     title: 'Masukan Pengguna',
-    href: '/masukan',
+    href: 'masukan',
     icon: Icons.MessageSquareDot,
     role: ['admin'],
   },
 
   {
     title: 'Data Pegawai',
-    href: '/pegawai',
+    href: 'pegawai',
     icon: Icons.FileText,
     role: ['admin', 'manager'],
   },
   {
     title: 'Pertanyaan',
-    href: '/pertanyaan',
+    href: 'pertanyaan',
     icon: Icons.MessageCircleQuestionMark,
     role: ['admin', 'manager'],
   },
   {
     title: 'Berita Acara',
-    href: '/berita-acara',
+    href: 'berita-acara',
     icon: Icons.BookCheck,
     role: ['admin', 'manager'],
   },
   {
     title: 'Kelola Pengguna',
-    href: '/users',
+    href: 'users',
     icon: Icons.Users,
     role: ['admin'],
   },
