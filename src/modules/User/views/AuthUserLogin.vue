@@ -15,7 +15,7 @@
     </div>
   </div>
   <div class="hidden h-full p-10 lg:flex lg:items-center lg:justify-center">
-    <img src="@/assets/images/login-form.png" alt="Login background" class="h-auto max-w-full" />
+    <img src="@/assets/images/login-form.webp" alt="Login background" class="h-auto max-w-full" />
   </div>
 </template>
 

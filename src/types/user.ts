@@ -4,6 +4,11 @@ import type { Department, EmployeeType } from './employee';
 // User roles enum for better type safety
 export type UserRole = 'admin' | 'manager' | 'employee';
 
+export interface UserCredential {
+  username: string;
+  password: string;
+}
+
 export interface User {
   Id: string;
   Email: string;

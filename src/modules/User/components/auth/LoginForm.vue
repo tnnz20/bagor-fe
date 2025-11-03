@@ -77,7 +77,7 @@ import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { loginUser } from '../../services/auth';
+import { LoginUser } from '../../services/auth';
 
 import type { BaseApi } from '@/types/index';
 
@@ -109,7 +109,7 @@ const LoginForm = useForm({
 });
 
 const loginMutation = useMutation({
-  mutationFn: loginUser,
+  mutationFn: LoginUser,
   onSuccess: async (data: BaseApi) => {
     if (data?.code === 200) {
       toast.success('Login berhasil!');
