@@ -1,4 +1,4 @@
-import type { BaseModel } from '.';
+import type { BaseModel, PaginationMeta } from '.';
 import type { Department, EmployeeType } from './employee';
 
 // User roles enum for better type safety
@@ -20,27 +20,43 @@ export interface User {
   IsDeleted: boolean;
 }
 
-// Main User interface
-export interface UserDetail extends BaseModel {
-  id: number;
-  firstName: string;
-  lastName: string;
-  name?: string; // Computed from firstName + lastName
-  email: string;
-  role: UserRole;
-  position?: string;
-  department: Department;
-  employeeType?: EmployeeType;
-  isActive: boolean;
-  avatar?: string;
+export interface UserListResponseWithPagination extends PaginationMeta {
+  Users: User[];
 }
 
-export interface UserProfile extends UserDetail {
-  nip?: string;
-  phone?: string;
-  address?: string;
-  birthDate?: string;
-  gender?: string;
+// Main User interface
+export interface UserDetail extends BaseModel {
+  id: string;
+  email: string;
+  username: string;
+  role: UserRole;
+  is_active: boolean;
+  created_at: number;
+  updated_at: number;
+  is_deleted: boolean;
+  profile: UserProfile;
+  employee_detail: EmployeeDetail;
+}
+
+export interface UserProfile {
+  full_name: string;
+  phone: string;
+  gender: string;
+  birth_date: number;
+  address: string;
+  profile_created_at: number;
+  profile_updated_at: number;
+}
+
+// Employee detail type
+export interface EmployeeDetail {
+  nip: string;
+  department_code: string;
+  department: string;
+  position: string;
+  employee_type: string;
+  employee_created_at: number;
+  employee_updated_at: number;
 }
 
 // User form interface for creating/editing users

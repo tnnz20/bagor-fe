@@ -21,3 +21,10 @@ export interface MenuItem {
   role: UserRole[];
   description?: string;
 }
+
+export interface PaginationMeta {
+  page: number;
+  limit: number;
+  total_rows?: number;
+  total_pages?: number;
+}
