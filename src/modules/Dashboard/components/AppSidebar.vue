@@ -126,7 +126,8 @@ const navItems: MenuItem[] = [
 // Filter nav items based on user's role. If no role available, show only items allowed for 'employee' (or none depending on requirement)
 const filteredNavItems = computed(() => {
   const role = currentUserRole.value;
-  if (!role) return navItems.filter(item => item.role.includes('employee'));
+  if (!role) return [];
+
   return navItems.filter(item => item.role.includes(role));
 });
 </script>
