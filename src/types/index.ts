@@ -9,6 +9,10 @@ export interface BaseModel {
   updated_at: number;
 }
 
+export type BaseApi<T = undefined> = T extends undefined
+  ? { code: number; message: string }
+  : { code: number; message: string; data?: T | null };
+
 //  Menu link type
 export interface MenuItem {
   title: string;
@@ -16,9 +20,4 @@ export interface MenuItem {
   icon?: string | Component;
   role: UserRole[];
   description?: string;
-}
-
-export interface UserCredentials {
-  email: string;
-  password: string;
 }
