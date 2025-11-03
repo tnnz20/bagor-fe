@@ -5,21 +5,23 @@ import FeedbackUser from './views/FeedbackUser.vue';
 
 export const FeedBackRoutes: RouteRecordRaw[] = [
   {
-    path: 'saran',
+    path: 'masukan',
     name: 'Feedback',
     component: Feedback,
     meta: {
-      title: 'Bagor - Feedback',
+      title: 'Bagor - Masukan',
       description: 'Bagor Feedback Page',
+      roles: ['admin'],
     },
   },
   {
-    path: 'masukan',
+    path: 'saran',
     name: 'FeedbackUser',
     component: FeedbackUser,
     meta: {
-      title: 'Bagor - User Feedback',
+      title: 'Bagor - Saran Pengguna',
       description: 'Bagor User Feedback Page',
+      roles: ['employee'],
     },
   },
 ];

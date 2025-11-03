@@ -79,7 +79,7 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/comp
 import { Input } from '@/components/ui/input';
 import { loginUser } from '../../services/auth';
 
-import type { BaseApi } from '@/types/api';
+import type { BaseApi } from '@/types/index';
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -110,10 +110,11 @@ const LoginForm = useForm({
 
 const loginMutation = useMutation({
   mutationFn: loginUser,
-  onSuccess: (data: BaseApi) => {
+  onSuccess: async (data: BaseApi) => {
     if (data?.code === 200) {
       toast.success('Login berhasil!');
       authStore.setAuthenticated(true);
+
       router.push('/dashboard');
       return;
     }

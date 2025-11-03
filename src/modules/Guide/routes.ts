@@ -8,8 +8,9 @@ export const GuideRoutes: RouteRecordRaw[] = [
     name: 'Guide',
     component: Guide,
     meta: {
-      title: 'Bagor - Guide',
+      title: 'Bagor - Panduan',
       description: 'Bagor Guide Page',
+      roles: ['admin', 'manager', 'employee'],
     },
   },
 ];

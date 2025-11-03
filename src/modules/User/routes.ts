@@ -29,8 +29,9 @@ export const UserDashboardRoutes: RouteRecordRaw[] = [
     name: 'Users Managements',
     component: UsersManagement,
     meta: {
-      title: 'Bagor - Users Management',
+      title: 'Bagor - Manajemen Pengguna',
       description: 'Bagor Users Management Page',
+      roles: ['admin'],
     },
   },
 ];

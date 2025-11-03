@@ -9,17 +9,21 @@ import Dashboard from './views/Dashboard.vue';
 
 export const DashboardRoutes: RouteRecordRaw[] = [
   {
-    path: '/dashboard',
+    path: '/',
     component: DashboardLayout,
     meta: {
       title: 'Bagor - Dashboard',
       description: 'Bagor Dashboard Page',
+      requiresAuth: true,
     },
     children: [
       {
-        path: '',
+        path: '/dashboard',
         name: 'Dashboard',
         component: Dashboard,
+        meta: {
+          roles: ['admin'],
+        },
       },
       ...FeedBackRoutes,
       ...GuideRoutes,

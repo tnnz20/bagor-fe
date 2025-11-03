@@ -1,4 +1,5 @@
 import {
+  AlertCircle,
   AlertTriangle,
   ArrowLeft,
   ArrowUpDown,
@@ -25,6 +26,7 @@ import {
   Home,
   Inbox,
   Link,
+  Loader2,
   LogOut,
   Menu,
   MessageCircleQuestionMark,
@@ -34,6 +36,7 @@ import {
   Paperclip,
   Play,
   Plus,
+  RefreshCcw,
   RotateCw,
   Search,
   Share,
@@ -53,6 +56,8 @@ import {
 
 // Export only the icons that are actually used in the project
 export const Icons = {
+  Loader2,
+  AlertCircle,
   Link,
   Play,
   AlertTriangle,
@@ -95,6 +100,7 @@ export const Icons = {
   Trash2,
   Twitch,
   Twitter,
+  RefreshCcw,
   UserCheck,
   UserRoundPlus,
   Users,

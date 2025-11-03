@@ -10,6 +10,7 @@ export const BeritaAcaraRoutes: RouteRecordRaw[] = [
     meta: {
       title: 'Bagor - Berita Acara',
       description: 'Bagor Berita Acara Page',
+      roles: ['admin', 'manager'],
     },
   },
 ];

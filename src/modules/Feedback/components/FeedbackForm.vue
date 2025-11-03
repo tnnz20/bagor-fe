@@ -12,7 +12,7 @@
         <div class="grid gap-2">
           <Label for="area">Kategori Saran</Label>
           <Select default-value="masukan" id="area">
-            <SelectTrigger id="area" class="w-full">
+            <SelectTrigger class="w-full">
               <SelectValue placeholder="Kategori Saran" />
             </SelectTrigger>
             <SelectContent>

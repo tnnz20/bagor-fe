@@ -9,12 +9,7 @@ export const HomeRoutes: RouteRecordRaw[] = [
       title: 'Bagor',
       description: 'Bagor Home Page',
     },
-    children: [
-      {
-        path: '',
-        name: 'Home',
-        component: Home,
-      },
-    ],
+    name: 'Home',
+    component: Home,
   },
 ];

@@ -4,8 +4,19 @@ import type { Department, EmployeeType } from './employee';
 // User roles enum for better type safety
 export type UserRole = 'admin' | 'manager' | 'employee';
 
+export interface User {
+  Id: string;
+  Email: string;
+  Username: string;
+  Role: string;
+  IsActive: boolean;
+  CreatedAt: number;
+  UpdatedAt: number;
+  IsDeleted: boolean;
+}
+
 // Main User interface
-export interface User extends BaseModel {
+export interface UserDetail extends BaseModel {
   id: number;
   firstName: string;
   lastName: string;
@@ -19,7 +30,7 @@ export interface User extends BaseModel {
   avatar?: string;
 }
 
-export interface UserProfile extends User {
+export interface UserProfile extends UserDetail {
   nip?: string;
   phone?: string;
   address?: string;
