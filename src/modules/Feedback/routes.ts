@@ -9,7 +9,7 @@ export const FeedBackRoutes: RouteRecordRaw[] = [
     name: 'Feedback',
     component: Feedback,
     meta: {
-      title: 'Bagor - Feedback',
+      title: 'Bagor - Masukan',
       description: 'Bagor Feedback Page',
       roles: ['admin'],
     },
@@ -19,7 +19,7 @@ export const FeedBackRoutes: RouteRecordRaw[] = [
     name: 'FeedbackUser',
     component: FeedbackUser,
     meta: {
-      title: 'Bagor - User Feedback',
+      title: 'Bagor - Saran Pengguna',
       description: 'Bagor User Feedback Page',
       roles: ['employee'],
     },
