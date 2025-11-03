@@ -20,7 +20,7 @@
           </div>
         </div>
         <div class="relative">
-          <img src="@/assets/images/Rank2.png" alt="2nd Place" />
+          <img src="@/assets/images/Rank2.webp" alt="2nd Place" />
         </div>
       </div>
 
@@ -51,7 +51,7 @@
           </div>
         </div>
         <div class="relative">
-          <img src="@/assets/images/Rank1.png" alt="1st Place" />
+          <img src="@/assets/images/Rank1.webp" alt="1st Place" />
         </div>
       </div>
 
@@ -74,7 +74,7 @@
           </div>
         </div>
         <div class="relative">
-          <img src="@/assets/images/Rank3.png" alt="3rd Place" />
+          <img src="@/assets/images/Rank3.webp" alt="3rd Place" />
         </div>
       </div>
     </template>
