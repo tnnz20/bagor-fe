@@ -51,7 +51,7 @@ import {
 import FooterSidebar from './sidebar/FooterSidebar.vue';
 import HeaderSidebar from './sidebar/HeaderSidebar.vue';
 
-import type { BaseApi } from '@/types/api';
+import type { BaseApi } from '@/types/index';
 import type { User } from '@/types/user';
 
 const props = withDefaults(defineProps<SidebarProps>(), {
@@ -87,6 +87,12 @@ const navItems: MenuItem[] = [
   {
     title: 'Saran',
     href: '/saran',
+    icon: Icons.MessageSquareDot,
+    role: ['admin', 'employee'],
+  },
+  {
+    title: 'Masukan Pengguna',
+    href: '/masukan',
     icon: Icons.MessageSquareDot,
     role: ['admin'],
   },
