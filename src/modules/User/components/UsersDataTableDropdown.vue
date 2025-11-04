@@ -11,7 +11,7 @@
         <DropdownMenuLabel>Aksi</DropdownMenuLabel>
         <DropdownMenuItem>
           <Icons.ZoomIn class="mr-2 h-4 w-4" />
-          <RouterLink :to="`/dashboard/employees/${user.id}`"> Lihat Detail</RouterLink>
+          <RouterLink :to="`/employees/${user.id}`"> Lihat Detail</RouterLink>
         </DropdownMenuItem>
 
         <DropdownMenuItem @click="openDialog('edit')">
@@ -31,6 +31,7 @@
       </DropdownMenuContent>
     </DropdownMenu>
 
+    <!-- Edit Dialog -->
     <Dialog v-model:open="isEditDialogOpen">
       <DialogContent class="sm:max-w-[625px]">
         <DialogHeader>
@@ -39,15 +40,11 @@
             Buat perubahan pada profil pengguna di sini. Klik simpan setelah selesai.
           </DialogDescription>
         </DialogHeader>
-        <form class="space-y-4" @submit.prevent="handleEditSubmit">
+        <form class="space-y-4">
           <div class="grid grid-cols-2 gap-4">
             <div class="space-y-2">
-              <Label for="firstName">Nama Depan</Label>
-              <Input id="firstName" v-model="formData.firstName" placeholder="Nama depan" />
-            </div>
-            <div class="space-y-2">
-              <Label for="lastName">Nama Belakang</Label>
-              <Input id="lastName" v-model="formData.lastName" placeholder="Nama belakang" />
+              <Label for="lastName">Nama Lengkap</Label>
+              <Input id="lastName" v-model="formData.name" placeholder="Nama belakang" />
             </div>
           </div>
           <div class="space-y-2">
@@ -88,7 +85,7 @@
         </form>
         <DialogFooter>
           <Button type="button" variant="outline" @click="closeDialog('edit')"> Batal </Button>
-          <Button type="submit" @click="handleEditSubmit"> Simpan Perubahan </Button>
+          <Button type="submit"> Simpan Perubahan </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -99,7 +96,7 @@
         <DialogHeader>
           <DialogTitle>Konfirmasi Hapus Pengguna</DialogTitle>
           <DialogDescription>
-            Apakah Anda yakin ingin menghapus pengguna <strong>{{ user.firstName }} {{ user.lastName }}</strong
+            Apakah Anda yakin ingin menghapus pengguna <strong>{{ user.name }}</strong
             >? Tindakan ini tidak dapat dibatalkan.
           </DialogDescription>
         </DialogHeader>
@@ -109,7 +106,7 @@
         </div>
         <DialogFooter>
           <Button type="button" variant="outline" @click="closeDialog('delete')"> Batal </Button>
-          <Button type="button" variant="destructive" @click="confirmDeleteUser"> Hapus Pengguna </Button>
+          <Button type="button" variant="destructive"> Hapus Pengguna </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -143,10 +140,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
-import type { User } from '@/types/user';
+import type { UserTableColumn } from '@/types/user';
 
 const props = defineProps<{
-  user: User;
+  user: UserTableColumn;
 }>();
 
 // Dialog state
@@ -155,17 +152,14 @@ const isDeleteDialogOpen = ref(false);
 
 // Form data for editing
 const formData = reactive({
-  firstName: '',
-  lastName: '',
+  name: '',
   email: '',
   position: '',
 });
 
 // Initialize form data when user prop changes
 const initializeFormData = () => {
-  formData.firstName = props.user.firstName;
-  formData.lastName = props.user.lastName;
-  formData.email = props.user.email;
+  formData.name = props.user.name;
   formData.position = props.user.position || '';
 };
 
@@ -187,28 +181,5 @@ const closeDialog = (eventName: string) => {
   } else if (eventName === 'delete') {
     isDeleteDialogOpen.value = false;
   }
-};
-
-// Emit events
-const emit = defineEmits<{
-  deleteUser: [user: User];
-  editUser: [userId: number, updatedData: Partial<User>];
-}>();
-
-const confirmDeleteUser = () => {
-  // Emit delete event to parent component
-  emit('deleteUser', props.user);
-  isDeleteDialogOpen.value = false;
-};
-
-const handleEditSubmit = () => {
-  // Emit edit event with updated form data
-  emit('editUser', props.user.id, {
-    firstName: formData.firstName,
-    lastName: formData.lastName,
-    email: formData.email,
-    position: formData.position,
-  });
-  isEditDialogOpen.value = false;
 };
 </script>

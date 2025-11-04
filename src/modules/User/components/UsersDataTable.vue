@@ -1,13 +1,21 @@
 <template>
-  <div class="w-full">
+  <div class="w-full space-y-4">
     <!-- Filter and Search Section -->
     <div class="flex items-center justify-between py-4">
-      <Input
-        v-model="globalFilter"
-        class="max-w-sm"
-        placeholder="Cari pengguna..."
-        @input="table.setGlobalFilter($event.target.value)"
-      />
+      <div class="relative w-full max-w-sm">
+        <Input v-model="search" placeholder="Cari pengguna..." class="pr-10" />
+
+        <Button
+          v-if="search"
+          variant="ghost"
+          size="icon"
+          class="cursir-pointer absolute inset-y-0 right-1 my-auto h-6 w-6 rounded-full p-0"
+          @click="search = ''"
+        >
+          <Icons.X class="h-4 w-4" />
+        </Button>
+      </div>
+
       <div class="flex items-center space-x-2">
         <Popover>
           <PopoverTrigger as-child>
@@ -26,23 +34,15 @@
                 <div class="grid grid-cols-3 items-center gap-4">
                   <Label for="department">Divisi</Label>
                   <Select v-model="filters.department" defaultValue="all" class="w-full">
-                    <SelectTrigger class="col-span-2 h-8">
+                    <SelectTrigger class="col-span-2 h-auto">
                       <SelectValue placeholder="Semua Divisi" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="all">Semua Divisi</SelectItem>
                       <SelectSeparator />
-                      <SelectItem value="UMUM DAN KEUANGAN">Umum & Keuangan</SelectItem>
-                      <SelectItem value="PERLENGKAPAN DAN RUMAH TANGGA">Perlengkapan & RT</SelectItem>
-                      <SelectItem value="ORGANISASI">Organisasi</SelectItem>
-                      <SelectItem value="HUKUM">Hukum</SelectItem>
-                      <SelectItem value="PEREKONOMIAN DAN ADMINISTRASI PEMBANGUNAN"
-                        >Perekonomian & Adm. Pembangunan</SelectItem
-                      >
-                      <SelectItem value="PEMERINTAHAN">Pemerintahan</SelectItem>
-                      <SelectItem value="KESEJAHTERAAN RAKYAT">Kesejahteraan Rakyat</SelectItem>
-                      <SelectItem value="PROTOKOL DAN KOMUNIKASI PIMPINAN">Protokol & Komun. Pimpinan</SelectItem>
-                      <SelectItem value="PENGADAAN BARANG DAN JASA">Pengadaan Barang & Jasa</SelectItem>
+                      <template v-for="division in divisions" :key="division.value">
+                        <SelectItem :value="division.value">{{ division.label }}</SelectItem>
+                      </template>
                     </SelectContent>
                   </Select>
                 </div>
@@ -55,9 +55,9 @@
                     <SelectContent>
                       <SelectItem value="all">Semua Jenis</SelectItem>
                       <SelectSeparator />
-                      <SelectItem value="Struktural">Struktural</SelectItem>
-                      <SelectItem value="Fungsional">Fungsional</SelectItem>
-                      <SelectItem value="Kontrak">Kontrak</SelectItem>
+                      <template v-for="type in employeeTypes" :key="type.value">
+                        <SelectItem :value="type.value">{{ type.label }}</SelectItem>
+                      </template>
                     </SelectContent>
                   </Select>
                 </div>
@@ -70,11 +70,14 @@
                     <SelectContent>
                       <SelectItem value="all">Semua Role</SelectItem>
                       <SelectSeparator />
-                      <SelectItem value="admin">Admin</SelectItem>
-                      <SelectItem value="manager">Manager</SelectItem>
-                      <SelectItem value="employee">Employee</SelectItem>
+                      <template v-for="role in roles" :key="role.value">
+                        <SelectItem :value="role.value">{{ role.label }}</SelectItem>
+                      </template>
                     </SelectContent>
                   </Select>
+                </div>
+                <div class="mt-4 flex items-center justify-end">
+                  <Button class="cursor-pointer" @click="handleReset">Reset Filter</Button>
                 </div>
               </div>
             </div>
@@ -123,7 +126,7 @@
           </TableRow>
         </TableHeader>
         <TableBody>
-          <template v-if="table.getRowModel().rows?.length">
+          <template v-if="(data?.total_rows as number) > 0">
             <TableRow
               v-for="row in table.getRowModel().rows"
               :key="row.id"
@@ -136,10 +139,10 @@
           </template>
 
           <TableRow v-else>
-            <TableCell :colspan="columns.length" class="h-24 text-center">
+            <TableCell :colspan="UserColumns.length" class="h-24 text-center">
               <div class="flex flex-col items-center justify-center space-y-2">
                 <Icons.Search class="text-muted-foreground h-8 w-8" />
-                <p class="text-muted-foreground">No users found.</p>
+                <p class="text-muted-foreground">Tidak ada pengguna yang ditemukan.</p>
               </div>
             </TableCell>
           </TableRow>
@@ -149,65 +152,46 @@
 
     <!-- Pagination -->
     <div class="flex items-center justify-between space-x-2 py-4">
-      <div class="text-muted-foreground flex-1 text-sm">
-        {{ table.getFilteredSelectedRowModel().rows.length }} of {{ table.getFilteredRowModel().rows.length }} row(s)
-        selected.
+      <div class="flex items-center space-x-2">
+        <p class="text-sm font-medium">Baris per halaman</p>
+        <DropdownMenu>
+          <DropdownMenuTrigger as-child>
+            <Button variant="outline" size="sm" class="h-8 px-3">
+              {{ PageSize }}
+              <Icons.ChevronsUpDown class="ml-2 h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem v-for="pageSize in [10, 20, 30, 40, 50]" :key="pageSize" @click="PageSize = pageSize">
+              {{ pageSize }}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       <div class="flex items-center space-x-6 lg:space-x-8">
-        <div class="flex items-center space-x-2">
-          <p class="text-sm font-medium">Baris per halaman</p>
-          <DropdownMenu>
-            <DropdownMenuTrigger as-child>
-              <Button variant="outline" size="sm" class="h-8 px-3">
-                {{ table.getState().pagination.pageSize }}
-                <Icons.ChevronsUpDown class="ml-2 h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem
-                v-for="pageSize in [10, 20, 30, 40, 50]"
-                :key="pageSize"
-                @click="table.setPageSize(pageSize)"
-              >
-                {{ pageSize }}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-
-        <div class="flex w-[100px] items-center justify-center text-sm font-medium">
-          Halaman {{ table.getState().pagination.pageIndex + 1 }} dari {{ table.getPageCount() }}
+        <div class="flex w-[120px] items-center justify-center text-sm font-medium">
+          Halaman {{ Page }} dari {{ data?.total_pages || 1 }}
         </div>
 
         <div class="flex items-center space-x-2">
-          <Button
-            variant="outline"
-            class="hidden h-8 w-8 p-0 lg:flex"
-            :disabled="!table.getCanPreviousPage()"
-            @click="table.setPageIndex(0)"
-          >
+          <Button variant="outline" class="hidden h-8 w-8 p-0 lg:flex" :disabled="Page === 1" @click="Page = 1">
             <span class="sr-only">Go to first page</span>
             <Icons.ChevronsLeft class="h-4 w-4" />
           </Button>
-          <Button
-            variant="outline"
-            class="h-8 w-8 p-0"
-            :disabled="!table.getCanPreviousPage()"
-            @click="table.previousPage()"
-          >
+          <Button variant="outline" class="h-8 w-8 p-0" :disabled="Page <= 1" @click="Page -= 1">
             <span class="sr-only">Go to previous page</span>
             <Icons.ChevronLeft class="h-4 w-4" />
           </Button>
-          <Button variant="outline" class="h-8 w-8 p-0" :disabled="!table.getCanNextPage()" @click="table.nextPage()">
+          <Button variant="outline" class="h-8 w-8 p-0" :disabled="Page === data?.total_pages" @click="Page += 1">
             <span class="sr-only">Go to next page</span>
             <Icons.ChevronRight class="h-4 w-4" />
           </Button>
           <Button
             variant="outline"
             class="hidden h-8 w-8 p-0 lg:flex"
-            :disabled="!table.getCanNextPage()"
-            @click="table.setPageIndex(table.getPageCount() - 1)"
+            :disabled="Page === data?.total_pages"
+            @click="Page += (data?.total_pages as number) - 1"
           >
             <span class="sr-only">Go to last page</span>
             <Icons.ChevronsRight class="h-4 w-4" />
@@ -219,22 +203,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, h, ref } from 'vue';
+import { computed, ref } from 'vue';
 
-import {
-  FlexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useVueTable,
-  type ColumnDef,
-} from '@tanstack/vue-table';
-
-import { formatDate } from '@/lib/utils';
+import { FlexRender, getCoreRowModel, getSortedRowModel, useVueTable } from '@tanstack/vue-table';
 
 import { Icons } from '@/components/icons';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -250,13 +223,30 @@ import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectSeparator, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import UsersDataTableDropdown from './UsersDataTableDropdown.vue';
+import { divisions, employeeTypes, roles } from '../constants/user';
+import { UserColumns } from '../table/user_columns';
 
-import type { User } from '@/types/user';
+import type { EmployeeType } from '@/types/employee';
+import type { FilterUsers, UserListResponseWithPagination, UserTableColumn } from '@/types/user';
 
 interface UsersDataTableProps {
-  users: User[];
+  data?: UserListResponseWithPagination | null;
 }
+
+const props = defineProps<UsersDataTableProps>();
+
+// Model
+const search = defineModel<string>('search', { default: '' });
+const PageSize = defineModel<number>('pageSize', { default: 10 });
+const Page = defineModel<number>('page', { default: 1 });
+const filters = defineModel<FilterUsers>('filters', {
+  default: () => ({
+    department: 'all',
+    employeeType: 'all',
+    role: 'all',
+    search: '',
+  }),
+});
 
 const columnLabels: Record<string, string> = {
   name: 'Nama',
@@ -266,150 +256,43 @@ const columnLabels: Record<string, string> = {
   updated_at: 'Terakhir Diperbarui',
 };
 
-const props = defineProps<UsersDataTableProps>();
-const emit = defineEmits<{
-  editUser: [user: User];
-  deleteUser: [user: User];
-}>();
-
-// Global filter state
-const globalFilter = ref('');
-
-// Filter states for select components
-const filters = ref({
-  department: 'all',
-  employeeType: 'all',
-  role: 'all',
-  status: 'all',
-});
-
-// Helper function to get role color
-const getRoleVariant = (role: string): 'default' | 'secondary' | 'destructive' | 'outline' => {
-  switch (role) {
-    case 'admin':
-      return 'destructive';
-    case 'manager':
-      return 'default';
-    case 'employee':
-      return 'secondary';
-    default:
-      return 'outline';
-  }
-};
-
-// Helper function to get department display name (shortened)
-const getDepartmentName = (dept: string): string => {
-  const names: Record<string, string> = {
-    'UMUM DAN KEUANGAN': 'Umum & Keuangan',
-    'PERLENGKAPAN DAN RUMAH TANGGA': 'Perlengkapan & RT',
-    ORGANISASI: 'Organisasi',
-    HUKUM: 'Hukum',
-    'PEREKONOMIAN DAN ADMINISTRASI PEMBANGUNAN': 'Perekonomian & Adm. Pembangunan',
-    PEMERINTAHAN: 'Pemerintahan',
-    'KESEJAHTERAAN RAKYAT': 'Kesejahteraan Rakyat',
-    'PROTOKOL DAN KOMUNIKASI PIMPINAN': 'Protokol & Komun. Pimpinan',
-    'PENGADAAN BARANG DAN JASA': 'Pengadaan Barang & Jasa',
-  };
-  return names[dept] || dept;
-};
-
-// Table columns definition
-const columns: ColumnDef<User>[] = [
-  {
-    id: 'name',
-    accessorFn: row => `${row.firstName} ${row.lastName}`,
-    header: ({ column }) => {
-      return h(
-        Button,
-        {
-          variant: 'ghost',
-          onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
-        },
-        () => ['Nama', h(Icons.ArrowUpDown, { class: 'ml-2 h-4 w-4' })]
-      );
-    },
-    cell: ({ row }) => {
-      const user = row.original;
-      return h('div', { class: 'font-medium' }, `${user.firstName} ${user.lastName}`);
-    },
-  },
-
-  {
-    accessorKey: 'department',
-    header: 'Divisi',
-    cell: ({ row }) => {
-      const dept = row.getValue('department') as string;
-      return h('div', { class: 'text-sm' }, getDepartmentName(dept));
-    },
-  },
-  {
-    accessorKey: 'position',
-    header: 'Jabatan',
-    cell: ({ row }) => {
-      const position = row.getValue('position') as string;
-      return h('div', { class: 'text-sm' }, position || '-');
-    },
-  },
-  {
-    accessorKey: 'employeeType',
-    header: 'Jenis Pegawai',
-    cell: ({ row }) => {
-      const employeeType = row.getValue('employeeType') as string;
-
-      return h('div', { class: 'text-sm' }, employeeType || '-');
-    },
-  },
-  {
-    accessorKey: 'role',
-    header: 'Role',
-    cell: ({ row }) => {
-      const role = row.getValue('role') as string;
-
-      return h(Badge, { variant: getRoleVariant(role) }, () => role.charAt(0).toUpperCase() + role.slice(1));
-    },
-  },
-  {
-    id: 'updated_at',
-    header: 'Terakhir Diperbaharui',
-    cell: ({ row }) => {
-      const user = row.original;
-      return h('div', { class: 'text-sm text-muted-foreground' }, formatDate(user.updated_at));
-    },
-  },
-  {
-    id: 'actions',
-    header: 'Aksi',
-    enableHiding: false,
-    cell: ({ row }) => {
-      const user = row.original;
-      return h('div', { class: 'relative' }, h(UsersDataTableDropdown, { user }));
-    },
-  },
-];
-
 // Filter out deleted users
-const activeUsers = computed(() => props.users.filter(user => !user.deleted_at));
+const tableData = computed<UserTableColumn[]>(() => {
+  if (!props.data?.users) return [];
+
+  return props.data.users.map(user => ({
+    id: user.id,
+    name: user.profile?.full_name ?? user.username,
+    department: user.employee_detail?.department as any,
+    position: user.employee_detail?.position ?? '-',
+    employeeType: user.employee_detail?.employee_type as EmployeeType,
+    role: user.role,
+    created_at: user.created_at,
+    updated_at: user.updated_at,
+    deleted_at: user.deleted_at ?? null,
+    is_deleted: user.is_deleted,
+  }));
+});
 
 // Table configuration
 const table = useVueTable({
-  data: activeUsers,
-  columns,
+  data: tableData,
+  columns: UserColumns,
+  manualPagination: true,
+  manualFiltering: true,
+  rowCount: props.data?.total_rows ?? 0,
   getCoreRowModel: getCoreRowModel(),
-  getPaginationRowModel: getPaginationRowModel(),
   getSortedRowModel: getSortedRowModel(),
-  getFilteredRowModel: getFilteredRowModel(),
-  state: {
-    get globalFilter() {
-      return globalFilter.value;
-    },
-  },
-  onGlobalFilterChange: value => {
-    globalFilter.value = value;
-  },
   initialState: {
     pagination: {
-      pageSize: 10,
+      pageSize: props.data?.limit || 10,
     },
   },
 });
+
+const handleReset = () => {
+  filters.value.department = 'all';
+  filters.value.employeeType = 'all';
+  filters.value.role = 'all';
+};
 </script>
