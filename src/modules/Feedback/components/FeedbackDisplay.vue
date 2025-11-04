@@ -29,11 +29,8 @@
             </div>
           </div>
         </div>
-        <div
-          v-if="feedback.created_at"
-          class="text-muted-foreground ml-auto text-xs"
-        >
-          {{ format(new Date(feedback.created_at), 'PP') }}
+        <div v-if="feedback.created_at" class="text-muted-foreground ml-auto text-xs">
+          <!-- {{ format(new Date(feedback.created_at), 'PP') }} -->
         </div>
       </div>
       <Separator />
@@ -41,26 +38,18 @@
         {{ feedback.message }}
       </div>
     </div>
-    <div v-else class="text-muted-foreground p-8 text-center">
-      Tidak ada kritik dan saran yang dipilih!
-    </div>
+    <div v-else class="text-muted-foreground p-8 text-center">Tidak ada kritik dan saran yang dipilih!</div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
 
-import { format } from 'date-fns';
-
 import { Icons } from '@/components/icons';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import type { Feedback } from '../types';
 
 const feedbackFallbackName = computed(() => {
