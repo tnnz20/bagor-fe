@@ -20,10 +20,6 @@ export interface User {
   IsDeleted: boolean;
 }
 
-export interface UserListResponseWithPagination extends PaginationMeta {
-  Users: User[];
-}
-
 // Main User interface
 export interface UserDetail extends BaseModel {
   id: string;
@@ -59,16 +55,24 @@ export interface EmployeeDetail {
   employee_updated_at: number;
 }
 
-// User form interface for creating/editing users
-export interface UserForm {
-  firstName: string;
-  lastName: string;
-  email: string;
-  role: UserRole;
+export interface UserListResponseWithPagination extends PaginationMeta {
+  users: UserDetail[];
+}
+
+export interface UserTableColumn extends BaseModel {
+  id: string;
+  name: string;
   department: Department;
-  position?: string;
-  employeeType?: EmployeeType;
-  isActive: boolean;
+  position: string;
+  employeeType: EmployeeType;
+  role: UserRole;
+}
+
+export interface FilterUsers {
+  department: string;
+  employeeType: string;
+  role: string;
+  search: string;
 }
 
 // User statistics interface

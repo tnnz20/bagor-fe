@@ -7,6 +7,7 @@ export interface BaseModel {
   deleted_at?: number | null;
   created_at: number;
   updated_at: number;
+  is_deleted?: boolean;
 }
 
 export type BaseApi<T = undefined> = T extends undefined
