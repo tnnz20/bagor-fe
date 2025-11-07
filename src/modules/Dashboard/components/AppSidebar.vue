@@ -68,7 +68,7 @@ const userData = computed(() => {
 });
 
 const currentUserRole = computed(() => {
-  return (data.value && (data.value as any).data && (data.value as any).data.Role) || null;
+  return (data.value && (data.value as any).data && (data.value as any).data.role) || null;
 });
 
 const navItems: MenuItem[] = [

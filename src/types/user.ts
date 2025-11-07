@@ -11,8 +11,9 @@ export interface UserCredential {
 
 export interface User {
   Id: string;
-  Email: string;
-  Username: string;
+  email: string;
+  username: string;
+  name: string;
   Role: string;
   IsActive: boolean;
   CreatedAt: number;

@@ -66,10 +66,9 @@ const { data, isLoading, isError, error, isSuccess, refetch } = useQuery({
 // Handler extracted to reduce cognitive complexity
 const handleUserResponse = (response: any) => {
   if (!response || response.code !== 200 || !response.data) return;
-
   const userData = response.data;
   const currentPath = route.path;
-  const userRole = userData.Role;
+  const userRole = userData.role;
 
   // If user is on /dashboard root, redirect based on role
   if (currentPath === '/dashboard') {
