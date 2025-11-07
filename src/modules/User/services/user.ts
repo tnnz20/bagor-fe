@@ -18,7 +18,7 @@ export const getUserList = async (
   queryParams.append('limit', paginationMeta.limit.toString());
 
   if (filterUsers.department !== 'all') {
-    queryParams.append('department', filterUsers.department);
+    queryParams.append('department_code', filterUsers.department);
   }
   if (filterUsers.employeeType !== 'all') {
     queryParams.append('employeeType', filterUsers.employeeType);
