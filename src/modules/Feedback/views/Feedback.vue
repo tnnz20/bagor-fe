@@ -53,7 +53,7 @@ const limit = ref(8);
 const isRead = ref<boolean | undefined>(undefined);
 
 const { data, isLoading, error, isError, refetch } = useQuery({
-  queryKey: computed(() => ['feedbacks', page, limit, isRead]),
+  queryKey: computed(() => ['feedbacks', page.value, limit.value, isRead.value]),
   queryFn: () => getFeedbackList({ page: page.value, limit: limit.value }, isRead.value),
   retry: 1,
   staleTime: 5 * 60 * 1000,
