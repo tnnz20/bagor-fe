@@ -33,8 +33,7 @@
       <!-- Empty State (404 or no data) -->
       <div
         v-if="
-          (props.error as any)?.response?.status === 404 ||
-          (!props.error && (!data?.feedbacks || data.feedbacks.length === 0))
+          props.error?.response?.status === 404 || (!props.error && (!data?.feedbacks || data.feedbacks.length === 0))
         "
         class="flex h-full w-full flex-col items-center justify-center p-8 text-center"
       >
@@ -48,44 +47,46 @@
       <!-- Empty State (404 or no data) -->
       <div
         v-if="
-          (props.error as any)?.response?.status === 404 ||
-          (!props.error && (!data?.feedbacks || data.feedbacks.length === 0))
+          props.error?.response?.status === 404 || (!props.error && (!data?.feedbacks || data.feedbacks.length === 0))
         "
         class="flex h-full w-full flex-col items-center justify-center p-8 text-center"
       >
-        <p class="text-muted-foreground text-sm">Belum ada kritik dan saran yang belum dibaca</p>
+        <p class="text-muted-foreground text-sm">Tidak ada kritik dan saran yang belum dibaca</p>
       </div>
       <!-- Content -->
       <FeedbackListContent v-else :feedbacks="data?.feedbacks" v-model:selectedFeedback="selectedFeedback" />
     </TabsContent>
+
     <!-- Pagination -->
-    <Separator />
-    <div class="flex items-center justify-between px-4 py-2">
-      <div class="text-muted-foreground text-sm">
-        <span v-if="data?.total_rows">
-          {{ (data?.page - 1) * data?.limit + 1 }}-{{ Math.min(data.page * data.limit, data.total_rows || 0) }} dari
-          {{ data.total_rows || 0 }} saran
-        </span>
-      </div>
-      <div class="flex items-center gap-2">
-        <Button
-          variant="outline"
-          class="cursor-pointer"
-          size="sm"
-          :disabled="!data || data.page <= 1"
-          @click="page = (data?.page || 1) - 1"
-        >
-          <Icons.ChevronLeft class="h-4 w-4" />
-        </Button>
-        <Button
-          variant="outline"
-          class="cursor-pointer"
-          size="sm"
-          :disabled="!data || data.page >= (data.total_pages || 1)"
-          @click="page = (data?.page || 1) + 1"
-        >
-          <Icons.ChevronRight class="h-4 w-4" />
-        </Button>
+    <div v-if="!props.error && data?.feedbacks && data.feedbacks.length > 0">
+      <Separator />
+      <div class="flex items-center justify-between px-4 py-2">
+        <div class="text-muted-foreground text-sm">
+          <span v-if="data?.total_rows">
+            {{ (data?.page - 1) * data?.limit + 1 }}-{{ Math.min(data.page * data.limit, data.total_rows || 0) }} dari
+            {{ data.total_rows || 0 }} saran
+          </span>
+        </div>
+        <div class="flex items-center gap-2">
+          <Button
+            variant="outline"
+            class="cursor-pointer"
+            size="sm"
+            :disabled="!data || data.page <= 1"
+            @click="page = (data?.page || 1) - 1"
+          >
+            <Icons.ChevronLeft class="h-4 w-4" />
+          </Button>
+          <Button
+            variant="outline"
+            class="cursor-pointer"
+            size="sm"
+            :disabled="!data || data.page >= (data.total_pages || 1)"
+            @click="page = (data?.page || 1) + 1"
+          >
+            <Icons.ChevronRight class="h-4 w-4" />
+          </Button>
+        </div>
       </div>
     </div>
   </Tabs>
@@ -95,6 +96,7 @@
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
+import type { BaseError } from '@/types';
 import { refDebounced } from '@vueuse/core';
 
 import { Icons } from '@/components/icons';
@@ -108,7 +110,7 @@ import type { FeedbackListResponseWithPagination } from '@/types/feedback';
 
 interface FeedbackListProps {
   data?: FeedbackListResponseWithPagination | null;
-  error?: Error | null;
+  error?: BaseError | null;
 }
 
 const route = useRoute();

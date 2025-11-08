@@ -37,6 +37,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import { useRoute } from 'vue-router';
 
 import { useQuery } from '@tanstack/vue-query';
 
@@ -45,14 +46,15 @@ import { Button } from '@/components/ui/button';
 import FeedbackContent from '../components/FeedbackContent.vue';
 import { getFeedbackList } from '../services/feedback';
 
+const route = useRoute();
 // Pagination state
 const page = ref(1);
 const limit = ref(8);
 
 // IsRead State (undefined = all, false = unread, true = read)
-const isRead = ref<boolean | undefined>(undefined);
+const isRead = ref<boolean | undefined>(route.query.tabs === 'unread' ? false : undefined);
 
-const { data, isLoading, error, isError, refetch } = useQuery({
+const { data, isLoading, error, refetch } = useQuery({
   queryKey: computed(() => ['feedbacks', page.value, limit.value, isRead.value]),
   queryFn: () => getFeedbackList({ page: page.value, limit: limit.value }, isRead.value),
   retry: 1,

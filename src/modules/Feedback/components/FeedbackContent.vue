@@ -24,6 +24,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 
+import type { BaseError } from '@/types';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
@@ -36,7 +37,7 @@ import type { FeedbackListResponseWithPagination } from '@/types/feedback';
 
 interface FeedbackContentProps {
   data?: FeedbackListResponseWithPagination | null;
-  error?: Error | null;
+  error?: BaseError | null;
 }
 
 const props = defineProps<FeedbackContentProps>();
