@@ -13,8 +13,8 @@
               </AvatarFallback>
             </Avatar>
             <div class="grid flex-1 text-left text-sm leading-tight">
-              <span class="truncate font-semibold">{{ user?.Username }}</span>
-              <span class="truncate text-xs">{{ user?.Email }}</span>
+              <span class="truncate font-semibold">{{ user?.name }}</span>
+              <span class="truncate text-xs">{{ user?.email }}</span>
             </div>
             <Icons.ChevronsUpDown class="ml-auto size-4" />
           </SidebarMenuButton>
@@ -33,8 +33,8 @@
                 </AvatarFallback>
               </Avatar>
               <div class="grid flex-1 text-left text-sm leading-tight">
-                <span class="truncate font-semibold">{{ user?.Username }}</span>
-                <span class="truncate text-xs">{{ user?.Email }}</span>
+                <span class="truncate font-semibold">{{ user?.name }}</span>
+                <span class="truncate text-xs">{{ user?.email }}</span>
               </div>
             </div>
           </DropdownMenuLabel>
@@ -85,7 +85,8 @@ const isDialogLogoutOpen = ref(false);
 const props = defineProps<Props>();
 
 const fallbackName = computed(() => {
-  return props.user?.Username.split(' ')
+  return props.user?.name
+    .split(' ')
     .filter(Boolean)
     .map(chunk => chunk[0])
     .join('');

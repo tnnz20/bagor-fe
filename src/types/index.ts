@@ -7,6 +7,7 @@ export interface BaseModel {
   deleted_at?: number | null;
   created_at: number;
   updated_at: number;
+  is_deleted?: boolean;
 }
 
 export type BaseApi<T = undefined> = T extends undefined
@@ -20,4 +21,11 @@ export interface MenuItem {
   icon?: string | Component;
   role: UserRole[];
   description?: string;
+}
+
+export interface PaginationMeta {
+  page: number;
+  limit: number;
+  total_rows?: number;
+  total_pages?: number;
 }

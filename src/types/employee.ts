@@ -20,5 +20,6 @@ export type Department =
   | 'PROTOKOL DAN KOMUNIKASI PIMPINAN'
   | 'PENGADAAN BARANG DAN JASA';
 
-// Employee types
-export type EmployeeType = 'Fungsional' | 'Struktural' | 'Kontrak';
+export type DepartmentCode = 'UMK' | 'PRT' | 'ORG' | 'HKM' | 'EKO' | 'PEM' | 'KSR' | 'PKP' | 'PBJ';
+
+export type EmployeeType = 'Pengawas dan Penyetaraan' | 'Murni dan Pelaksana' | 'PTT';

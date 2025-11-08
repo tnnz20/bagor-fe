@@ -19,26 +19,18 @@
                 <div class="font-semibold">
                   {{ feedback.name }}
                 </div>
-                <span
-                  v-if="!feedback.read"
-                  class="flex h-2 w-2 rounded-full bg-blue-600"
-                />
+                <span v-if="!feedback.read" class="flex h-2 w-2 rounded-full bg-blue-600" />
               </div>
               <div
                 :class="
-                  cn(
-                    'ml-auto text-xs',
-                    selectedFeedback === feedback.id
-                      ? 'text-foreground'
-                      : 'text-muted-foreground'
-                  )
+                  cn('ml-auto text-xs', selectedFeedback === feedback.id ? 'text-foreground' : 'text-muted-foreground')
                 "
               >
-                {{
+                <!-- {{
                   formatDistanceToNow(new Date(feedback.created_at), {
                     addSuffix: true,
                   })
-                }}
+                }} -->
               </div>
             </div>
             <div class="text-muted-foreground line-clamp-2 text-xs">
@@ -52,8 +44,6 @@
 </template>
 
 <script setup lang="ts">
-import { formatDistanceToNow } from 'date-fns';
-
 import { cn } from '@/lib/utils';
 
 import { ScrollArea } from '@/components/ui/scroll-area';
