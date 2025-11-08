@@ -68,18 +68,9 @@ import { createFeedback } from '../services/feedback';
 import { feedbackCategories } from '@/types/feedback';
 import type { FeedbackCategory, FeedbackSubmission } from '@/types/feedback';
 
-const FEEDBACK_CATEGORIES = [
-  'Tampilan & Desain',
-  'Fitur & Fungsi',
-  'Konten & Informasi',
-  'Kinerja & Performa',
-  'Keamanan & Privasi',
-  'Saran Umum',
-] as const;
-
 // Zod validation schema
 const formSchema = z.object({
-  category: z.enum(FEEDBACK_CATEGORIES, {
+  category: z.enum(feedbackCategories.map(cat => cat.value) as [string, ...string[]], {
     required_error: 'Kategori harus dipilih',
   }),
   subject: z.string().min(5, 'Subjek minimal 5 karakter').max(100, 'Subjek maksimal 100 karakter'),
