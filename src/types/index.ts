@@ -28,3 +28,11 @@ export interface PaginationMeta {
   total_rows?: number;
   total_pages?: number;
 }
+
+// API Error type for Axios errors
+export interface ApiError extends Error {
+  response?: {
+    status: number;
+    data?: unknown;
+  };
+}

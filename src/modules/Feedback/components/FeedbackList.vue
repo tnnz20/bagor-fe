@@ -33,7 +33,7 @@
       <!-- Empty State (404 or no data) -->
       <div
         v-if="
-          (props.error as any)?.response?.status === 404 ||
+          props.error?.response?.status === 404 ||
           (!props.error && (!data?.feedbacks || data.feedbacks.length === 0))
         "
         class="flex h-full w-full flex-col items-center justify-center p-8 text-center"
@@ -48,7 +48,7 @@
       <!-- Empty State (404 or no data) -->
       <div
         v-if="
-          (props.error as any)?.response?.status === 404 ||
+          props.error?.response?.status === 404 ||
           (!props.error && (!data?.feedbacks || data.feedbacks.length === 0))
         "
         class="flex h-full w-full flex-col items-center justify-center p-8 text-center"
@@ -104,11 +104,12 @@ import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import FeedbackListContent from './FeedbackListContent.vue';
 
+import type { ApiError } from '@/types';
 import type { FeedbackListResponseWithPagination } from '@/types/feedback';
 
 interface FeedbackListProps {
   data?: FeedbackListResponseWithPagination | null;
-  error?: Error | null;
+  error?: ApiError | null;
 }
 
 const route = useRoute();

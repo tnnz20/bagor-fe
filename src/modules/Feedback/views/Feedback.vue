@@ -40,6 +40,7 @@ import { computed, ref } from 'vue';
 
 import { useQuery } from '@tanstack/vue-query';
 
+import type { ApiError } from '@/types';
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import FeedbackContent from '../components/FeedbackContent.vue';
@@ -60,7 +61,7 @@ const { data, isLoading, error, isError, refetch } = useQuery({
 });
 
 const hasError = computed(() => {
-  const err = error.value as any;
+  const err = error.value as ApiError | null;
   if (err?.response?.status === 404) {
     return false;
   }
@@ -70,12 +71,12 @@ const hasError = computed(() => {
 const errorMessage = computed(() => {
   if (!error.value) return '';
 
-  const err = error.value as any;
+  const err = error.value as ApiError | null;
   const messages: Record<number, string> = {
     400: 'Permintaan tidak valid',
     500: 'Server error. Silahkan coba lagi nanti.',
   };
 
-  return messages[err.response?.status] || err.message || 'Terjadi kesalahan';
+  return messages[err?.response?.status || 0] || err?.message || 'Terjadi kesalahan';
 });
 </script>
