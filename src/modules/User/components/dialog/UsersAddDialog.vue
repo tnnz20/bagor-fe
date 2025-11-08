@@ -141,7 +141,7 @@ const queryClient = useQueryClient();
 const formSchema = z.object({
   username: z.string().min(3, 'Username minimal 3 karakter').max(50, 'Username maksimal 50 karakter'),
   email: z.string().email('Email tidak valid').optional(),
-  password: z.string().min(6, 'Password minimal 6 karakter'),
+  password: z.string().min(8, 'Password minimal 8 karakter'),
   role: z.enum(['admin', 'manager', 'employee'], {
     required_error: 'Role harus dipilih',
   }),
