@@ -39,6 +39,7 @@
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
+import type { BaseError } from '@/types';
 import { useQuery } from '@tanstack/vue-query';
 
 import { Icons } from '@/components/icons';
@@ -62,7 +63,7 @@ const { data, isLoading, error, refetch } = useQuery({
 });
 
 const hasError = computed(() => {
-  const err = error.value as any;
+  const err = error.value as BaseError;
   if (err?.response?.status === 404) {
     return false;
   }
