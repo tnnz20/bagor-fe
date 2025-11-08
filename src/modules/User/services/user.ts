@@ -1,7 +1,7 @@
 import ApiClient from '@/api/axios';
 
 import type { BaseApi, PaginationMeta } from '@/types/index';
-import type { FilterUsers, User, UserListResponseWithPagination } from '@/types/user';
+import type { FilterUsers, User, UserListResponseWithPagination, UserRegistration } from '@/types/user';
 
 export const getUser = async (): Promise<BaseApi<User>> => {
   const res = await ApiClient.get<BaseApi<User>>(`/users/user`);
@@ -21,7 +21,7 @@ export const getUserList = async (
     queryParams.append('department_code', filterUsers.department);
   }
   if (filterUsers.employeeType !== 'all') {
-    queryParams.append('employeeType', filterUsers.employeeType);
+    queryParams.append('employee_type', filterUsers.employeeType);
   }
   if (filterUsers.role !== 'all') {
     queryParams.append('role', filterUsers.role);
@@ -32,5 +32,10 @@ export const getUserList = async (
   }
 
   const res = await ApiClient.get<BaseApi<UserListResponseWithPagination>>('/users', { params: queryParams });
+  return res.data;
+};
+
+export const createUser = async (userData: UserRegistration): Promise<BaseApi> => {
+  const res = await ApiClient.post<BaseApi>('/users', userData);
   return res.data;
 };

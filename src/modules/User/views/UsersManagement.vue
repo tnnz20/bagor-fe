@@ -6,7 +6,7 @@
         <h1 class="text-3xl font-bold tracking-tight">Kelola Pengguna</h1>
         <p class="text-muted-foreground">Kelola akun pengguna bagor</p>
       </div>
-      <Button>
+      <Button @click="isAddUserDialogOpen = true" class="cursor-pointer">
         <Icons.UserRoundPlus class="mr-2 h-4 w-4" />
         Tambah Pengguna
       </Button>
@@ -56,6 +56,7 @@
         />
       </CardContent>
     </Card>
+    <UsersAddDialog v-model="isAddUserDialogOpen" />
   </div>
 </template>
 
@@ -69,6 +70,7 @@ import { useDebounceFn } from '@vueuse/core';
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import UsersAddDialog from '../components/dialog/UsersAddDialog.vue';
 import UsersDataTable from '../components/UsersDataTable.vue';
 import { getUserList } from '../services/user';
 
@@ -77,17 +79,15 @@ import type { FilterUsers } from '@/types/user';
 const route = useRoute();
 const router = useRouter();
 
+// Dialog State
+const isAddUserDialogOpen = ref(false);
+
 // Search State
 const searchInput = ref<string>((route.query.search as string) || '');
 
 // Pagination State
 const Page = ref<number>(Number.parseInt((route.query.page as string) || '1', 10));
 const PageSize = ref<number>(Number.parseInt((route.query.pageSize as string) || '10', 10));
-
-const paginationMeta = computed(() => ({
-  page: Page.value,
-  limit: PageSize.value,
-}));
 
 // Filters State
 const filters = reactive<FilterUsers>({
