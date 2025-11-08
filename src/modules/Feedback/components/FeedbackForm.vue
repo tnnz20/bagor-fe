@@ -66,23 +66,13 @@ import { Textarea } from '@/components/ui/textarea';
 import { createFeedback } from '../services/feedback';
 
 import { feedbackCategories } from '@/types/feedback';
-import type { FeedbackSubmission } from '@/types/feedback';
+import type { FeedbackCategory, FeedbackSubmission } from '@/types/feedback';
 
 // Zod validation schema
 const formSchema = z.object({
-  category: z.enum(
-    [
-      'Tampilan & Desain',
-      'Fitur & Fungsi',
-      'Konten & Informasi',
-      'Kinerja & Performa',
-      'Keamanan & Privasi',
-      'Saran Umum',
-    ],
-    {
-      required_error: 'Kategori harus dipilih',
-    }
-  ),
+  category: z.enum(feedbackCategories.map(cat => cat.value) as [string, ...string[]], {
+    required_error: 'Kategori harus dipilih',
+  }),
   subject: z.string().min(5, 'Subjek minimal 5 karakter').max(100, 'Subjek maksimal 100 karakter'),
   message: z.string().min(10, 'Deskripsi minimal 10 karakter').max(1000, 'Deskripsi maksimal 1000 karakter'),
 });
@@ -117,7 +107,7 @@ const { mutate: submitFeedback, isPending } = useMutation({
 // Form submission handler
 const onSubmit = handleSubmit(values => {
   const feedbackData: FeedbackSubmission = {
-    category: values.category,
+    category: values.category as FeedbackCategory,
     subject: values.subject,
     message: values.message,
   };
