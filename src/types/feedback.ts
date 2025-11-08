@@ -29,7 +29,7 @@ export interface Feedback extends BaseModel {
   id: string;
   user_id: string;
   sender_name: string;
-  category: string;
+  category: FeedbackCategory;
   subject: string;
   message: string;
   is_read: boolean;
