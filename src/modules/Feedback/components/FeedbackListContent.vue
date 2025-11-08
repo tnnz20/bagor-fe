@@ -7,7 +7,7 @@
           :key="feedback.id"
           :class="
             cn(
-              'hover:bg-accent flex w-full flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all',
+              'hover:bg-accent flex w-full cursor-pointer flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all',
               selectedFeedback === feedback.id && 'bg-muted'
             )
           "
@@ -17,21 +17,22 @@
             <div class="flex items-center">
               <div class="flex items-center gap-2">
                 <div class="font-semibold">
-                  {{ feedback.name }}
+                  {{ feedback.sender_name }}
                 </div>
-                <span v-if="!feedback.read" class="flex h-2 w-2 rounded-full bg-blue-600" />
+                <span v-if="!feedback.is_read" class="flex h-2 w-2 rounded-full bg-blue-600" />
               </div>
+
               <div
                 :class="
                   cn('ml-auto text-xs', selectedFeedback === feedback.id ? 'text-foreground' : 'text-muted-foreground')
                 "
               >
-                <!-- {{
-                  formatDistanceToNow(new Date(feedback.created_at), {
-                    addSuffix: true,
-                  })
-                }} -->
+                {{ DateTime.fromSeconds(feedback.created_at).toRelative() }}
               </div>
+            </div>
+
+            <div class="text-xs font-medium">
+              {{ feedback.subject }}
             </div>
             <div class="text-muted-foreground line-clamp-2 text-xs">
               {{ feedback.message.substring(0, 300) }}
@@ -44,16 +45,20 @@
 </template>
 
 <script setup lang="ts">
+import { DateTime } from 'luxon';
+
 import { cn } from '@/lib/utils';
 
 import { ScrollArea } from '@/components/ui/scroll-area';
-import type { Feedback } from '../types';
+
+import type { Feedback } from '@/types/feedback';
 
 interface FeedbackListContentProps {
-  feedbacks: Feedback[];
+  feedbacks?: Feedback[];
 }
 
 defineProps<FeedbackListContentProps>();
+
 const selectedFeedback = defineModel<string>('selectedFeedback', {
   required: false,
 });

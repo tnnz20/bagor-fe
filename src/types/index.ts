@@ -13,6 +13,23 @@ export type BaseApi<T = undefined> = T extends undefined
   ? { code: number; message: string }
   : { code: number; message: string; data?: T | null };
 
+export interface BaseError extends Error {
+  response?: {
+    status: number;
+    data: ErrorResponse;
+  };
+}
+
+export type ErrorResponse = {
+  code: number;
+  error: ErrorMessage;
+};
+
+export type ErrorMessage = {
+  error_name: string;
+  error_description: string;
+};
+
 //  Menu link type
 export interface MenuItem {
   title: string;
