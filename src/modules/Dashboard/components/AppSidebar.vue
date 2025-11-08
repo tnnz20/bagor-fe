@@ -104,16 +104,16 @@ const navItems: MenuItem[] = [
     role: ['admin', 'manager'],
   },
   {
-    title: 'Pertanyaan',
-    href: 'pertanyaan',
-    icon: Icons.MessageCircleQuestionMark,
-    role: ['admin', 'manager'],
-  },
-  {
     title: 'Berita Acara',
     href: 'berita-acara',
     icon: Icons.BookCheck,
     role: ['admin', 'manager'],
+  },
+  {
+    title: 'Kelola Pertanyaan',
+    href: 'manajemen-pertanyaan',
+    icon: Icons.MessageCircleQuestionMark,
+    role: ['admin'],
   },
   {
     title: 'Kelola Pengguna',
