@@ -1,13 +1,5 @@
 import type { BaseModel } from '.';
 
-export interface Employee extends BaseModel {
-  id: number;
-  name: string;
-  position: string;
-  avatarUrl: string;
-  score: number;
-}
-
 // Department types
 export type Department =
   | 'UMUM DAN KEUANGAN'
@@ -23,3 +15,22 @@ export type Department =
 export type DepartmentCode = 'UMK' | 'PRT' | 'ORG' | 'HKM' | 'EKO' | 'PEM' | 'KSR' | 'PKP' | 'PBJ';
 
 export type EmployeeType = 'Pengawas dan Penyetaraan' | 'Murni dan Pelaksana' | 'PTT';
+
+export interface Employee extends BaseModel {
+  id: number;
+  name: string;
+  position: string;
+  avatarUrl: string;
+  score: number;
+}
+
+// Employee detail type
+export interface EmployeeDetail {
+  nip: string;
+  department_code: string;
+  department: string;
+  position: string;
+  employee_type: string;
+  employee_created_at: number;
+  employee_updated_at: number;
+}
