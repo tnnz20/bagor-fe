@@ -14,11 +14,6 @@
           <RouterLink :to="`/employees/${user.id}`"> Lihat Detail</RouterLink>
         </DropdownMenuItem>
 
-        <DropdownMenuItem @click="openDialog('edit')">
-          <Icons.Edit class="mr-2 h-4 w-4" />
-          Edit Detail
-        </DropdownMenuItem>
-
         <DropdownMenuSeparator />
 
         <DropdownMenuItem
@@ -30,65 +25,6 @@
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-
-    <!-- Edit Dialog -->
-    <Dialog v-model:open="isEditDialogOpen">
-      <DialogContent class="sm:max-w-[625px]">
-        <DialogHeader>
-          <DialogTitle>Edit Detail Pengguna</DialogTitle>
-          <DialogDescription>
-            Buat perubahan pada profil pengguna di sini. Klik simpan setelah selesai.
-          </DialogDescription>
-        </DialogHeader>
-        <form class="space-y-4">
-          <div class="grid grid-cols-2 gap-4">
-            <div class="space-y-2">
-              <Label for="lastName">Nama Lengkap</Label>
-              <Input id="lastName" v-model="formData.name" placeholder="Nama belakang" />
-            </div>
-          </div>
-          <div class="space-y-2">
-            <Label for="email">Email</Label>
-            <Input id="email" v-model="formData.email" type="email" placeholder="email@example.com" />
-          </div>
-          <div class="space-y-2">
-            <Label for="position">Posisi</Label>
-            <Select v-model="formData.position">
-              <SelectTrigger>
-                <SelectValue placeholder="Pilih posisi jabatan" />
-              </SelectTrigger>
-              <SelectContent>
-                <!-- Structural Positions -->
-                <SelectItem value="Kepala Bagian Umum dan Keuangan">Kepala Bagian Umum dan Keuangan</SelectItem>
-                <SelectItem value="Kepala Sub Bagian Perlengkapan">Kepala Sub Bagian Perlengkapan</SelectItem>
-                <SelectItem value="Kepala Sub Bagian Pemerintahan">Kepala Sub Bagian Pemerintahan</SelectItem>
-                <SelectItem value="Bendahara Pengeluaran">Bendahara Pengeluaran</SelectItem>
-
-                <!-- Functional Positions -->
-                <SelectItem value="Analis Organisasi dan Tata Laksana">Analis Organisasi dan Tata Laksana</SelectItem>
-                <SelectItem value="Analis Hukum">Analis Hukum</SelectItem>
-                <SelectItem value="Analis Kebijakan">Analis Kebijakan</SelectItem>
-                <SelectItem value="Analis Kesejahteraan Sosial">Analis Kesejahteraan Sosial</SelectItem>
-                <SelectItem value="Pranata Humas">Pranata Humas</SelectItem>
-                <SelectItem value="Pejabat Pengadaan">Pejabat Pengadaan</SelectItem>
-
-                <!-- Additional Common Positions -->
-                <SelectItem value="Staff Administrasi">Staff Administrasi</SelectItem>
-                <SelectItem value="Sekretaris">Sekretaris</SelectItem>
-                <SelectItem value="Operator Komputer">Operator Komputer</SelectItem>
-                <SelectItem value="Arsiparis">Arsiparis</SelectItem>
-                <SelectItem value="Pengawas Internal">Pengawas Internal</SelectItem>
-                <SelectItem value="Koordinator Program">Koordinator Program</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </form>
-        <DialogFooter>
-          <Button type="button" variant="outline" @click="closeDialog('edit')"> Batal </Button>
-          <Button type="submit"> Simpan Perubahan </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
 
     <!-- Delete Confirmation Dialog -->
     <Dialog v-model:open="isDeleteDialogOpen">
@@ -136,9 +72,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 import type { UserTableColumn } from '@/types/user';
 
