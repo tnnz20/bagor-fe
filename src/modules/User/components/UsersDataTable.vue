@@ -9,7 +9,7 @@
           v-if="search"
           variant="ghost"
           size="icon"
-          class="cursir-pointer absolute inset-y-0 right-1 my-auto h-6 w-6 rounded-full p-0"
+          class="absolute inset-y-0 right-1 my-auto h-6 w-6 cursor-pointer rounded-full p-0"
           @click="search = ''"
         >
           <Icons.X class="h-4 w-4" />
@@ -175,23 +175,33 @@
         </div>
 
         <div class="flex items-center space-x-2">
-          <Button variant="outline" class="hidden h-8 w-8 p-0 lg:flex" :disabled="Page === 1" @click="Page = 1">
+          <Button
+            variant="outline"
+            class="hidden h-8 w-8 cursor-pointer p-0 lg:flex"
+            :disabled="Page === 1"
+            @click="Page = 1"
+          >
             <span class="sr-only">Go to first page</span>
             <Icons.ChevronsLeft class="h-4 w-4" />
           </Button>
-          <Button variant="outline" class="h-8 w-8 p-0" :disabled="Page <= 1" @click="Page -= 1">
+          <Button variant="outline" class="h-8 w-8 cursor-pointer p-0" :disabled="Page <= 1" @click="Page -= 1">
             <span class="sr-only">Go to previous page</span>
             <Icons.ChevronLeft class="h-4 w-4" />
           </Button>
-          <Button variant="outline" class="h-8 w-8 p-0" :disabled="Page === data?.total_pages" @click="Page += 1">
+          <Button
+            variant="outline"
+            class="h-8 w-8 cursor-pointer p-0"
+            :disabled="Page === data?.total_pages"
+            @click="Page += 1"
+          >
             <span class="sr-only">Go to next page</span>
             <Icons.ChevronRight class="h-4 w-4" />
           </Button>
           <Button
             variant="outline"
-            class="hidden h-8 w-8 p-0 lg:flex"
+            class="hidden h-8 w-8 cursor-pointer p-0 lg:flex"
             :disabled="Page === data?.total_pages"
-            @click="Page += (data?.total_pages as number) - 1"
+            @click="Page = data?.total_pages as number"
           >
             <span class="sr-only">Go to last page</span>
             <Icons.ChevronsRight class="h-4 w-4" />
