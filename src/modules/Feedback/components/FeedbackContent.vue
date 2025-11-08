@@ -43,8 +43,7 @@ const props = defineProps<FeedbackContentProps>();
 
 const page = defineModel<number>('page', { required: true });
 const limit = defineModel<number>('limit', { required: true });
-const isRead = defineModel<boolean>('isRead');
-
+const isRead = defineModel<boolean | undefined>('isRead');
 const size = [20, 30, 70];
 
 const selectedFeedback = ref<string | undefined>(undefined);
