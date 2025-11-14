@@ -3,7 +3,6 @@ import type { BaseModel } from '.';
 export interface QuestionCreation {
   category: string;
   question_text: string;
-  display_order: number;
   choices: {
     choice_text: string;
     score: number;
