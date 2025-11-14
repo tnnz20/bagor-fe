@@ -11,97 +11,67 @@
     </div>
 
     <!-- Draggable Question Cards -->
-    <draggable
-      v-else
-      v-model="sortedQuestions"
-      @end="onDragEnd"
-      item-key="id"
-      handle=".drag-handle"
-      :animation="200"
-      class="space-y-3"
-    >
-      <template #item="{ element: question, index }">
-        <Card class="group relative overflow-hidden transition-all hover:shadow-md">
-          <CardContent class="p-4">
-            <div class="flex items-start gap-4">
-              <!-- Drag Handle -->
-              <div class="drag-handle shrink-0 cursor-move pt-1 opacity-40 transition-opacity group-hover:opacity-100">
-                <Icons.GripVertical class="text-muted-foreground h-5 w-5" />
-              </div>
+    <template v-for="question in sortedQuestions" :key="question.id">
+      <Card class="group relative overflow-hidden transition-all hover:shadow-md">
+        <CardContent>
+          <div class="flex items-center gap-4">
+            <!-- Drag Handle -->
+            <div class="drag-handle shrink-0 cursor-move pt-1 opacity-40 transition-opacity group-hover:opacity-100">
+              <Icons.GripVertical class="text-muted-foreground h-5 w-5" />
+            </div>
 
-              <!-- Question Content -->
-              <div class="flex-1 space-y-3">
-                <!-- Header -->
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-2">
-                    <Badge variant="outline" class="text-xs"> #{{ index + 1 }} </Badge>
-                    <Badge variant="secondary" class="text-xs">
-                      {{ question.category }}
-                    </Badge>
-                    <span class="text-muted-foreground text-xs"> Order: {{ question.display_order }} </span>
-                  </div>
-                  <div class="flex gap-1">
-                    <Button variant="ghost" size="icon">
-                      <Icons.Edit class="h-4 w-4" />
-                    </Button>
-                    <Button variant="ghost" size="icon">
-                      <Icons.Trash2 class="h-4 w-4 text-red-500" />
-                    </Button>
+            <!-- Question Content -->
+            <div class="flex-1">
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3">
+                  <Badge variant="outline" class="text-xs font-medium"> {{ question.display_order }} </Badge>
+                  <div class="flex flex-col">
+                    <h3 class="text-md font-medium">{{ question.question_text }}</h3>
+                    <p class="text-muted-foreground text-xs font-medium">{{ question.category }}</p>
                   </div>
                 </div>
 
-                <!-- Question Text -->
-                <h3 class="text-base leading-relaxed font-semibold">
-                  {{ question.question_text }}
-                </h3>
-
-                <!-- Choices Dropdown -->
-                <div class="pt-2">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger as-child>
-                      <Button variant="outline" size="sm" class="w-full justify-between">
-                        <span class="flex items-center gap-2">
-                          <Icons.List class="h-4 w-4" />
-                          Lihat Pilihan Jawaban ({{ question.choices.length }})
-                        </span>
-                        <Icons.ChevronDown class="h-4 w-4 opacity-50" />
+                <!-- Action buttons on the right -->
+                <div class="ml-4 flex shrink-0 items-center gap-2">
+                  <Tooltip>
+                    <TooltipTrigger as-child>
+                      <Button size="icon" variant="ghost" class="cursor-pointer" @click="$emit('detail', question)">
+                        <Icons.Eye class="h-4 w-4" />
                       </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent class="max-h-[300px] w-[400px] overflow-y-auto" align="start">
-                      <DropdownMenuLabel>Pilihan Jawaban</DropdownMenuLabel>
-                      <DropdownMenuSeparator />
-                      <div class="space-y-1 p-2">
-                        <div
-                          v-for="(choice, choiceIndex) in question.choices"
-                          :key="choice.id"
-                          class="hover:bg-accent rounded-md p-3"
-                        >
-                          <div class="flex items-start gap-3">
-                            <div
-                              class="border-primary flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 text-xs font-medium"
-                            >
-                              {{ String.fromCharCode(65 + choiceIndex) }}
-                            </div>
-                            <div class="flex-1 space-y-1">
-                              <p class="text-sm font-medium">{{ choice.choice_text }}</p>
-                              <div class="flex items-center gap-2">
-                                <Badge :variant="choice.score > 0 ? 'default' : 'secondary'" class="text-xs">
-                                  Score: {{ choice.score }}
-                                </Badge>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Lihat detail pertanyaan</p>
+                    </TooltipContent>
+                  </Tooltip>
+
+                  <Tooltip>
+                    <TooltipTrigger as-child>
+                      <Button size="icon" variant="ghost" class="cursor-pointer" @click="$emit('edit', question)">
+                        <Icons.Edit class="h-4 w-4" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Edit pertanyaan</p>
+                    </TooltipContent>
+                  </Tooltip>
+
+                  <Tooltip>
+                    <TooltipTrigger as-child>
+                      <Button size="icon" variant="ghost" class="cursor-pointer" @click="$emit('delete', question)">
+                        <Icons.Trash2 class="h-4 w-4 text-red-500" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Hapus pertanyaan</p>
+                    </TooltipContent>
+                  </Tooltip>
                 </div>
               </div>
             </div>
-          </CardContent>
-        </Card>
-      </template>
-    </draggable>
+          </div>
+        </CardContent>
+      </Card>
+    </template>
   </div>
 </template>
 
@@ -109,19 +79,12 @@
 import { computed } from 'vue';
 
 import type { BaseError } from '@/types';
-import draggable from 'vuedraggable';
 
 import { Icons } from '@/components/icons';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 import type { Question } from '@/types/question';
 
@@ -132,31 +95,8 @@ interface QuestionContentListProps {
 
 const props = defineProps<QuestionContentListProps>();
 
-const emit = defineEmits<{
-  orderChanged: [questions: Question[]];
-}>();
-
 // Computed sorted questions
-const sortedQuestions = computed({
-  get: () => {
-    if (!props.data) return [];
-    return [...props.data].sort((a, b) => a.display_order - b.display_order);
-  },
-  set: (newValue: Question[]) => {
-    // Update display_order when items are reordered
-    for (let index = 0; index < newValue.length; index++) {
-      newValue[index].display_order = index + 1;
-    }
-    emit('orderChanged', newValue);
-  },
+const sortedQuestions = computed(() => {
+  return props.data ? [...props.data].sort((a, b) => a.display_order - b.display_order) : [];
 });
-
-// Methods
-const onDragEnd = () => {
-  // Emit event when drag ends - the setter already updated the display_order
-  console.log(
-    'Drag ended. New order:',
-    sortedQuestions.value.map(q => ({ id: q.id, order: q.display_order }))
-  );
-};
 </script>
