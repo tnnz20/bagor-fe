@@ -1,6 +1,6 @@
 <template>
   <Dialog v-model:open="AddDialogModel">
-    <DialogContent class="max-h-[90vh] overflow-y-auto sm:max-w-[600px]">
+    <DialogContent class="max-h-[90vh] overflow-y-auto p-16 sm:max-w-[850px]">
       <DialogHeader>
         <DialogTitle>Tambah Pertanyaan Baru</DialogTitle>
         <DialogDescription> Tambahkan pertanyaan baru beserta pilihan jawabannya </DialogDescription>
@@ -27,18 +27,11 @@
           <p v-if="errors.question_text" class="text-sm text-red-500">{{ errors.question_text }}</p>
         </div>
 
-        <!-- Display Order -->
-        <div class="space-y-2">
-          <Label for="display_order">Urutan Tampilan</Label>
-          <Input id="display_order" v-model.number="display_order" type="number" min="1" placeholder="1" />
-          <p v-if="errors.display_order" class="text-sm text-red-500">{{ errors.display_order }}</p>
-        </div>
-
         <!-- Choices -->
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <Label for="choices-section">Pilihan Jawaban</Label>
-            <Button type="button" variant="outline" size="sm" @click="addChoice">
+            <Button class="cursor-pointer" type="button" variant="outline" size="sm" @click="addChoice">
               <Icons.Plus class="mr-2 h-4 w-4" />
               Tambah Jawaban
             </Button>
@@ -80,16 +73,23 @@
                       />
                     </div>
                   </div>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    class="shrink-0"
-                    @click="removeChoice(index)"
-                    :disabled="!choices || choices.length <= 2"
-                  >
-                    <Icons.Trash2 class="h-4 w-4 text-red-500" />
-                  </Button>
+                  <Tooltip>
+                    <TooltipTrigger as-child>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        class="shrink-0 cursor-pointer"
+                        @click="removeChoice(index)"
+                        :disabled="!choices || choices.length <= 2"
+                      >
+                        <Icons.Trash2 class="h-4 w-4 text-red-500" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Hapus pilihan jawaban</p>
+                    </TooltipContent>
+                  </Tooltip>
                 </div>
               </CardContent>
             </Card>
@@ -98,8 +98,16 @@
         </div>
 
         <DialogFooter>
-          <Button type="button" variant="outline" @click="AddDialogModel = false" :disabled="isPending"> Batal </Button>
-          <Button type="submit" :disabled="isPending">
+          <Button
+            type="button"
+            class="cursor-pointer"
+            variant="outline"
+            @click="AddDialogModel = false"
+            :disabled="isPending"
+          >
+            Batal
+          </Button>
+          <Button type="submit" class="cursor-pointer" :disabled="isPending">
             <Icons.Loader2 v-if="isPending" class="mr-2 h-4 w-4 animate-spin" />
             <Icons.Plus v-else class="mr-2 h-4 w-4" />
             {{ isPending ? 'Menyimpan...' : 'Simpan' }}
@@ -131,6 +139,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { createQuestion } from '../../services/question';
 
 import type { QuestionCreation } from '@/types/question';
@@ -143,7 +152,6 @@ const questionSchema = toTypedSchema(
   z.object({
     category: z.string().min(1, 'Kategori harus diisi').max(50, 'Kategori maksimal 50 karakter'),
     question_text: z.string().min(5, 'Pertanyaan minimal 5 karakter').max(500, 'Pertanyaan maksimal 500 karakter'),
-    display_order: z.number().min(1, 'Urutan minimal 1'),
     choices: z
       .array(
         z.object({
@@ -161,7 +169,6 @@ const { errors, handleSubmit, defineField, resetForm } = useForm({
   initialValues: {
     category: '',
     question_text: '',
-    display_order: 1,
     choices: [
       { choice_text: '', score: 0 },
       { choice_text: '', score: 0 },
@@ -171,7 +178,6 @@ const { errors, handleSubmit, defineField, resetForm } = useForm({
 
 const [category] = defineField('category');
 const [question_text] = defineField('question_text');
-const [display_order] = defineField('display_order');
 const [choices] = defineField('choices');
 
 // Mutation
@@ -205,7 +211,6 @@ const onSubmit = handleSubmit(values => {
   const questionData: QuestionCreation = {
     category: values.category,
     question_text: values.question_text,
-    display_order: values.display_order,
     choices: values.choices,
   };
   mutate(questionData);
