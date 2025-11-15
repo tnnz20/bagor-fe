@@ -22,7 +22,7 @@
       <CardContent>
         <div class="space-y-4">
           <h2 class="text-xl leading-relaxed font-semibold">
-            {{ currentQuestion.quiz }}
+            {{ currentQuestion.question_text }}
           </h2>
 
           <!-- Answer Choices -->
@@ -40,7 +40,7 @@
             >
               <div class="flex w-full items-start space-x-3">
                 <div
-                  class="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full border-2"
+                  class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2"
                   :class="{
                     'border-primary bg-primary text-primary-foreground': userAnswers[currentQuestion.id] === index,
                     'border-muted-foreground': userAnswers[currentQuestion.id] !== index,
@@ -48,7 +48,7 @@
                 >
                   <span class="text-sm font-medium">{{ String.fromCharCode(65 + index) }}</span>
                 </div>
-                <span class="flex-1 text-sm">{{ choice.text }}</span>
+                <span class="flex-1 text-sm">{{ choice.choice_text }}</span>
               </div>
             </Button>
           </div>
@@ -76,14 +76,6 @@
             >
               Selanjutnya
               <Icons.ChevronRight class="ml-2 h-4 w-4" />
-            </Button>
-
-            <Button
-              v-if="currentQuestionIndex === sortedQuestionsLength - 1 && isQuizComplete"
-              class="bg-green-600 hover:bg-green-700"
-            >
-              <Icons.BookCheck class="mr-2 h-4 w-4" />
-              Tandai Selesai
             </Button>
           </div>
         </div>
