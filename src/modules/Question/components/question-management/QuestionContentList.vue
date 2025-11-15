@@ -91,7 +91,7 @@ interface QuestionContentListProps {
 
 const props = defineProps<QuestionContentListProps>();
 
-const emit = defineEmits<{
+defineEmits<{
   detail: [question: Question];
   edit: [question: Question];
   delete: [question: Question];
