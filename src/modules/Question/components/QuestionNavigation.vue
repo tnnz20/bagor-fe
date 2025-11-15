@@ -16,7 +16,7 @@
             'bg-primary/15 hover:bg-primary/35': getQuestionButtonVariant(index) === 'secondary',
           }"
           @click="$emit('goToQuestion', index)"
-          :title="`${question.category}: ${question.quiz}`"
+          :title="`${question.category}: ${question.question_text}`"
         >
           {{ index + 1 }}
         </Button>
@@ -64,7 +64,7 @@ const getQuestionButtonVariant = (index: number) => {
 
   if (currentQuestionIndex === index) {
     return 'default';
-  } else if (userAnswers[questionId] !== undefined) {
+  } else if (questionId in userAnswers) {
     return 'secondary';
   } else {
     return 'outline';
