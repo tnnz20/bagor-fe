@@ -115,11 +115,10 @@
 <script setup lang="ts">
 import { watch } from 'vue';
 
+import { QuestionSchema } from '@/schemes/question';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
-import { toTypedSchema } from '@vee-validate/zod';
 import { useForm } from 'vee-validate';
 import { toast } from 'vue-sonner';
-import * as z from 'zod';
 
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
@@ -148,25 +147,8 @@ const props = defineProps<QuestionEditDialogProps>();
 const EditDialogModel = defineModel<boolean>('modelValue');
 const queryClient = useQueryClient();
 
-// Form schema
-const questionSchema = toTypedSchema(
-  z.object({
-    category: z.string().min(1, 'Kategori harus diisi').max(50, 'Kategori maksimal 50 karakter'),
-    question_text: z.string().min(5, 'Pertanyaan minimal 5 karakter').max(500, 'Pertanyaan maksimal 500 karakter'),
-    choices: z
-      .array(
-        z.object({
-          choice_text: z.string().min(1, 'Teks jawaban harus diisi'),
-          score: z.number().min(0, 'Skor minimal 0').max(100, 'Skor maksimal 100'),
-        })
-      )
-      .min(2, 'Minimal harus ada 2 pilihan jawaban')
-      .max(10, 'Maksimal 10 pilihan jawaban'),
-  })
-);
-
 const { errors, handleSubmit, defineField, setValues } = useForm({
-  validationSchema: questionSchema,
+  validationSchema: QuestionSchema,
   initialValues: {
     category: '',
     question_text: '',
