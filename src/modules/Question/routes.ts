@@ -18,7 +18,7 @@ export const QuestionRoutes: RouteRecordRaw[] = [
 export const QuestionDashboardRoutes: RouteRecordRaw[] = [
   {
     path: 'manajemen-pertanyaan',
-    name: 'Question Managements',
+    name: 'Question Management',
     component: QuestionManagement,
     meta: {
       title: 'Bagor - Manajemen Pertanyaan',
