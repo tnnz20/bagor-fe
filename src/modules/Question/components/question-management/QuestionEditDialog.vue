@@ -1,10 +1,10 @@
 <template>
-  <Dialog v-model:open="EditDialogModel">
-    <DialogContent class="max-h-[90vh] overflow-y-auto p-12 sm:max-w-[850px]">
-      <DialogHeader>
-        <DialogTitle>Edit Pertanyaan</DialogTitle>
-        <DialogDescription> Perbarui pertanyaan beserta pilihan jawabannya </DialogDescription>
-      </DialogHeader>
+  <AlertDialog v-model:open="EditDialogModel">
+    <AlertDialogContent class="max-h-[90vh] overflow-y-auto p-12 sm:max-w-[850px]">
+      <AlertDialogHeader>
+        <AlertDialogTitle>Edit Pertanyaan</AlertDialogTitle>
+        <AlertDialogDescription> Perbarui pertanyaan beserta pilihan jawabannya </AlertDialogDescription>
+      </AlertDialogHeader>
 
       <form @submit="onSubmit" class="space-y-6">
         <!-- Category -->
@@ -97,19 +97,19 @@
           <p v-if="errors.choices" class="text-sm text-red-500">{{ errors.choices }}</p>
         </div>
 
-        <DialogFooter>
-          <Button type="button" variant="outline" @click="EditDialogModel = false" :disabled="isPending">
+        <AlertDialogFooter>
+          <AlertDialogCancel @click="resetToOriginal" class="cursor-pointer" :disabled="isPending">
             Batal
-          </Button>
-          <Button type="submit" :disabled="isPending">
+          </AlertDialogCancel>
+          <Button type="submit" class="cursor-pointer" :disabled="isPending">
             <Icons.Loader2 v-if="isPending" class="mr-2 h-4 w-4 animate-spin" />
             <Icons.Edit v-else class="mr-2 h-4 w-4" />
             {{ isPending ? 'Menyimpan...' : 'Simpan Perubahan' }}
           </Button>
-        </DialogFooter>
+        </AlertDialogFooter>
       </form>
-    </DialogContent>
-  </Dialog>
+    </AlertDialogContent>
+  </AlertDialog>
 </template>
 
 <script setup lang="ts">
@@ -121,16 +121,17 @@ import { useForm } from 'vee-validate';
 import { toast } from 'vue-sonner';
 
 import { Icons } from '@/components/icons';
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -195,6 +196,20 @@ const { mutate, isPending } = useMutation({
 });
 
 // Methods
+const resetToOriginal = () => {
+  if (props.question) {
+    setValues({
+      category: props.question.category,
+      question_text: props.question.question_text,
+      choices: props.question.choices.map(choice => ({
+        choice_text: choice.choice_text,
+        score: choice.score,
+      })),
+    });
+  }
+  EditDialogModel.value = false;
+};
+
 const addChoice = () => {
   if (Array.isArray(choices.value)) {
     choices.value.push({ choice_text: '', score: 0 });
