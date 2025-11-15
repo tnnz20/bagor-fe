@@ -4,7 +4,7 @@ import z from 'zod';
 export const QuestionSchema = toTypedSchema(
   z.object({
     category: z.string().min(3, 'Kategori harus diisi').max(50, 'Kategori maksimal 50 karakter'),
-    question_text: z.string().min(10, 'Pertanyaan minimal 5 karakter').max(500, 'Pertanyaan maksimal 500 karakter'),
+    question_text: z.string().min(10, 'Pertanyaan minimal 10 karakter').max(500, 'Pertanyaan maksimal 500 karakter'),
     choices: z
       .array(
         z.object({
