@@ -36,27 +36,88 @@
           </div>
         </div>
 
-        <QuestionContentList :error="error" :data="data?.data" />
+        <QuestionContentList
+          :error="error"
+          :data="data?.data"
+          @delete="handleDelete"
+          @edit="handleEdit"
+          @detail="handleDetail"
+        />
       </CardContent>
     </Card>
     <QuestionAddDialog v-model="isAddQuestionDialogOpen" />
+    <QuestionEditDialog v-model="isEditQuestionDialogOpen" :question="selectedQuestion" />
+    <QuestionShowDialog v-model="isShowQuestionDialogOpen" :question="selectedQuestion" />
+    <QuestionDeleteDialog v-model="isDeleteQuestionDialogOpen" @confirm="handleDeleteConfirm" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 
-import { keepPreviousData, useQuery } from '@tanstack/vue-query';
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/vue-query';
+import { toast } from 'vue-sonner';
 
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import QuestionAddDialog from '../components/question-management/QuestionAddDialog.vue';
 import QuestionContentList from '../components/question-management/QuestionContentList.vue';
-import { getQuestionList } from '../services/question';
+import QuestionDeleteDialog from '../components/question-management/QuestionDeleteDialog.vue';
+import QuestionEditDialog from '../components/question-management/QuestionEditDialog.vue';
+import QuestionShowDialog from '../components/question-management/QuestionShowDialog.vue';
+import { deleteQuestion, getQuestionList } from '../services/question';
 
+import type { Question } from '@/types/question';
+
+// Dialog States
 const isAddQuestionDialogOpen = ref(false);
+const isEditQuestionDialogOpen = ref(false);
+const isShowQuestionDialogOpen = ref(false);
+const isDeleteQuestionDialogOpen = ref(false);
 
+// Selected Question State
+const selectedQuestion = ref<Question | null>(null);
+const selectedQuestionId = ref<number | null>(null);
+
+const queryClient = useQueryClient();
+
+const handleDetail = (question: Question) => {
+  selectedQuestion.value = question;
+  isShowQuestionDialogOpen.value = true;
+};
+
+const handleEdit = (question: Question) => {
+  selectedQuestion.value = question;
+  isEditQuestionDialogOpen.value = true;
+};
+
+const handleDelete = (question: Question) => {
+  selectedQuestionId.value = question.id;
+  isDeleteQuestionDialogOpen.value = true;
+};
+
+// Delete Question Mutation
+const { mutate: deleteQuestionMutation } = useMutation({
+  mutationFn: deleteQuestion,
+  onSuccess: () => {
+    toast.success('Pertanyaan berhasil dihapus!');
+    queryClient.invalidateQueries({ queryKey: ['questions'] });
+    isDeleteQuestionDialogOpen.value = false;
+    selectedQuestionId.value = null;
+  },
+  onError: (error: any) => {
+    toast.error(error?.response?.data?.message || 'Gagal menghapus pertanyaan');
+  },
+});
+
+const handleDeleteConfirm = () => {
+  if (selectedQuestionId.value) {
+    deleteQuestionMutation(selectedQuestionId.value);
+  }
+};
+
+// Fetch Questions
 const { data, isLoading, error } = useQuery({
   queryKey: computed(() => ['questions']),
   queryFn: () => getQuestionList(),
