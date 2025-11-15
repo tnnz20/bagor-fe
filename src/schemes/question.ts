@@ -9,7 +9,7 @@ export const QuestionSchema = toTypedSchema(
       .array(
         z.object({
           choice_text: z.string().min(2, 'Teks jawaban harus diisi'),
-          score: z.number().min(1, 'Skor minimal 1').max(100, 'Skor maksimal 100'),
+          score: z.number().min(0, 'Skor wajib positif').max(100, 'Skor maksimal 100'),
         })
       )
       .min(2, 'Minimal harus ada 2 pilihan jawaban')
