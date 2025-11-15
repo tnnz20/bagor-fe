@@ -10,12 +10,10 @@
       <p class="text-muted-foreground text-sm">Saat ini belum ada pertanyaan yang tersedia</p>
     </div>
 
-    <!-- Draggable Question Cards -->
-    <template v-for="question in sortedQuestions" :key="question.id">
+    <template v-for="question in props.data" :key="question.id">
       <Card class="group relative overflow-hidden transition-all hover:shadow-md">
         <CardContent>
           <div class="flex items-center gap-4">
-            <!-- Drag Handle -->
             <div class="drag-handle shrink-0 cursor-move pt-1 opacity-40 transition-opacity group-hover:opacity-100">
               <Icons.GripVertical class="text-muted-foreground h-5 w-5" />
             </div>
@@ -76,8 +74,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-
 import type { BaseError } from '@/types';
 
 import { Icons } from '@/components/icons';
@@ -95,8 +91,9 @@ interface QuestionContentListProps {
 
 const props = defineProps<QuestionContentListProps>();
 
-// Computed sorted questions
-const sortedQuestions = computed(() => {
-  return props.data ? [...props.data].sort((a, b) => a.display_order - b.display_order) : [];
-});
+const emit = defineEmits<{
+  detail: [question: Question];
+  edit: [question: Question];
+  delete: [question: Question];
+}>();
 </script>
