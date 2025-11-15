@@ -1,6 +1,6 @@
 <template>
   <Dialog v-model:open="ShowDialogModel">
-    <DialogContent class="max-h-[90vh] overflow-y-auto sm:max-w-[700px]">
+    <DialogContent class="max-h-[90vh] overflow-y-auto p-12 sm:max-w-[850px]">
       <DialogHeader>
         <DialogTitle>Detail Pertanyaan</DialogTitle>
         <DialogDescription> Informasi lengkap tentang pertanyaan ini </DialogDescription>
