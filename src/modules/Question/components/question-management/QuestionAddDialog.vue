@@ -1,6 +1,6 @@
 <template>
   <Dialog v-model:open="AddDialogModel">
-    <DialogContent class="max-h-[90vh] overflow-y-auto p-16 sm:max-w-[850px]">
+    <DialogContent class="max-h-[90vh] overflow-y-auto p-12 sm:max-w-[850px]">
       <DialogHeader>
         <DialogTitle>Tambah Pertanyaan Baru</DialogTitle>
         <DialogDescription> Tambahkan pertanyaan baru beserta pilihan jawabannya </DialogDescription>
@@ -150,7 +150,7 @@ const queryClient = useQueryClient();
 // Form schema
 const questionSchema = toTypedSchema(
   z.object({
-    category: z.string().min(1, 'Kategori harus diisi').max(50, 'Kategori maksimal 50 karakter'),
+    category: z.string().min(3, 'Kategori harus diisi').max(50, 'Kategori maksimal 50 karakter'),
     question_text: z.string().min(5, 'Pertanyaan minimal 5 karakter').max(500, 'Pertanyaan maksimal 500 karakter'),
     choices: z
       .array(
