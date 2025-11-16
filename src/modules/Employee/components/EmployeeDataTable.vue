@@ -223,7 +223,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { EmployeeColumns } from '../table/employee_columns';
 
 import type {
-  Department,
   DepartmentCode,
   EmployeeScore,
   EmployeeTableColumn,
@@ -262,7 +261,6 @@ const columnLabels: Record<string, string> = {
   updated_at: 'Terakhir Diperbarui',
 };
 
-// Filter out deleted users
 const tableData = computed<EmployeeTableColumn[]>(() => {
   if (!props.data) return [];
 
