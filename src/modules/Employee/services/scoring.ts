@@ -8,14 +8,17 @@ export const StartScoring = async (payload: StartScoringPayload): Promise<BaseAp
   const currentYear = today.getFullYear();
   const currentMonth = today.getMonth();
 
-  payload.year = currentYear;
-  payload.quarter = currentMonth >= 0 && currentMonth <= 6 ? 1 : 2;
+  const requestPayload = {
+    ...payload,
+    year: currentYear,
+    quarter: currentMonth >= 0 && currentMonth <= 5 ? 1 : 2,
+  };
 
-  const res = await ApiClient.post<BaseApi>(`/scores/start`, payload);
+  const res = await ApiClient.post<BaseApi>(`/scores/start`, requestPayload);
   return res.data;
 };
 
 export const MarkScoringAsComplete = async (slugParam: string): Promise<BaseApi> => {
-  const res = await ApiClient.put<BaseApi>(`scores/start/${slugParam}`);
+  const res = await ApiClient.put<BaseApi>(`/scores/start/${slugParam}`);
   return res.data;
 };
