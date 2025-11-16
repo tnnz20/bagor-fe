@@ -56,7 +56,7 @@ export const EmployeeColumns: ColumnDef<EmployeeTableColumn>[] = [
       return h(
         'div',
         { class: 'text-sm' },
-        presenceScore !== null && presenceScore !== undefined ? (presenceScore as number).toFixed(2) : '-'
+        presenceScore !== null && presenceScore !== undefined ? `${(presenceScore as number).toFixed(1)}%` : '-'
       );
     },
   },
@@ -69,7 +69,7 @@ export const EmployeeColumns: ColumnDef<EmployeeTableColumn>[] = [
       return h(
         'div',
         { class: 'text-sm' },
-        surveyScore !== null && surveyScore !== undefined ? (surveyScore as number).toFixed(2) : '-'
+        surveyScore !== null && surveyScore !== undefined ? `${(surveyScore as number).toFixed(1)}%` : '-'
       );
     },
   },
