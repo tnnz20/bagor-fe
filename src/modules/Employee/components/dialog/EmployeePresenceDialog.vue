@@ -51,10 +51,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { updateScore } from '../../services/employee';
 
-import type { EmployeeTableColumn } from '@/types/employee';
+import type { EmployeeScore } from '@/types/employee';
 
 const props = defineProps<{
-  employee: EmployeeTableColumn;
+  employee: EmployeeScore;
 }>();
 
 const isOpen = defineModel<boolean>('open', { default: false });
