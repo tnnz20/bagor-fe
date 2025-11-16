@@ -231,6 +231,10 @@ const { mutate: submitQuiz } = useMutation({
       throw new Error('Data scoring tidak ditemukan');
     }
 
+    if (!slugParam) {
+      throw new Error('Parameter slug tidak ditemukan');
+    }
+
     const { user_id, year, quarter } = scoringStatus.data;
 
     // Step 2: Update score with survey_score
@@ -248,7 +252,7 @@ const { mutate: submitQuiz } = useMutation({
     localStorage.value = {};
 
     // Invalidate employee scores query to refetch updated data
-    queryClient.invalidateQueries({ queryKey: ['score'] });
+    queryClient.invalidateQueries({ queryKey: ['score'], exact: false });
 
     toast.success('Penilaian berhasil disimpan');
 
