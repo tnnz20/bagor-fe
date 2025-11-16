@@ -14,7 +14,7 @@ export const getUserList = async (
 ): Promise<BaseApi<UserListResponseWithPagination>> => {
   const queryParams = new URLSearchParams();
 
-  queryParams.append('page', paginationMeta.page.toString());
+  queryParams.append('page', paginationMeta.current_page.toString());
   queryParams.append('limit', paginationMeta.limit.toString());
 
   if (filterUsers.department !== 'all') {
