@@ -61,7 +61,7 @@ export interface EmployeeScoreListResponseWithPagination {
 }
 
 export interface EmployeeTableColumn extends BaseModel {
-  score_id: string;
+  score_id: number;
   user_id: string;
   role: UserRole;
   full_name: string;
