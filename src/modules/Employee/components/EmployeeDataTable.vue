@@ -265,7 +265,7 @@ const tableData = computed<EmployeeTableColumn[]>(() => {
   if (!props.data) return [];
 
   return props.data.map((employee: EmployeeScore) => ({
-    score_id: employee.score_id.toString(),
+    score_id: employee.score_id,
     user_id: employee.user_id,
     role: employee.role as UserRole,
     full_name: employee.full_name,
