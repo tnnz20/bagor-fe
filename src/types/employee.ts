@@ -1,4 +1,5 @@
 import type { BaseModel } from '.';
+import type { UserRole } from './user';
 
 // Department types
 export type Department =
@@ -33,4 +34,51 @@ export interface EmployeeDetail {
   employee_type: string;
   employee_created_at: number;
   employee_updated_at: number;
+}
+
+export interface FilterEmployees {
+  department: string;
+  employeeType: string;
+  search: string;
+}
+
+export interface EmployeeScore extends BaseModel {
+  score_id: number;
+  user_id: string;
+  role: string;
+  full_name: string;
+  employee_type: string;
+  department_code: string;
+  presence_score: number;
+  survey_score: number;
+  attendance_delay_seconds: number;
+  quarter: number;
+  year: number;
+}
+
+export interface EmployeeScoreListResponseWithPagination {
+  data: EmployeeScore[];
+}
+
+export interface EmployeeTableColumn extends BaseModel {
+  score_id: string;
+  user_id: string;
+  role: UserRole;
+  full_name: string;
+  employee_type: EmployeeType;
+  department_code: DepartmentCode;
+  position: string;
+  presence_score: number;
+  survey_score: number;
+  attendance_delay_seconds: number;
+  quarter: number;
+  year: number;
+}
+
+export interface UpdateEmployeeScorePayload {
+  presence_score?: number;
+  survey_score?: number;
+  attendance_delay_seconds?: number;
+  quarter?: number;
+  year?: number;
 }
