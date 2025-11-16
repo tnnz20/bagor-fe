@@ -8,7 +8,7 @@
     <Card>
       <CardHeader>
         <CardTitle>Daftar Pegawai</CardTitle>
-        <CardDescription> Daftar pegawai berdasrkan tahun dan bulan</CardDescription>
+        <CardDescription> Daftar pegawai berdasarkan tahun dan bulan</CardDescription>
       </CardHeader>
       <CardContent>
         <!-- Loading State -->
