@@ -48,6 +48,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import EmployeeAttendanceDialog from './dialog/EmployeeAttendanceDialog.vue';
 import EmployeePresenceDialog from './dialog/EmployeePresenceDialog.vue';
+import EmployeeSurveyDialog from './dialog/EmployeeSurveyDialog.vue';
 
 import type { EmployeeTableColumn } from '@/types/employee';
 
