@@ -14,7 +14,7 @@ export const StartScoring = async (payload: StartScoringPayload): Promise<BaseAp
     quarter: currentMonth >= 0 && currentMonth <= 5 ? 1 : 2,
   };
 
-  const res = await ApiClient.post<BaseApi>(`/survey-sessions/start`, requestPayload);
+  const res = await ApiClient.post<BaseApi<StartScoringResponse>>(`/survey-sessions/start`, requestPayload);
   return res.data;
 };
 
