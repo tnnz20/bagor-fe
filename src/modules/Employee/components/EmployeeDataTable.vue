@@ -222,13 +222,7 @@ import { Select, SelectContent, SelectItem, SelectSeparator, SelectTrigger, Sele
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { EmployeeColumns } from '../table/employee_columns';
 
-import type {
-  DepartmentCode,
-  EmployeeScore,
-  EmployeeTableColumn,
-  EmployeeType,
-  FilterEmployees,
-} from '@/types/employee';
+import type { DepartmentCode, EmployeeScore, EmployeeType, FilterEmployees } from '@/types/employee';
 import type { UserRole } from '@/types/user';
 
 interface UsersDataTableProps {
@@ -261,7 +255,7 @@ const columnLabels: Record<string, string> = {
   updated_at: 'Terakhir Diperbarui',
 };
 
-const tableData = computed<EmployeeTableColumn[]>(() => {
+const tableData = computed<EmployeeScore[]>(() => {
   if (!props.data) return [];
 
   return props.data.map((employee: EmployeeScore) => ({
