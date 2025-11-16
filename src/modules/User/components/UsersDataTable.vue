@@ -215,6 +215,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
+import { divisions, employeeTypes, roles } from '@/constants';
 import { FlexRender, getCoreRowModel, getSortedRowModel, useVueTable } from '@tanstack/vue-table';
 
 import { Icons } from '@/components/icons';
@@ -233,7 +234,6 @@ import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectSeparator, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { divisions, employeeTypes, roles } from '../constants/user';
 import { UserColumns } from '../table/user_columns';
 
 import type { EmployeeType } from '@/types/employee';
