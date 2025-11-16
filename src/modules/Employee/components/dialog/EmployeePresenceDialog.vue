@@ -49,7 +49,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { updateScore } from '../services/employee';
+import { updateScore } from '../../services/employee';
 
 import type { EmployeeTableColumn } from '@/types/employee';
 

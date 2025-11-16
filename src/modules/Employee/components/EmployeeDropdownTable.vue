@@ -16,6 +16,9 @@
         <DropdownMenuItem class="cursor-pointer" @click="isAttendanceDialogOpen = true">
           Penilaian Keterlambatan
         </DropdownMenuItem>
+        <DropdownMenuItem class="cursor-pointer" @click="isSurveyDialogOpen = true">
+          Penilaian Kinerja
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
 
@@ -24,6 +27,9 @@
 
     <!-- Penilaian Keterlambatan Dialog -->
     <EmployeeAttendanceDialog v-model:open="isAttendanceDialogOpen" :employee="employee" />
+
+    <!-- Penilaian Kinerja Dialog -->
+    <EmployeeSurveyDialog v-model:open="isSurveyDialogOpen" :employee="employee" />
   </div>
 </template>
 
@@ -40,8 +46,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import EmployeeAttendanceDialog from './EmployeeAttendanceDialog.vue';
-import EmployeePresenceDialog from './EmployeePresenceDialog.vue';
+import EmployeeAttendanceDialog from './dialog/EmployeeAttendanceDialog.vue';
+import EmployeePresenceDialog from './dialog/EmployeePresenceDialog.vue';
 
 import type { EmployeeTableColumn } from '@/types/employee';
 
@@ -52,4 +58,5 @@ defineProps<{
 // Dialog states
 const isPresenceDialogOpen = ref(false);
 const isAttendanceDialogOpen = ref(false);
+const isSurveyDialogOpen = ref(false);
 </script>
