@@ -9,9 +9,9 @@ import { Icons } from '@/components/icons';
 import Button from '@/components/ui/button/Button.vue';
 import EmployeeDropdownTable from '../components/EmployeeDropdownTable.vue';
 
-import type { EmployeeTableColumn } from '@/types/employee';
+import type { EmployeeScore } from '@/types/employee';
 
-export const EmployeeColumns: ColumnDef<EmployeeTableColumn>[] = [
+export const EmployeeColumns: ColumnDef<EmployeeScore>[] = [
   {
     accessorKey: 'full_name',
     header: ({ column }) => {

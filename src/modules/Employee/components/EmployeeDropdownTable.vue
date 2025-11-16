@@ -50,10 +50,10 @@ import EmployeeAttendanceDialog from './dialog/EmployeeAttendanceDialog.vue';
 import EmployeePresenceDialog from './dialog/EmployeePresenceDialog.vue';
 import EmployeeSurveyDialog from './dialog/EmployeeSurveyDialog.vue';
 
-import type { EmployeeTableColumn } from '@/types/employee';
+import type { EmployeeScore } from '@/types/employee';
 
 defineProps<{
-  employee: EmployeeTableColumn;
+  employee: EmployeeScore;
 }>();
 
 // Dialog states

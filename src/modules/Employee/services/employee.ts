@@ -28,7 +28,7 @@ export const getEmployeesScore = async (
   const currentYear = today.getFullYear();
   const currentMonth = today.getMonth();
 
-  if (currentMonth >= 0 && currentMonth <= 6) {
+  if (currentMonth >= 0 && currentMonth <= 5) {
     queryParams.append('quarter', '1');
   } else {
     queryParams.append('quarter', '2');
@@ -64,7 +64,7 @@ export const updateScore = async (employeeId: string, payload: UpdateEmployeeSco
   const currentYear = today.getFullYear();
   const currentMonth = today.getMonth();
 
-  requestBody.quarter = payload.quarter ?? (currentMonth >= 0 && currentMonth <= 6 ? 1 : 2);
+  requestBody.quarter = payload.quarter ?? (currentMonth >= 0 && currentMonth <= 5 ? 1 : 2);
   requestBody.year = payload.year ?? currentYear;
 
   const res = await ApiClient.put<BaseApi>(`/scores/${employeeId}`, requestBody);

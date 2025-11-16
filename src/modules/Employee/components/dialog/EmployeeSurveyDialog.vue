@@ -35,11 +35,11 @@ import {
 } from '@/components/ui/dialog';
 import { StartScoring } from '../../services/scoring';
 
-import type { EmployeeTableColumn } from '@/types/employee';
+import type { EmployeeScore } from '@/types/employee';
 import type { StartScoringPayload } from '@/types/scoring';
 
 const props = defineProps<{
-  employee: EmployeeTableColumn;
+  employee: EmployeeScore;
 }>();
 
 const isOpen = defineModel<boolean>('open', { default: false });

@@ -3,7 +3,7 @@
     <!-- Filter and Search Section -->
     <div class="flex items-center justify-between py-4">
       <div class="relative w-full max-w-sm">
-        <Input v-model="search" placeholder="Cari pengguna..." class="pr-10" />
+        <Input v-model="search" placeholder="Cari pegawai..." class="pr-10" />
 
         <Button
           v-if="search"
@@ -127,7 +127,7 @@
             <TableCell :colspan="EmployeeColumns.length" class="h-24 text-center">
               <div class="flex flex-col items-center justify-center space-y-2">
                 <Icons.Search class="text-muted-foreground h-8 w-8" />
-                <p class="text-muted-foreground">Tidak ada pengguna yang ditemukan.</p>
+                <p class="text-muted-foreground">Tidak ada pegawai yang ditemukan.</p>
               </div>
             </TableCell>
           </TableRow>
@@ -222,13 +222,7 @@ import { Select, SelectContent, SelectItem, SelectSeparator, SelectTrigger, Sele
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { EmployeeColumns } from '../table/employee_columns';
 
-import type {
-  DepartmentCode,
-  EmployeeScore,
-  EmployeeTableColumn,
-  EmployeeType,
-  FilterEmployees,
-} from '@/types/employee';
+import type { DepartmentCode, EmployeeScore, EmployeeType, FilterEmployees } from '@/types/employee';
 import type { UserRole } from '@/types/user';
 
 interface UsersDataTableProps {
@@ -261,7 +255,7 @@ const columnLabels: Record<string, string> = {
   updated_at: 'Terakhir Diperbarui',
 };
 
-const tableData = computed<EmployeeTableColumn[]>(() => {
+const tableData = computed<EmployeeScore[]>(() => {
   if (!props.data) return [];
 
   return props.data.map((employee: EmployeeScore) => ({

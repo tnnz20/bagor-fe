@@ -56,22 +56,8 @@ export interface EmployeeScore extends BaseModel {
   year: number;
 }
 
-export interface EmployeeScoreListResponseWithPagination {
+export interface EmployeeScoreListResponse {
   data: EmployeeScore[];
-}
-
-export interface EmployeeTableColumn extends BaseModel {
-  score_id: number;
-  user_id: string;
-  role: UserRole;
-  full_name: string;
-  employee_type: EmployeeType;
-  department_code: DepartmentCode;
-  presence_score: number;
-  survey_score: number;
-  attendance_delay_seconds: number;
-  quarter: number;
-  year: number;
 }
 
 export interface UpdateEmployeeScorePayload {
