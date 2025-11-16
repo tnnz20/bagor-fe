@@ -5,7 +5,7 @@ import QuestionManagement from './views/QuestionManagement.vue';
 
 export const QuestionRoutes: RouteRecordRaw[] = [
   {
-    path: '/questions',
+    path: '/questions/:slug_param',
     name: 'Questions',
     component: Question,
     meta: {

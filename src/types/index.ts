@@ -11,7 +11,7 @@ export interface BaseModel {
 
 export type BaseApi<T = undefined> = T extends undefined
   ? { code: number; message: string }
-  : { code: number; message: string; data?: T | null };
+  : { code: number; message: string; data?: T | null; pagination?: PaginationMeta };
 
 export interface BaseError extends Error {
   response?: {
@@ -40,7 +40,7 @@ export interface MenuItem {
 }
 
 export interface PaginationMeta {
-  page: number;
+  current_page: number;
   limit: number;
   total_rows?: number;
   total_pages?: number;

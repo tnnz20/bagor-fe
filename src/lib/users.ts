@@ -27,3 +27,19 @@ export const getDepartmentName = (dept: string): string => {
   };
   return names[dept] || dept;
 };
+
+export const getDepartmentNameByCode = (dept: string): string => {
+  const names: Record<string, string> = {
+    UMK: 'Umum & Keuangan',
+    PRT: 'Perlengkapan & RT',
+    ORG: 'Organisasi',
+    HKM: 'Hukum',
+    EKO: 'Perekonomian & Adm. Pembangunan',
+    PEM: 'Pemerintahan',
+    KSR: 'Kesejahteraan Rakyat',
+    PKP: 'Protokol & Komun. Pimpinan',
+    PBJ: 'Pengadaan Barang & Jasa',
+  };
+
+  return names[dept] || dept;
+};

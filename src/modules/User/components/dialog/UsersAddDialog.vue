@@ -111,6 +111,7 @@
 <script setup lang="ts">
 import { watch } from 'vue';
 
+import { divisions, employeeTypes, roles } from '@/constants';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { toTypedSchema } from '@vee-validate/zod';
 import { useForm } from 'vee-validate';
@@ -129,7 +130,6 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { divisions, employeeTypes, roles } from '../../constants/user';
 import { createUser } from '../../services/user';
 
 import type { UserRegistration } from '@/types/user';

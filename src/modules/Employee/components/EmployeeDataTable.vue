@@ -28,7 +28,7 @@
             <div class="grid gap-4">
               <div class="space-y-2">
                 <h4 class="leading-none font-medium">Filter Data</h4>
-                <p class="text-muted-foreground text-sm">Saring pengguna berdasarkan berbagai kriteria.</p>
+                <p class="text-muted-foreground text-sm">Saring pegawai berdasarkan berbagai kriteria.</p>
               </div>
               <div class="grid gap-4">
                 <div class="grid grid-cols-3 items-center gap-4">
@@ -57,21 +57,6 @@
                       <SelectSeparator />
                       <template v-for="type in employeeTypes" :key="type.value">
                         <SelectItem :value="type.value">{{ type.label }}</SelectItem>
-                      </template>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div class="grid grid-cols-3 items-center gap-4">
-                  <Label for="role">Role</Label>
-                  <Select v-model="filters.role" defaultValue="all">
-                    <SelectTrigger class="col-span-2 h-8">
-                      <SelectValue placeholder="Semua Role" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">Semua Role</SelectItem>
-                      <SelectSeparator />
-                      <template v-for="role in roles" :key="role.value">
-                        <SelectItem :value="role.value">{{ role.label }}</SelectItem>
                       </template>
                     </SelectContent>
                   </Select>
@@ -126,7 +111,7 @@
           </TableRow>
         </TableHeader>
         <TableBody>
-          <template v-if="(data?.total_rows as number) > 0">
+          <template v-if="(pagination?.total_rows as number) > 0">
             <TableRow
               v-for="row in table.getRowModel().rows"
               :key="row.id"
@@ -139,7 +124,7 @@
           </template>
 
           <TableRow v-else>
-            <TableCell :colspan="UserColumns.length" class="h-24 text-center">
+            <TableCell :colspan="EmployeeColumns.length" class="h-24 text-center">
               <div class="flex flex-col items-center justify-center space-y-2">
                 <Icons.Search class="text-muted-foreground h-8 w-8" />
                 <p class="text-muted-foreground">Tidak ada pengguna yang ditemukan.</p>
@@ -171,7 +156,7 @@
 
       <div class="flex items-center space-x-6 lg:space-x-8">
         <div class="flex w-[120px] items-center justify-center text-sm font-medium">
-          Halaman {{ Page }} dari {{ data?.total_pages || 1 }}
+          Halaman {{ Page }} dari {{ pagination?.total_pages || 1 }}
         </div>
 
         <div class="flex items-center space-x-2">
@@ -191,7 +176,7 @@
           <Button
             variant="outline"
             class="h-8 w-8 cursor-pointer p-0"
-            :disabled="Page === data?.total_pages"
+            :disabled="Page === pagination?.total_pages"
             @click="Page += 1"
           >
             <span class="sr-only">Go to next page</span>
@@ -200,8 +185,8 @@
           <Button
             variant="outline"
             class="hidden h-8 w-8 cursor-pointer p-0 lg:flex"
-            :disabled="Page === data?.total_pages"
-            @click="Page = data?.total_pages as number"
+            :disabled="Page === pagination?.total_pages"
+            @click="Page = pagination?.total_pages as number"
           >
             <span class="sr-only">Go to last page</span>
             <Icons.ChevronsRight class="h-4 w-4" />
@@ -215,7 +200,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-import { divisions, employeeTypes, roles } from '@/constants';
+import { divisions, employeeTypes } from '@/constants';
+import type { PaginationMeta } from '@/types';
 import { FlexRender, getCoreRowModel, getSortedRowModel, useVueTable } from '@tanstack/vue-table';
 
 import { Icons } from '@/components/icons';
@@ -234,13 +220,20 @@ import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectSeparator, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { UserColumns } from '../table/user_columns';
+import { EmployeeColumns } from '../table/employee_columns';
 
-import type { EmployeeType } from '@/types/employee';
-import type { FilterUsers, UserListResponseWithPagination, UserTableColumn } from '@/types/user';
+import type {
+  DepartmentCode,
+  EmployeeScore,
+  EmployeeTableColumn,
+  EmployeeType,
+  FilterEmployees,
+} from '@/types/employee';
+import type { UserRole } from '@/types/user';
 
 interface UsersDataTableProps {
-  data?: UserListResponseWithPagination | null;
+  data?: EmployeeScore[] | null;
+  pagination?: PaginationMeta;
 }
 
 const props = defineProps<UsersDataTableProps>();
@@ -249,52 +242,57 @@ const props = defineProps<UsersDataTableProps>();
 const search = defineModel<string>('search', { default: '' });
 const PageSize = defineModel<number>('pageSize', { default: 10 });
 const Page = defineModel<number>('page', { default: 1 });
-const filters = defineModel<FilterUsers>('filters', {
+const filters = defineModel<FilterEmployees>('filters', {
   default: () => ({
     department: 'all',
     employeeType: 'all',
-    role: 'all',
     search: '',
   }),
 });
 
 const columnLabels: Record<string, string> = {
-  name: 'Nama',
-  departement: 'Divisi',
+  full_name: 'Nama',
+  department_code: 'Divisi',
   position: 'Jabatan',
-  employeeType: 'Jenis Pegawai',
+  employee_type: 'Jenis Pegawai',
+  presence_score: 'Skor Presensi',
+  survey_score: 'Skor Survei',
+  attendance_delay_seconds: 'Total Keterlambatan',
   updated_at: 'Terakhir Diperbarui',
 };
 
-// Filter out deleted users
-const tableData = computed<UserTableColumn[]>(() => {
-  if (!props.data?.users) return [];
+const tableData = computed<EmployeeTableColumn[]>(() => {
+  if (!props.data) return [];
 
-  return props.data.users.map(user => ({
-    id: user.id,
-    name: user.profile?.full_name ?? user.username,
-    department: user.employee_detail?.department as any,
-    position: user.employee_detail?.position ?? '-',
-    employeeType: user.employee_detail?.employee_type as EmployeeType,
-    role: user.role,
-    created_at: user.created_at,
-    updated_at: user.updated_at,
-    is_deleted: user.is_deleted,
+  return props.data.map((employee: EmployeeScore) => ({
+    score_id: employee.score_id,
+    user_id: employee.user_id,
+    role: employee.role as UserRole,
+    full_name: employee.full_name,
+    employee_type: employee.employee_type as EmployeeType,
+    department_code: employee.department_code as DepartmentCode,
+    presence_score: employee.presence_score,
+    survey_score: employee.survey_score,
+    attendance_delay_seconds: employee.attendance_delay_seconds,
+    quarter: employee.quarter,
+    year: employee.year,
+    created_at: employee.created_at,
+    updated_at: employee.updated_at,
   }));
 });
 
 // Table configuration
 const table = useVueTable({
   data: tableData,
-  columns: UserColumns,
+  columns: EmployeeColumns,
   manualPagination: true,
   manualFiltering: true,
-  rowCount: props.data?.total_rows ?? 0,
+  rowCount: props.pagination?.total_rows ?? 0,
   getCoreRowModel: getCoreRowModel(),
   getSortedRowModel: getSortedRowModel(),
   initialState: {
     pagination: {
-      pageSize: props.data?.limit || 10,
+      pageSize: props.pagination?.limit || 10,
     },
   },
 });
@@ -302,6 +300,5 @@ const table = useVueTable({
 const handleReset = () => {
   filters.value.department = 'all';
   filters.value.employeeType = 'all';
-  filters.value.role = 'all';
 };
 </script>
