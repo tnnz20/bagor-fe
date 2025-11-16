@@ -67,7 +67,6 @@ export interface EmployeeTableColumn extends BaseModel {
   full_name: string;
   employee_type: EmployeeType;
   department_code: DepartmentCode;
-  position: string;
   presence_score: number;
   survey_score: number;
   attendance_delay_seconds: number;

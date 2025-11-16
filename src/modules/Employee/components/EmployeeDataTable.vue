@@ -222,7 +222,15 @@ import { Select, SelectContent, SelectItem, SelectSeparator, SelectTrigger, Sele
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { EmployeeColumns } from '../table/employee_columns';
 
-import type { EmployeeScore, EmployeeTableColumn, EmployeeType, FilterEmployees } from '@/types/employee';
+import type {
+  Department,
+  DepartmentCode,
+  EmployeeScore,
+  EmployeeTableColumn,
+  EmployeeType,
+  FilterEmployees,
+} from '@/types/employee';
+import type { UserRole } from '@/types/user';
 
 interface UsersDataTableProps {
   data?: EmployeeScore[] | null;
@@ -261,11 +269,10 @@ const tableData = computed<EmployeeTableColumn[]>(() => {
   return props.data.map((employee: EmployeeScore) => ({
     score_id: employee.score_id.toString(),
     user_id: employee.user_id,
-    role: employee.role as any,
+    role: employee.role as UserRole,
     full_name: employee.full_name,
     employee_type: employee.employee_type as EmployeeType,
-    department_code: employee.department_code as any,
-    position: '-', // Position is not in EmployeeScore, would need to fetch from employee details
+    department_code: employee.department_code as DepartmentCode,
     presence_score: employee.presence_score,
     survey_score: employee.survey_score,
     attendance_delay_seconds: employee.attendance_delay_seconds,
