@@ -147,7 +147,7 @@ watch([Page, PageSize], () => {
 
 const { data, isLoading, error } = useQuery({
   queryKey: computed(() => ['users', Page.value, PageSize.value, { ...filters }]),
-  queryFn: () => getUserList({ page: Page.value, limit: PageSize.value }, { ...filters }),
+  queryFn: () => getUserList({ current_page: Page.value, limit: PageSize.value }, { ...filters }),
   placeholderData: keepPreviousData,
   retry: false,
   refetchOnMount: false,
