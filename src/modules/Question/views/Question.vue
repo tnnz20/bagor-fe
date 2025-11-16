@@ -15,6 +15,26 @@
         <h2 class="text-xl font-semibold">Gagal Memuat Data</h2>
         <p class="text-muted-foreground mt-2">{{ errorMessage }}</p>
       </div>
+      <Button variant="outline" @click="refetch" class="mt-4 cursor-pointer">
+        <Icons.RefreshCcw class="mr-2 h-4 w-4" />
+        Coba Lagi
+      </Button>
+    </div>
+
+    <!-- No Questions Found State -->
+    <div
+      v-else-if="!isLoading && sortedQuestions.length === 0"
+      class="flex h-96 w-full flex-col items-center justify-center space-y-4"
+    >
+      <Icons.FileQuestion class="text-muted-foreground h-16 w-16" />
+      <div class="text-center">
+        <h2 class="text-xl font-semibold">Tidak Ada Pertanyaan</h2>
+        <p class="text-muted-foreground mt-2">Belum ada pertanyaan yang tersedia saat ini.</p>
+      </div>
+      <Button variant="outline" @click="router.push('/')" class="mt-4 cursor-pointer">
+        <Icons.ArrowLeft class="mr-2 h-4 w-4" />
+        Kembali ke Beranda
+      </Button>
     </div>
 
     <!-- Main Content -->
@@ -80,7 +100,9 @@
       v-model="showResults"
       :questions="sortedQuestions"
       :user-answers="userAnswers"
+      :slug="slugParam"
       @reset="resetQuiz"
+      @submit="handleSubmitQuiz"
     />
   </div>
 </template>
@@ -89,8 +111,12 @@
 import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
-import { keepPreviousData, useQuery } from '@tanstack/vue-query';
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/vue-query';
 import { useLocalStorage } from '@vueuse/core';
+import { toast } from 'vue-sonner';
+
+import { updateScore } from '@/modules/Employee/services/employee';
+import { GetScoringStatus, MarkScoringAsComplete } from '@/modules/Employee/services/scoring';
 
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
@@ -102,9 +128,12 @@ import { getQuestionList } from '../services/question';
 
 const route = useRoute();
 const router = useRouter();
+const queryClient = useQueryClient();
 const localStorage = useLocalStorage('user-answers', {} as Record<number, number>);
 
 const queryIndex = route.query.q ? Number.parseInt(route.query.q as string) : 0;
+const slugParam = route.params.slug_param as string;
+
 // Quiz state
 const currentQuestionIndex = ref(queryIndex);
 
@@ -113,7 +142,7 @@ const userAnswers = ref<Record<number, number>>(localStorage.value || {});
 const showResults = ref(false);
 
 // Fetch Questions
-const { data, isLoading, error } = useQuery({
+const { data, isLoading, error, refetch } = useQuery({
   queryKey: computed(() => ['questions']),
   queryFn: () => getQuestionList(),
   placeholderData: keepPreviousData,
@@ -125,6 +154,7 @@ const { data, isLoading, error } = useQuery({
 
 const hasError = computed(() => {
   const err = error.value as any;
+  // Don't treat 404 as error if we want to show "no questions" state
   if (err?.response?.status === 404) {
     return false;
   }
@@ -137,10 +167,14 @@ const errorMessage = computed(() => {
   const err = error.value as any;
   const messages: Record<number, string> = {
     400: 'Permintaan tidak valid',
+    401: 'Anda tidak memiliki akses untuk melihat pertanyaan ini',
+    403: 'Akses ditolak',
+    404: 'Pertanyaan tidak ditemukan',
     500: 'Server error. Silahkan coba lagi nanti.',
+    503: 'Layanan sedang tidak tersedia',
   };
 
-  return messages[err.response?.status] || err.message || 'Terjadi kesalahan';
+  return messages[err.response?.status] || err.message || 'Terjadi kesalahan yang tidak diketahui';
 });
 
 // Computed properties
@@ -185,5 +219,51 @@ const resetQuiz = () => {
   userAnswers.value = {};
   localStorage.value = {};
   showResults.value = false;
+};
+
+// Submit quiz mutation
+const { mutate: submitQuiz } = useMutation({
+  mutationFn: async ({ percentage }: { percentage: number }) => {
+    // Step 1: Get scoring status to retrieve user_id, year, and quarter
+    const scoringStatus = await GetScoringStatus(slugParam);
+
+    if (!scoringStatus.data) {
+      throw new Error('Data scoring tidak ditemukan');
+    }
+
+    const { user_id, year, quarter } = scoringStatus.data;
+
+    // Step 2: Update score with survey_score
+    await updateScore(user_id, {
+      survey_score: percentage,
+      year,
+      quarter,
+    });
+
+    // Step 3: Mark scoring as complete
+    await MarkScoringAsComplete(slugParam);
+  },
+  onSuccess: () => {
+    // Clear user answers from localStorage
+    localStorage.value = {};
+
+    // Invalidate employee scores query to refetch updated data
+    queryClient.invalidateQueries({ queryKey: ['score'] });
+
+    toast.success('Penilaian berhasil disimpan');
+
+    // Delay navigation to allow toast to be visible
+    setTimeout(() => {
+      router.push('/pegawai');
+    }, 500);
+  },
+  onError: (error: any) => {
+    console.error('Submit quiz error:', error);
+    toast.error(error.message || 'Gagal menyimpan penilaian');
+  },
+});
+
+const handleSubmitQuiz = (_slug: string, percentage: number) => {
+  submitQuiz({ percentage });
 };
 </script>

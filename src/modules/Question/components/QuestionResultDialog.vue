@@ -16,6 +16,12 @@
               <span class="text-muted-foreground text-2xl font-medium">/</span>
               <span class="text-muted-foreground text-3xl font-semibold">{{ maxPossibleScore }}</span>
             </div>
+            <!-- Percentage Display -->
+            <div class="mt-4 flex items-center justify-center gap-2">
+              <div class="bg-primary/10 text-primary rounded-full px-6 py-2">
+                <span class="text-2xl font-bold">{{ totalPercentage.toFixed(2) }}%</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -82,7 +88,7 @@
           <Icons.RotateCw class="mr-2 h-4 w-4" />
           Ulangi Penilaian
         </Button>
-        <Button @click="dialogModel = false" class="cursor-pointer">
+        <Button @click="$emit('submit', slug, totalPercentage)" class="cursor-pointer">
           <Icons.Check class="mr-2 h-4 w-4" />
           Selesai
         </Button>
@@ -112,6 +118,7 @@ import type { Question } from '@/types/question';
 interface QuestionResultDialogProps {
   questions: Question[];
   userAnswers: Record<number, number>;
+  slug: string;
 }
 
 const props = defineProps<QuestionResultDialogProps>();
@@ -119,6 +126,7 @@ const dialogModel = defineModel<boolean>('modelValue');
 
 defineEmits<{
   reset: [];
+  submit: [slug: string, percentage: number];
 }>();
 
 // Computed properties
@@ -137,6 +145,11 @@ const maxPossibleScore = computed(() => {
     const maxScore = Math.max(...question.choices.map(choice => choice.score));
     return total + maxScore;
   }, 0);
+});
+
+const totalPercentage = computed(() => {
+  if (maxPossibleScore.value === 0) return 0;
+  return (totalScore.value / maxPossibleScore.value) * 100;
 });
 
 // Methods
