@@ -125,9 +125,8 @@ const { data, isLoading, error } = useQuery({
   queryFn: () => getEmployeesScore({ current_page: Page.value, limit: PageSize.value }, { ...filters }),
   placeholderData: keepPreviousData,
   retry: false,
-  refetchOnMount: false,
+  refetchOnMount: true,
   refetchOnWindowFocus: false,
-  refetchOnReconnect: false,
 });
 
 const hasError = computed(() => {
