@@ -49,6 +49,7 @@
         <UsersDataTable
           v-else
           :data="data?.data"
+          :pagination="data?.pagination"
           v-model:search="searchInput"
           v-model:page="Page"
           v-model:page-size="PageSize"

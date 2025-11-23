@@ -126,7 +126,7 @@
           </TableRow>
         </TableHeader>
         <TableBody>
-          <template v-if="(data?.total_rows as number) > 0">
+          <template v-if="(pagination?.total_rows as number) > 0">
             <TableRow
               v-for="row in table.getRowModel().rows"
               :key="row.id"
@@ -171,7 +171,7 @@
 
       <div class="flex items-center space-x-6 lg:space-x-8">
         <div class="flex w-[120px] items-center justify-center text-sm font-medium">
-          Halaman {{ Page }} dari {{ data?.total_pages || 1 }}
+          Halaman {{ Page }} dari {{ pagination?.total_pages || 1 }}
         </div>
 
         <div class="flex items-center space-x-2">
@@ -191,7 +191,7 @@
           <Button
             variant="outline"
             class="h-8 w-8 cursor-pointer p-0"
-            :disabled="Page === data?.total_pages"
+            :disabled="Page === pagination?.total_pages"
             @click="Page += 1"
           >
             <span class="sr-only">Go to next page</span>
@@ -200,8 +200,8 @@
           <Button
             variant="outline"
             class="hidden h-8 w-8 cursor-pointer p-0 lg:flex"
-            :disabled="Page === data?.total_pages"
-            @click="Page = data?.total_pages as number"
+            :disabled="Page === pagination?.total_pages"
+            @click="Page = pagination?.total_pages as number"
           >
             <span class="sr-only">Go to last page</span>
             <Icons.ChevronsRight class="h-4 w-4" />
@@ -216,6 +216,7 @@
 import { computed } from 'vue';
 
 import { divisions, employeeTypes, roles } from '@/constants';
+import type { PaginationMeta } from '@/types';
 import { FlexRender, getCoreRowModel, getSortedRowModel, useVueTable } from '@tanstack/vue-table';
 
 import { Icons } from '@/components/icons';
@@ -237,10 +238,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { UserColumns } from '../table/user_columns';
 
 import type { EmployeeType } from '@/types/employee';
-import type { FilterUsers, UserListResponseWithPagination, UserTableColumn } from '@/types/user';
+import type { FilterUsers, UserDetail, UserTableColumn } from '@/types/user';
 
 interface UsersDataTableProps {
-  data?: UserListResponseWithPagination | null;
+  data?: UserDetail[] | null;
+  pagination?: PaginationMeta;
 }
 
 const props = defineProps<UsersDataTableProps>();
@@ -268,9 +270,9 @@ const columnLabels: Record<string, string> = {
 
 // Filter out deleted users
 const tableData = computed<UserTableColumn[]>(() => {
-  if (!props.data?.users) return [];
+  if (!props.data) return [];
 
-  return props.data.users.map(user => ({
+  return props.data.map(user => ({
     id: user.id,
     name: user.profile?.full_name ?? user.username,
     department: user.employee_detail?.department as any,
@@ -289,12 +291,12 @@ const table = useVueTable({
   columns: UserColumns,
   manualPagination: true,
   manualFiltering: true,
-  rowCount: props.data?.total_rows ?? 0,
+  rowCount: props.pagination?.total_rows ?? 0,
   getCoreRowModel: getCoreRowModel(),
   getSortedRowModel: getSortedRowModel(),
   initialState: {
     pagination: {
-      pageSize: props.data?.limit || 10,
+      pageSize: props.pagination?.limit || 10,
     },
   },
 });
