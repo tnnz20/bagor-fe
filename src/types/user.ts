@@ -1,4 +1,4 @@
-import type { BaseModel, PaginationMeta } from '.';
+import type { BaseModel } from '.';
 import type { Department, EmployeeDetail, EmployeeType } from './employee';
 
 // User roles enum
@@ -51,10 +51,6 @@ export interface UserProfile {
   address: string;
   profile_created_at: number;
   profile_updated_at: number;
-}
-
-export interface UserListResponseWithPagination extends PaginationMeta {
-  users: UserDetail[];
 }
 
 export interface UserTableColumn extends BaseModel {
