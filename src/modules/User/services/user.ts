@@ -4,7 +4,7 @@ import type { BaseApi, PaginationMeta } from '@/types/index';
 import type { FilterUsers, User, UserListResponseWithPagination, UserRegistration } from '@/types/user';
 
 export const getUser = async (): Promise<BaseApi<User>> => {
-  const res = await ApiClient.get<BaseApi<User>>(`/users/user`);
+  const res = await ApiClient.get<BaseApi<User>>(`/users/me`);
   return res.data;
 };
 
