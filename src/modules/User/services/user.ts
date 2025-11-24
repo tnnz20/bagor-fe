@@ -46,3 +46,9 @@ export const createUser = async (userData: UserRegistration): Promise<BaseApi> =
   const res = await ApiClient.post<BaseApi>('/users', userData);
   return res.data;
 };
+
+// Delete user by ID
+export const deleteUser = async (userId: string): Promise<BaseApi> => {
+  const res = await ApiClient.delete<BaseApi>(`/users/${userId}`);
+  return res.data;
+};
