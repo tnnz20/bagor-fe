@@ -59,3 +59,9 @@ export const updateUserEmployeeDetail = async (userId: string, payload: Partial<
   const res = await ApiClient.put<BaseApi>(`/users/${userId}/employee-detail`, payload);
   return res.data;
 };
+
+// Update user active status
+export const updateUserStatus = async (userId: string, isActive: boolean): Promise<BaseApi> => {
+  const res = await ApiClient.patch<BaseApi>(`/users/${userId}/status`, { is_active: isActive });
+  return res.data;
+};
