@@ -43,3 +43,19 @@ export const getDepartmentNameByCode = (dept: string): string => {
 
   return names[dept] || dept;
 };
+
+// Helper function to get department code from department name
+export const getDepartmentCode = (deptName: string): string => {
+  const mapping: Record<string, string> = {
+    'UMUM DAN KEUANGAN': 'UMK',
+    'PERLENGKAPAN DAN RUMAH TANGGA': 'PRT',
+    ORGANISASI: 'ORG',
+    HUKUM: 'HKM',
+    'PEREKONOMIAN DAN ADMINISTRASI PEMBANGUNAN': 'EKO',
+    PEMERINTAHAN: 'PEM',
+    'KESEJAHTERAAN RAKYAT': 'KSR',
+    'PROTOKOL DAN KOMUNIKASI PIMPINAN': 'PKP',
+    'PENGADAAN BARANG DAN JASA': 'PBJ',
+  };
+  return mapping[deptName] || '';
+};
