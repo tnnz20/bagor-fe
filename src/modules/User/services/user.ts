@@ -3,11 +3,13 @@ import ApiClient from '@/api/axios';
 import type { BaseApi, PaginationMeta } from '@/types/index';
 import type { FilterUsers, User, UserDetail, UserRegistration } from '@/types/user';
 
+// Get current logged-in user
 export const getUser = async (): Promise<BaseApi<User>> => {
   const res = await ApiClient.get<BaseApi<User>>(`/users/me`);
   return res.data;
 };
 
+// Get user list with pagination and filters
 export const getUserList = async (
   paginationMeta: PaginationMeta,
   filterUsers: FilterUsers
@@ -31,10 +33,15 @@ export const getUserList = async (
     queryParams.append('search', filterUsers.search.trim());
   }
 
+  if (filterUsers.sort_order) {
+    queryParams.append('sort_order', filterUsers.sort_order);
+  }
+
   const res = await ApiClient.get<BaseApi<UserDetail[]>>('/users', { params: queryParams });
   return res.data;
 };
 
+// Create new user
 export const createUser = async (userData: UserRegistration): Promise<BaseApi> => {
   const res = await ApiClient.post<BaseApi>('/users', userData);
   return res.data;

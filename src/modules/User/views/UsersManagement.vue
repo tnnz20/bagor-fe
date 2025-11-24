@@ -96,6 +96,7 @@ const filters = reactive<FilterUsers>({
   employeeType: (route.query.employeeType as string) || 'all',
   role: (route.query.role as string) || 'all',
   search: (route.query.search as string) || '',
+  sort_order: (route.query.sort_order as 'ASC' | 'DESC') || 'ASC',
 });
 
 const filtersForQuery = computed(() => {
@@ -105,6 +106,7 @@ const filtersForQuery = computed(() => {
   if (filters.department !== 'all') query.department = filters.department;
   if (filters.employeeType !== 'all') query.employeeType = filters.employeeType;
   if (filters.role !== 'all') query.role = filters.role;
+  if (filters.sort_order) query.sort_order = filters.sort_order;
 
   return query;
 });
