@@ -1,5 +1,6 @@
 import ApiClient from '@/api/axios';
 
+import type { EmployeeDetail } from '@/types/employee';
 import type { BaseApi, PaginationMeta } from '@/types/index';
 import type { FilterUsers, User, UserDetail, UserRegistration } from '@/types/user';
 
@@ -50,5 +51,11 @@ export const createUser = async (userData: UserRegistration): Promise<BaseApi> =
 // Delete user by ID
 export const deleteUser = async (userId: string): Promise<BaseApi> => {
   const res = await ApiClient.delete<BaseApi>(`/users/${userId}`);
+  return res.data;
+};
+
+// Update user employee detail
+export const updateUserEmployeeDetail = async (userId: string, payload: Partial<EmployeeDetail>): Promise<BaseApi> => {
+  const res = await ApiClient.put<BaseApi>(`/users/${userId}/employee-detail`, payload);
   return res.data;
 };
