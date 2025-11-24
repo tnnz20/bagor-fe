@@ -27,25 +27,7 @@
     </DropdownMenu>
 
     <!-- Delete Confirmation Dialog -->
-    <Dialog v-model:open="isDeleteDialogOpen">
-      <DialogContent class="sm:max-w-[525px]">
-        <DialogHeader>
-          <DialogTitle>Konfirmasi Hapus Pengguna</DialogTitle>
-          <DialogDescription>
-            Apakah Anda yakin ingin menghapus pengguna <strong>{{ user.name }}</strong
-            >? Tindakan ini tidak dapat dibatalkan.
-          </DialogDescription>
-        </DialogHeader>
-        <div class="bg-destructive/10 flex items-center space-x-2 rounded-lg p-4">
-          <Icons.AlertTriangle class="text-destructive h-5 w-5" />
-          <span class="text-destructive text-sm"> Data pengguna akan dihapus secara permanen dari sistem. </span>
-        </div>
-        <DialogFooter>
-          <Button type="button" variant="outline" @click="closeDialog('delete')"> Batal </Button>
-          <Button type="button" variant="destructive"> Hapus Pengguna </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <UsersDeleteDialog :userId="user.id" :fullName="user.name" v-model:open="isDeleteDialogOpen" />
   </div>
 </template>
 
@@ -57,14 +39,6 @@ import { cn } from '@/lib/utils';
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -72,6 +46,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import UsersDeleteDialog from './dialog/UsersDeleteDialog.vue';
 
 import type { UserTableColumn } from '@/types/user';
 
