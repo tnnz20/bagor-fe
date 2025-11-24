@@ -67,6 +67,6 @@ export const updateScore = async (employeeId: string, payload: UpdateEmployeeSco
   requestBody.quarter = payload.quarter ?? (currentMonth >= 0 && currentMonth <= 5 ? 1 : 2);
   requestBody.year = payload.year ?? currentYear;
 
-  const res = await ApiClient.put<BaseApi>(`/scores/${employeeId}`, requestBody);
+  const res = await ApiClient.put<BaseApi>(`/scores/users/${employeeId}`, requestBody);
   return res.data;
 };
