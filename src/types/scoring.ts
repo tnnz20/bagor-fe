@@ -18,6 +18,6 @@ export interface ScoringDetail extends BaseModel {
   status: StatusScoring;
 }
 
-export interface StartScoringResponse {
-  slug_param: string;
+export interface SurveySessionResponse {
+  slug: string;
 }
