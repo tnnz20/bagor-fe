@@ -101,6 +101,7 @@
       :questions="sortedQuestions"
       :user-answers="userAnswers"
       :slug="slugParam"
+      :is-submitting="isSubmitting"
       @reset="resetQuiz"
       @submit="handleSubmitQuiz"
     />
@@ -222,10 +223,13 @@ const resetQuiz = () => {
 };
 
 // Submit quiz mutation
-const { mutate: submitQuiz } = useMutation({
+const { mutate: submitQuiz, isPending: isSubmitting } = useMutation({
   mutationFn: async ({ percentage }: { percentage: number }) => {
+    console.log('Starting quiz submission...', { percentage, slugParam });
+
     // Step 1: Get scoring status to retrieve user_id, year, and quarter
     const scoringStatus = await GetScoringStatus(slugParam);
+    console.log('Scoring status:', scoringStatus);
 
     if (!scoringStatus.data) {
       throw new Error('Data scoring tidak ditemukan');
@@ -236,6 +240,7 @@ const { mutate: submitQuiz } = useMutation({
     }
 
     const { user_id, year, quarter } = scoringStatus.data;
+    console.log('Updating score for user:', { user_id, year, quarter, survey_score: percentage });
 
     // Step 2: Update score with survey_score
     await updateScore(user_id, {
@@ -243,11 +248,20 @@ const { mutate: submitQuiz } = useMutation({
       year,
       quarter,
     });
+    console.log('Score updated successfully');
 
     // Step 3: Mark scoring as complete
     await MarkScoringAsComplete(slugParam);
+    console.log('Scoring marked as complete');
+
+    return { success: true };
   },
   onSuccess: () => {
+    console.log('Mutation onSuccess triggered');
+
+    // Close the dialog first
+    showResults.value = false;
+
     // Clear user answers from localStorage
     localStorage.value = {};
 
@@ -256,8 +270,9 @@ const { mutate: submitQuiz } = useMutation({
 
     toast.success('Penilaian berhasil disimpan');
 
-    // Delay navigation to allow toast to be visible
+    // Delay navigation to allow toast to be visible and dialog to close
     setTimeout(() => {
+      console.log('Navigating to /pegawai');
       router.push('/pegawai');
     }, 500);
   },
@@ -268,6 +283,7 @@ const { mutate: submitQuiz } = useMutation({
 });
 
 const handleSubmitQuiz = (_slug: string, percentage: number) => {
+  console.log('handleSubmitQuiz called', { slug: _slug, percentage });
   submitQuiz({ percentage });
 };
 </script>
