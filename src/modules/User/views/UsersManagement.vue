@@ -177,14 +177,4 @@ const errorMessage = computed(() => {
 
   return messages[err.response?.status] || err.message || 'Terjadi kesalahan';
 });
-
-// Computed statistics
-// const totalUsers = computed(() => users.value.length);
-// const fungsionalUsers = computed(() => users.value.filter(u => u.employeeType === 'Fungsional').length);
-// const strukturalUsers = computed(() => users.value.filter(u => u.employeeType === 'Struktural').length);
-// const kontrakUsers = computed(() => users.value.filter(u => u.employeeType === 'Kontrak').length);
-// const newUsersThisMonth = computed(() => {
-//   const oneMonthAgo = Date.now() - 30 * 24 * 60 * 60 * 1000;
-//   return users.value.filter(u => u.created_at > oneMonthAgo).length;
-// });
 </script>
