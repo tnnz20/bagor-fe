@@ -34,7 +34,7 @@
         <!-- Password -->
         <div class="space-y-2">
           <Label for="password">Password</Label>
-          <Input id="password" v-model="password" type="password" placeholder="Minimal 6 karakter" />
+          <Input id="password" v-model="password" type="password" placeholder="Minimal 8 karakter" />
           <p v-if="errors.password" class="text-destructive text-sm">{{ errors.password }}</p>
         </div>
 
@@ -139,16 +139,16 @@ const queryClient = useQueryClient();
 
 // Zod validation schema
 const formSchema = z.object({
-  username: z.string().min(3, 'Username minimal 3 karakter').max(50, 'Username maksimal 50 karakter'),
+  username: z.string().min(3, 'Username minimal 3 karakter').max(20, 'Username maksimal 20 karakter'),
   email: z.string().email('Email tidak valid').optional(),
-  password: z.string().min(8, 'Password minimal 8 karakter'),
+  password: z.string().min(8, 'Password minimal 8 karakter').max(72, 'Password maksimal 72 karakter'),
   role: z.enum(['admin', 'manager', 'employee'], {
     required_error: 'Role harus dipilih',
   }),
-  full_name: z.string().min(2, 'Nama lengkap minimal 2 karakter'),
+  full_name: z.string().min(3, 'Nama lengkap minimal 3 karakter').max(100, 'Nama lengkap maksimal 100 karakter'),
   department: z.string().min(1, 'Divisi harus dipilih'),
-  position: z.string().min(2, 'Jabatan minimal 2 karakter'),
-  employee_type: z.enum(['Pengawas dan Penyetaraan', 'Murni dan Pelaksana', 'PTT'], {
+  position: z.string().min(3, 'Jabatan minimal 3 karakter').max(100, 'Jabatan maksimal 100 karakter'),
+  employee_type: z.enum(['Pengawas dan Penyetaraan', 'Murni dan Pelaksana', 'PTT', 'Struktural'], {
     required_error: 'Jenis pegawai harus dipilih',
   }),
 });
@@ -173,7 +173,6 @@ const [employeeTypeValue] = defineField('employee_type');
 const { mutate: createUserMutation, isPending } = useMutation({
   mutationFn: (userData: UserRegistration) => createUser(userData),
   onSuccess: () => {
-    // Invalidate and refetch users query
     queryClient.invalidateQueries({ queryKey: ['users'] });
     toast.success('Berhasil!', {
       description: 'Pengguna baru berhasil ditambahkan.',
