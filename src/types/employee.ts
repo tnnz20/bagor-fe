@@ -40,6 +40,7 @@ export interface FilterEmployees {
   department: string;
   employeeType: string;
   search: string;
+  sort_order: 'ASC' | 'DESC';
 }
 
 export interface EmployeeScore extends BaseModel {
