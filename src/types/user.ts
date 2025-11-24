@@ -67,6 +67,7 @@ export interface FilterUsers {
   employeeType: string;
   role: string;
   search: string;
+  sort_order: 'ASC' | 'DESC';
 }
 
 // User statistics interface
