@@ -1,6 +1,5 @@
 <template>
   <div class="bg-background relative flex w-full flex-1 flex-col space-y-6 p-6">
-    <!-- Loading State -->
     <div v-if="isLoading" class="flex min-h-96 w-full items-center justify-center">
       <div class="flex flex-col items-center gap-2">
         <Icons.Loader2 class="text-primary h-16 w-16 animate-spin" />
@@ -8,7 +7,6 @@
       </div>
     </div>
 
-    <!-- Error State -->
     <div v-else-if="hasError" class="flex h-96 w-full flex-col items-center justify-center space-y-4">
       <Icons.AlertCircle class="text-destructive h-16 w-16" />
       <div class="text-center">
@@ -21,7 +19,6 @@
       </Button>
     </div>
 
-    <!-- No Questions Found State -->
     <div
       v-else-if="!isLoading && sortedQuestions.length === 0"
       class="flex h-96 w-full flex-col items-center justify-center space-y-4"
@@ -37,9 +34,7 @@
       </Button>
     </div>
 
-    <!-- Main Content -->
     <template v-else>
-      <!-- Header Section -->
       <div class="flex items-center justify-between">
         <div>
           <h1 class="text-3xl font-bold tracking-tight">Kuis Penilaian</h1>
@@ -61,9 +56,7 @@
         </div>
       </div>
 
-      <!-- Main Content Grid -->
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-4">
-        <!-- Question Column (Left - 3/4 width) -->
         <div class="lg:col-span-3">
           <QuestionDisplay
             :current-question="currentQuestion"
@@ -77,7 +70,6 @@
           />
         </div>
 
-        <!-- Navigation Column (Right - 1/4 width) -->
         <div class="lg:col-span-1">
           <QuestionNavigation
             :current-question-index="currentQuestionIndex"
@@ -86,7 +78,6 @@
             @go-to-question="goToQuestion"
           />
 
-          <!-- Quiz Info -->
           <QuestionInfo
             :sorted-questions-length="sortedQuestions.length"
             :answered-questions-length="answeredQuestions.length"
@@ -95,7 +86,6 @@
       </div>
     </template>
 
-    <!-- Results Modal -->
     <QuestionResultDialog
       v-model="showResults"
       :questions="sortedQuestions"
@@ -180,8 +170,8 @@ const errorMessage = computed(() => {
 
 // Computed properties
 const sortedQuestions = computed(() => {
-  if (!data.value?.data) return [];
-  return data.value.data;
+  // Logic simplified: If data exists, return it, otherwise return empty array
+  return data.value?.data || [];
 });
 
 const currentQuestion = computed(() => sortedQuestions.value[currentQuestionIndex.value]);
@@ -267,13 +257,13 @@ const { mutate: submitQuiz, isPending: isSubmitting } = useMutation({
     }, 500);
   },
   onError: (error: any) => {
-    console.error('Submit quiz error:', error);
+    // Removed debugging console.error, only keeping the toast for user feedback
     toast.error(error.message || 'Gagal menyimpan penilaian');
   },
 });
 
 const handleSubmitQuiz = (_slug: string, percentage: number) => {
-  console.log('handleSubmitQuiz called', { slug: _slug, percentage });
+  // Removed useless console.log here
   submitQuiz({ percentage });
 };
 </script>
