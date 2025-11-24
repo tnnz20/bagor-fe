@@ -54,7 +54,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import type { Feedback } from '@/types/feedback';
 
 interface FeedbackListContentProps {
-  feedbacks?: Feedback[];
+  feedbacks?: Feedback[] | null;
 }
 
 defineProps<FeedbackListContentProps>();

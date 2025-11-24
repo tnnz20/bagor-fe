@@ -3,7 +3,8 @@
     <ResizablePanelGroup id="handle-demo-group-1" direction="horizontal" class="flex min-h-0 items-stretch">
       <ResizablePanel id="handle-demo-panel-1" :default-size="size[1]" :min-size="size[0]" class="min-h-0">
         <FeedbackList
-          :data="props.data"
+          :data="data"
+          :pagination="props?.pagination"
           :error="props.error"
           v-model:selectedFeedback="selectedFeedback"
           v-model:page="page"
@@ -24,7 +25,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 
-import type { BaseError } from '@/types';
+import type { BaseError, PaginationMeta } from '@/types';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
@@ -33,10 +34,11 @@ import FeedbackDisplay from '../components/FeedbackDisplay.vue';
 import FeedbackList from '../components/FeedbackList.vue';
 import { markFeedbackAsRead } from '../services/feedback';
 
-import type { FeedbackListResponseWithPagination } from '@/types/feedback';
+import type { Feedback } from '@/types/feedback';
 
 interface FeedbackContentProps {
-  data?: FeedbackListResponseWithPagination | null;
+  data?: Feedback[] | null;
+  pagination?: PaginationMeta;
   error?: BaseError | null;
 }
 
@@ -51,10 +53,10 @@ const selectedFeedback = ref<string | undefined>(undefined);
 
 // Find the selected feedback from the feedbacks array
 const selectedFeedbackData = computed(() => {
-  if (!selectedFeedback.value || !props.data?.feedbacks) {
+  if (!selectedFeedback.value || !props.data) {
     return undefined;
   }
-  return props.data.feedbacks.find(feedback => feedback.id === selectedFeedback.value);
+  return props.data.find(feedback => feedback.id === selectedFeedback.value);
 });
 
 // Mutation to mark feedback as read
