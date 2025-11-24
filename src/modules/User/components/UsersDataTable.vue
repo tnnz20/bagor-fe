@@ -30,6 +30,18 @@
                 <h4 class="leading-none font-medium">Filter Data</h4>
                 <p class="text-muted-foreground text-sm">Saring pengguna berdasarkan berbagai kriteria.</p>
               </div>
+              <div class="grid grid-cols-3 items-center gap-4">
+                <Label for="sortOrder">Urutkan Nama</Label>
+                <Select v-model="filters.sort_order" defaultValue="ASC">
+                  <SelectTrigger class="col-span-2 h-8">
+                    <SelectValue placeholder="Dari A-Z" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="ASC">Dari A-Z</SelectItem>
+                    <SelectItem value="DESC">Dari Z-A</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
               <div class="grid gap-4">
                 <div class="grid grid-cols-3 items-center gap-4">
                   <Label for="department">Divisi</Label>
@@ -257,6 +269,7 @@ const filters = defineModel<FilterUsers>('filters', {
     employeeType: 'all',
     role: 'all',
     search: '',
+    sort_order: 'ASC',
   }),
 });
 
@@ -305,5 +318,6 @@ const handleReset = () => {
   filters.value.department = 'all';
   filters.value.employeeType = 'all';
   filters.value.role = 'all';
+  filters.value.sort_order = 'ASC';
 };
 </script>
