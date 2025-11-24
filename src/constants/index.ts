@@ -22,6 +22,7 @@ export const employeeTypes: SelectOption<EmployeeType>[] = [
   { value: 'Pengawas dan Penyetaraan', label: 'Pengawas dan Penyetaraan' },
   { value: 'Murni dan Pelaksana', label: 'Murni dan Pelaksana' },
   { value: 'PTT', label: 'PTT' },
+  { value: 'Struktural', label: 'Struktural' },
 ];
 
 export const roles: SelectOption<UserRole>[] = [
