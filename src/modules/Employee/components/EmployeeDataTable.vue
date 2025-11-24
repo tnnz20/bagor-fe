@@ -30,6 +30,18 @@
                 <h4 class="leading-none font-medium">Filter Data</h4>
                 <p class="text-muted-foreground text-sm">Saring pegawai berdasarkan berbagai kriteria.</p>
               </div>
+              <div class="grid grid-cols-3 items-center gap-4">
+                <Label for="sortOrder">Urutkan Nama</Label>
+                <Select v-model="filters.sort_order" defaultValue="ASC">
+                  <SelectTrigger class="col-span-2 h-8">
+                    <SelectValue placeholder="Dari A" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="ASC">Dari A-Z</SelectItem>
+                    <SelectItem value="DESC">Dari Z-A</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
               <div class="grid gap-4">
                 <div class="grid grid-cols-3 items-center gap-4">
                   <Label for="department">Divisi</Label>
@@ -61,18 +73,7 @@
                     </SelectContent>
                   </Select>
                 </div>
-                <div class="grid grid-cols-3 items-center gap-4">
-                  <Label for="employeeType">Urutkan Nama</Label>
-                  <Select v-model="filters.sort_order" defaultValue="ASC">
-                    <SelectTrigger class="col-span-2 h-8">
-                      <SelectValue placeholder="Dari A" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="ASC">Dari A-Z</SelectItem>
-                      <SelectItem value="DESC">Dari Z-A</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+
                 <div class="mt-4 flex items-center justify-end">
                   <Button class="cursor-pointer" @click="handleReset">Reset Filter</Button>
                 </div>
