@@ -77,7 +77,7 @@ const router = useRouter();
 // Dialog State
 const isAddUserDialogOpen = ref(false);
 
-// --- Search & Pagination State (Initialized from URL) ---
+// --- State Initialization (Search, Pagination, Filters from URL) ---
 const searchInput = ref<string>((route.query.search as string) || '');
 const page = ref<number>(Number(route.query.page) || 1);
 const pageSize = ref<number>(Number(route.query.pageSize) || 10);
