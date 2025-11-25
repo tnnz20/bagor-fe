@@ -146,7 +146,11 @@ const formSchema = z.object({
   role: z.enum(['admin', 'manager', 'employee'], {
     required_error: 'Role harus dipilih',
   }),
-  full_name: z.string().min(3, 'Nama lengkap minimal 3 karakter').max(100, 'Nama lengkap maksimal 100 karakter'),
+  full_name: z
+    .string()
+    .min(3, 'Nama lengkap minimal 3 karakter')
+    .max(100, 'Nama lengkap maksimal 100 karakter')
+    .refine(val => val.trim().split(/\s+/).length >= 2, { message: 'Nama lengkap harus terdiri dari minimal 2 kata' }),
   department: z.string().min(1, 'Divisi harus dipilih'),
   position: z.string().min(3, 'Jabatan minimal 3 karakter').max(100, 'Jabatan maksimal 100 karakter'),
   employee_type: z.enum(['Pengawas dan Penyetaraan', 'Murni dan Pelaksana', 'PTT', 'Struktural'], {
