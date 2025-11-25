@@ -10,7 +10,7 @@ export const useUserStore = defineStore('user', () => {
 
   // Getters
   const isAuthenticated = computed(() => !!user.value);
-  const userRole = computed(() => user.value?.Role || null);
+  const userRole = computed(() => user.value?.role || null);
   const userName = computed(() => user.value?.full_name || '');
   const userEmail = computed(() => user.value?.email || '');
   const isActive = computed(() => user.value?.is_active || false);
