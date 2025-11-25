@@ -107,7 +107,6 @@ import { ERROR_MESSAGES } from '@/constants';
 import type { BaseError } from '@/types';
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/vue-query';
 import { useLocalStorage } from '@vueuse/core';
-import type { AxiosError } from 'axios';
 import { toast } from 'vue-sonner';
 
 import { updateScore } from '@/modules/Employee/services/employee';
@@ -160,10 +159,10 @@ const isQuizComplete = computed(() => {
 
 const errorMessage = computed(() => {
   if (!error.value) return '';
-  const err = error.value as AxiosError<BaseError>;
-  const status = err.response?.status;
-  const dataCode = (err.response?.data as any)?.code; // Depending on your BaseError shape
 
+  const err = error.value as BaseError;
+  const status = err.response?.status;
+  const dataCode = err.response?.data?.code;
   return (
     (status && ERROR_MESSAGES[status]) ||
     (dataCode && ERROR_MESSAGES[dataCode]) ||

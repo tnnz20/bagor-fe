@@ -58,6 +58,7 @@
 import { computed, reactive, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
+import { ERROR_MESSAGES } from '@/constants';
 import type { BaseError } from '@/types';
 import { keepPreviousData, useQuery } from '@tanstack/vue-query';
 import { useDebounceFn } from '@vueuse/core';
@@ -143,12 +144,14 @@ const errorMessage = computed(() => {
   if (!error.value) return '';
 
   const err = error.value as BaseError;
-  const messages: Record<number, string> = {
-    400: 'Permintaan tidak valid',
-    500: 'Server error. Silahkan coba lagi nanti.',
-  };
+  const status = err.response?.status;
+  const dataCode = err.response?.data?.code;
 
-  const errorCode = err?.response?.data?.code;
-  return (errorCode ? messages[errorCode] : undefined) || err.message || 'Terjadi kesalahan pada server.';
+  return (
+    (status && ERROR_MESSAGES[status]) ||
+    (dataCode && ERROR_MESSAGES[dataCode]) ||
+    err.message ||
+    'Terjadi kesalahan pada server.'
+  );
 });
 </script>
