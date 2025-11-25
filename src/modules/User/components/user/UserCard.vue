@@ -157,6 +157,8 @@ const getRoleName = (role: UserRole): string => {
     admin: 'Admin',
     manager: 'Manager',
     employee: 'Employee',
+    director: 'Director',
+    executive: 'Executive',
   };
   return roleNames[role] || role;
 };
