@@ -236,7 +236,7 @@ const { mutate: submitQuiz, isPending: isSubmitting } = useMutation({
     }, 500);
   },
   onError: (err: BaseError) => {
-    console.error('Failed to create user:', err);
+    console.error('Failed to submit quiz:', err);
     const errRes = err.response?.data;
     const errorMessage = errRes?.error?.error_description || 'Terjadi kesalahan saat menyimpan penilaian.';
     toast.error('Gagal Menyimpan Penilaian', {
