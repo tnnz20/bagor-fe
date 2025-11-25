@@ -1,10 +1,8 @@
 <template>
   <form @submit="onSubmit" :class="cn('flex flex-col gap-6')">
     <div class="flex flex-col items-center gap-2 text-center">
-      <h1 class="text-2xl font-bold">Masuk ke akun anda</h1>
-      <p class="text-muted-foreground text-sm text-balance">
-        Masukan username dan password pengguna untuk masuk ke akun anda
-      </p>
+      <h1 class="text-2xl font-bold">Akses Sistem</h1>
+      <p class="text-muted-foreground text-sm text-balance">Gunakan nama pengguna dan kata sandi yang terdaftar.</p>
     </div>
     <div class="grid gap-6">
       <!-- Username Field -->
