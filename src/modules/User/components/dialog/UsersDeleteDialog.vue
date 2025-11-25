@@ -24,6 +24,8 @@
 </template>
 
 <script setup lang="ts">
+import { useRoute, useRouter } from 'vue-router';
+
 import type { BaseError } from '@/types';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { toast } from 'vue-sonner';
@@ -47,6 +49,8 @@ const props = defineProps<{
 
 const isOpen = defineModel<boolean>('open', { default: false });
 
+const route = useRoute();
+const router = useRouter();
 const queryClient = useQueryClient();
 
 const { mutate: mutateDeleteUser, isPending } = useMutation({
@@ -55,6 +59,12 @@ const { mutate: mutateDeleteUser, isPending } = useMutation({
     toast.success('Pengguna berhasil dihapus');
     isOpen.value = false;
     queryClient.invalidateQueries({ queryKey: ['users'] });
+    queryClient.invalidateQueries({ queryKey: ['user-detail', props.userId] });
+
+    // Navigate to users list if on detail page
+    if (route.name === 'User Detail') {
+      router.push({ name: 'Users Managements' });
+    }
   },
   onError: (error: BaseError) => {
     toast.error(`Gagal menghapus pengguna: ${error.message || 'Terjadi kesalahan saat menghapus pengguna.'}`);
