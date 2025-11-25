@@ -54,6 +54,7 @@ import { useRouter } from 'vue-router';
 
 import { useMutation } from '@tanstack/vue-query';
 import { toTypedSchema } from '@vee-validate/zod';
+import type { AxiosError } from 'axios';
 import { useForm } from 'vee-validate';
 import { toast } from 'vue-sonner';
 import * as z from 'zod';
@@ -68,10 +69,19 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { LoginUser } from '../../services/auth';
 
-import type { BaseApi } from '@/types/index';
+import type { BaseApi, ErrorResponse } from '@/types/index';
 
 const router = useRouter();
 const authStore = useAuthStore();
+
+// Password visibility toggle
+const showPassword = ref(false);
+const typePassword = ref('password');
+
+function togglePassword() {
+  showPassword.value = !showPassword.value;
+  typePassword.value = showPassword.value ? 'text' : 'password';
+}
 
 // Zod validation schema
 const authSchema = toTypedSchema(
@@ -118,23 +128,22 @@ const loginMutation = useMutation({
     authStore.setAuthenticated(false);
     throw new Error(data?.message || 'Login gagal');
   },
-  onError: (err: any) => {
-    const errData = err.response?.data || err.message || 'Terjadi kesalahan tak terduga';
+  onError: (err: AxiosError<ErrorResponse>) => {
+    const errRes = err.response?.data;
     let errMsg = '';
-
-    if (errData.code === 404) {
+    if (errRes?.code === 404) {
       errMsg = 'Pengguna tidak ditemukan';
-    } else if (errData.code === 400) {
-      if (errData.error?.error_description === 'incorrect password') {
+    } else if (errRes?.code === 400) {
+      if (errRes?.error?.error_description === 'incorrect password') {
         errMsg = 'Password salah';
       } else {
         errMsg = 'Username atau password salah';
       }
     } else {
-      errMsg = errData.message || errData;
+      errMsg = 'Terjadi kesalahan pada server';
     }
     toast.error(`Login gagal: ${errMsg}`);
-    console.error('Login failed:', err.response?.data?.message || err.message);
+    console.error('Login failed:', errMsg || errRes?.error?.error_description);
   },
 });
 
@@ -142,13 +151,4 @@ const loginMutation = useMutation({
 const onSubmit = handleSubmit(values => {
   loginMutation.mutate(values);
 });
-
-// Password visibility toggle
-const showPassword = ref(false);
-const typePassword = ref('password');
-
-function togglePassword() {
-  showPassword.value = !showPassword.value;
-  typePassword.value = showPassword.value ? 'text' : 'password';
-}
 </script>
