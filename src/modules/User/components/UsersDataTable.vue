@@ -64,7 +64,7 @@
         <TableBody>
           <!-- Loading Skeleton State -->
           <template v-if="loading">
-            <TableRow v-for="i in 5" :key="i">
+            <TableRow v-for="i in PageSize" :key="i">
               <TableCell v-for="cell in UserColumns.length" :key="cell">
                 <Skeleton class="h-6 w-full rounded" />
               </TableCell>
