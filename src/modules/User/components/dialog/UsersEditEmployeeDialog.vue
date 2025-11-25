@@ -69,6 +69,7 @@
 import { computed, watch } from 'vue';
 
 import { divisions, employeeTypes } from '@/constants';
+import type { BaseError } from '@/types';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { toTypedSchema } from '@vee-validate/zod';
 import { useForm } from 'vee-validate';
@@ -89,7 +90,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { updateUserEmployeeDetail } from '../../services/user';
 
-import type { EmployeeDetail } from '@/types/employee';
+import type { EmployeeDetail, EmployeeType } from '@/types/employee';
 import type { UserRole } from '@/types/user';
 
 interface UserData {
@@ -149,10 +150,10 @@ const { mutate: updateUserMutation, isPending } = useMutation({
     });
     isOpen.value = false;
   },
-  onError: (error: any) => {
-    console.error('Failed to update user employee detail:', error);
-    const errorMessage =
-      error?.response?.data?.message || error?.message || 'Terjadi kesalahan saat memperbarui data karyawan.';
+  onError: (err: BaseError) => {
+    console.error('Failed to update user employee detail:', err);
+    const errRes = err.response?.data;
+    const errorMessage = errRes?.error?.error_description || 'Terjadi kesalahan saat memperbarui data karyawan.';
     toast.error('Gagal Memperbarui Data', {
       description: errorMessage,
     });
@@ -172,10 +173,9 @@ watch(isOpen, dialogOpen => {
       nip: employeeData.nip || '',
       department_code: employeeData.department_code,
       position: employeeData.position,
-      employee_type: employeeType as any,
+      employee_type: employeeType as EmployeeType,
     });
   } else if (!dialogOpen) {
-    // Reset form when dialog closes
     resetForm();
   }
 });
