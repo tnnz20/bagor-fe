@@ -78,7 +78,7 @@ const handleUserResponse = (response: BaseApi<User> | undefined) => {
   userStore.setUser(userData);
 
   const currentPath = route.path;
-  const userRole = userData.Role as UserRole;
+  const userRole = userData?.role;
 
   // If user is on /dashboard root, redirect based on role
   if (currentPath === '/dashboard') {

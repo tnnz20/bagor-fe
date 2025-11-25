@@ -28,7 +28,7 @@ export interface User extends BaseModel {
   username: string;
   full_name: string;
   department_code: string;
-  Role: string;
+  role: string;
   is_active: boolean;
 }
 
