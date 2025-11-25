@@ -5,7 +5,7 @@
         <div class="bg-primary text-primary-foreground flex h-6 w-6 items-center justify-center rounded-md">
           <Icons.GalleryVerticalEnd class-name="size-4" />
         </div>
-        Acme Inc.
+        Pentas Japin
       </RouterLink>
     </div>
     <div class="flex flex-1 items-center justify-center">
