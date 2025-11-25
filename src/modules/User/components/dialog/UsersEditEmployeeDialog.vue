@@ -145,6 +145,7 @@ const { mutate: updateUserMutation, isPending } = useMutation({
     updateUserEmployeeDetail(payload.userId, payload.data),
   onSuccess: () => {
     queryClient.invalidateQueries({ queryKey: ['users'] });
+    queryClient.invalidateQueries({ queryKey: ['user-detail', props.userData?.id] });
     toast.success('Berhasil!', {
       description: 'Data karyawan berhasil diperbarui.',
     });
