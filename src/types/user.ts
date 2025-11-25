@@ -1,8 +1,8 @@
-import type { BaseModel, PaginationMeta } from '.';
+import type { BaseModel } from '.';
 import type { Department, EmployeeDetail, EmployeeType } from './employee';
 
 // User roles enum
-export type UserRole = 'admin' | 'manager' | 'employee';
+export type UserRole = 'admin' | 'manager' | 'employee' | 'director' | 'executive';
 
 // User Form
 export interface UserCredential {
@@ -26,8 +26,9 @@ export interface User extends BaseModel {
   Id: string;
   email: string;
   username: string;
-  name: string;
-  Role: string;
+  full_name: string;
+  department_code: string;
+  role: string;
   is_active: boolean;
 }
 
@@ -52,10 +53,6 @@ export interface UserProfile {
   profile_updated_at: number;
 }
 
-export interface UserListResponseWithPagination extends PaginationMeta {
-  users: UserDetail[];
-}
-
 export interface UserTableColumn extends BaseModel {
   id: string;
   name: string;
@@ -70,6 +67,7 @@ export interface FilterUsers {
   employeeType: string;
   role: string;
   search: string;
+  sort_order: 'ASC' | 'DESC';
 }
 
 // User statistics interface

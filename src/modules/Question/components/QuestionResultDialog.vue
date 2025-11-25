@@ -84,13 +84,14 @@
       </div>
 
       <DialogFooter>
-        <Button variant="outline" class="cursor-pointer" @click="$emit('reset')">
+        <Button variant="outline" class="cursor-pointer" @click="$emit('reset')" :disabled="props.isSubmitting">
           <Icons.RotateCw class="mr-2 h-4 w-4" />
           Ulangi Penilaian
         </Button>
-        <Button @click="$emit('submit', slug, totalPercentage)" class="cursor-pointer">
-          <Icons.Check class="mr-2 h-4 w-4" />
-          Selesai
+        <Button @click="$emit('submit', slug, totalPercentage)" class="cursor-pointer" :disabled="props.isSubmitting">
+          <Icons.Loader2 v-if="props.isSubmitting" class="mr-2 h-4 w-4 animate-spin" />
+          <Icons.Check v-else class="mr-2 h-4 w-4" />
+          {{ props.isSubmitting ? 'Menyimpan...' : 'Selesai' }}
         </Button>
       </DialogFooter>
     </DialogContent>
@@ -119,6 +120,7 @@ interface QuestionResultDialogProps {
   questions: Question[];
   userAnswers: Record<number, number>;
   slug: string;
+  isSubmitting?: boolean;
 }
 
 const props = defineProps<QuestionResultDialogProps>();

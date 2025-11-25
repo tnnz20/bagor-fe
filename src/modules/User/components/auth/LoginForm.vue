@@ -1,57 +1,44 @@
 <template>
   <form @submit="onSubmit" :class="cn('flex flex-col gap-6')">
     <div class="flex flex-col items-center gap-2 text-center">
-      <h1 class="text-2xl font-bold">Login to your account</h1>
-      <p class="text-muted-foreground text-sm text-balance">Enter your email below to login to your account</p>
+      <h1 class="text-2xl font-bold">Akses Sistem</h1>
+      <p class="text-muted-foreground text-sm text-balance">Gunakan nama pengguna dan kata sandi yang terdaftar.</p>
     </div>
     <div class="grid gap-6">
-      <FormField v-slot="{ componentField }" name="username">
-        <FormItem>
-          <FormLabel>Username</FormLabel>
-          <FormControl>
-            <Input
-              id="username"
-              type="text"
-              autocomplete="username"
-              placeholder="username"
-              required
-              v-bind="componentField"
-            />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      </FormField>
+      <!-- Username Field -->
+      <div class="space-y-2">
+        <Label for="username">Username</Label>
+        <Input id="username" v-model="username" type="text" autocomplete="username" placeholder="username" />
+        <p v-if="errors.username" class="text-destructive text-sm">{{ errors.username }}</p>
+      </div>
 
-      <FormField v-slot="{ componentField }" name="password">
-        <FormItem>
-          <FormLabel>Password</FormLabel>
-          <FormControl>
-            <div class="relative">
-              <Input
-                id="password"
-                :type="typePassword"
-                required
-                v-bind="componentField"
-                :autocomplete="typePassword === 'password' ? 'current-password' : 'off'"
-                class="pr-10"
-              />
+      <!-- Password Field -->
+      <div class="space-y-2">
+        <Label for="password">Password</Label>
+        <div class="relative">
+          <Input
+            id="password"
+            v-model="password"
+            :type="typePassword"
+            :autocomplete="typePassword === 'password' ? 'current-password' : 'off'"
+            class="pr-10"
+          />
 
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                @click="togglePassword"
-                class="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent"
-                aria-label="Toggle password visibility"
-              >
-                <Icons.Eye v-if="!showPassword" class="text-muted-foreground h-5 w-5" />
-                <Icons.EyeOff v-else class="text-muted-foreground h-5 w-5" />
-              </Button>
-            </div>
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      </FormField>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            @click="togglePassword"
+            class="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent"
+            aria-label="Toggle password visibility"
+          >
+            <Icons.Eye v-if="!showPassword" class="text-muted-foreground h-5 w-5" />
+            <Icons.EyeOff v-else class="text-muted-foreground h-5 w-5" />
+          </Button>
+        </div>
+        <p v-if="errors.password" class="text-destructive text-sm">{{ errors.password }}</p>
+      </div>
+
       <Button type="submit" class="w-full cursor-pointer" :disabled="loginMutation.isPending.value">
         {{ loginMutation.isPending.value ? 'Loading...' : 'Login' }}
       </Button>
@@ -75,15 +62,25 @@ import { cn } from '@/lib/utils';
 
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { LoginUser } from '../../services/auth';
 
-import type { BaseApi } from '@/types/index';
+import type { BaseApi, BaseError } from '@/types/index';
 
 const router = useRouter();
 const authStore = useAuthStore();
 
+// Password visibility toggle
+const showPassword = ref(false);
+const typePassword = ref('password');
+
+function togglePassword() {
+  showPassword.value = !showPassword.value;
+  typePassword.value = showPassword.value ? 'text' : 'password';
+}
+
+// Zod validation schema
 const authSchema = toTypedSchema(
   z.object({
     username: z
@@ -104,10 +101,16 @@ const authSchema = toTypedSchema(
   })
 );
 
-const LoginForm = useForm({
+// Initialize form with useForm
+const { errors, handleSubmit, defineField } = useForm({
   validationSchema: authSchema,
 });
 
+// Define form fields with v-model binding
+const [username] = defineField('username');
+const [password] = defineField('password');
+
+// Login mutation
 const loginMutation = useMutation({
   mutationFn: LoginUser,
   onSuccess: async (data: BaseApi) => {
@@ -122,35 +125,27 @@ const loginMutation = useMutation({
     authStore.setAuthenticated(false);
     throw new Error(data?.message || 'Login gagal');
   },
-  onError: (err: any) => {
-    const errData = err.response?.data || err.message || 'Terjadi kesalahan tak terduga';
+  onError: (err: BaseError) => {
+    const errRes = err.response?.data;
     let errMsg = '';
-
-    if (errData.code === 404) {
+    if (errRes?.code === 404) {
       errMsg = 'Pengguna tidak ditemukan';
-    } else if (errData.code === 400) {
-      if (errData.error?.error_description === 'incorrect password') {
+    } else if (errRes?.code === 400) {
+      if (errRes?.error?.error_description === 'incorrect password') {
         errMsg = 'Password salah';
       } else {
         errMsg = 'Username atau password salah';
       }
     } else {
-      errMsg = errData.message || errData;
+      errMsg = 'Terjadi kesalahan pada server';
     }
     toast.error(`Login gagal: ${errMsg}`);
-    console.error('Login failed:', err.response?.data?.message || err.message);
+    console.error('Login failed:', errMsg);
   },
 });
 
-const onSubmit = LoginForm.handleSubmit(values => {
+// Form submission handler
+const onSubmit = handleSubmit(values => {
   loginMutation.mutate(values);
 });
-
-const showPassword = ref(false);
-const typePassword = ref('password');
-
-function togglePassword() {
-  showPassword.value = !showPassword.value;
-  typePassword.value = showPassword.value ? 'text' : 'password';
-}
 </script>

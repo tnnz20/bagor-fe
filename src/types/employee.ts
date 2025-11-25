@@ -15,7 +15,7 @@ export type Department =
 
 export type DepartmentCode = 'UMK' | 'PRT' | 'ORG' | 'HKM' | 'EKO' | 'PEM' | 'KSR' | 'PKP' | 'PBJ';
 
-export type EmployeeType = 'Pengawas dan Penyetaraan' | 'Murni dan Pelaksana' | 'PTT';
+export type EmployeeType = 'Pengawas dan Penyetaraan' | 'Murni dan Pelaksana' | 'PTT' | 'Struktural';
 
 export interface Employee extends BaseModel {
   id: number;
@@ -27,19 +27,20 @@ export interface Employee extends BaseModel {
 
 // Employee detail type
 export interface EmployeeDetail {
-  nip: string;
+  nip?: string;
   department_code: string;
   department: string;
   position: string;
   employee_type: string;
-  employee_created_at: number;
-  employee_updated_at: number;
+  employee_created_at?: number;
+  employee_updated_at?: number;
 }
 
 export interface FilterEmployees {
   department: string;
   employeeType: string;
   search: string;
+  sort_order: 'ASC' | 'DESC';
 }
 
 export interface EmployeeScore extends BaseModel {

@@ -52,11 +52,11 @@ const { mutate: mutateStartSurvey, isPending } = useMutation({
       user_id: props.employee.user_id,
     } as StartScoringPayload),
   onSuccess: response => {
-    if (response.data?.slug_param) {
+    if (response.data?.slug) {
       toast.success('Penilaian kinerja dimulai');
       isOpen.value = false;
       // Redirect to questions page with slug
-      router.push(`/questions/${response.data.slug_param}`);
+      router.push(`/questions/${response.data.slug}`);
     } else {
       toast.error('Gagal mendapatkan slug penilaian');
     }

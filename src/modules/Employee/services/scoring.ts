@@ -1,9 +1,9 @@
 import ApiClient from '@/api/axios';
 import type { BaseApi } from '@/types';
 
-import type { ScoringDetail, StartScoringPayload, StartScoringResponse } from '@/types/scoring';
+import type { ScoringDetail, StartScoringPayload, SurveySessionResponse } from '@/types/scoring';
 
-export const StartScoring = async (payload: StartScoringPayload): Promise<BaseApi<StartScoringResponse>> => {
+export const StartScoring = async (payload: StartScoringPayload): Promise<BaseApi<SurveySessionResponse>> => {
   const today = new Date();
   const currentYear = today.getFullYear();
   const currentMonth = today.getMonth();
@@ -14,7 +14,7 @@ export const StartScoring = async (payload: StartScoringPayload): Promise<BaseAp
     quarter: currentMonth >= 0 && currentMonth <= 5 ? 1 : 2,
   };
 
-  const res = await ApiClient.post<BaseApi<StartScoringResponse>>(`/survey-sessions/start`, requestPayload);
+  const res = await ApiClient.post<BaseApi<SurveySessionResponse>>(`/survey-sessions`, requestPayload);
   return res.data;
 };
 
@@ -24,6 +24,6 @@ export const GetScoringStatus = async (slugParam: string): Promise<BaseApi<Scori
 };
 
 export const MarkScoringAsComplete = async (slugParam: string): Promise<BaseApi> => {
-  const res = await ApiClient.put<BaseApi>(`/survey-sessions/${slugParam}/complete`);
+  const res = await ApiClient.post<BaseApi>(`/survey-sessions/${slugParam}/completion`);
   return res.data;
 };

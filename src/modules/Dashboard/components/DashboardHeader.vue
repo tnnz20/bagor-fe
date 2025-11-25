@@ -6,9 +6,11 @@
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem class="hidden md:block">
-            <BreadcrumbLink href="/dashboard">
-              {{ capitalizedSegments[0] || 'Dashboard' }}
-            </BreadcrumbLink>
+            <RouterLink :to="routePath[1] ? `/${routePath[1]}` : '/'">
+              <BreadcrumbLink as-child>
+                {{ capitalizedSegments[0] || 'Dashboard' }}
+              </BreadcrumbLink>
+            </RouterLink>
           </BreadcrumbItem>
 
           <BreadcrumbSeparator v-if="capitalizedSegments.length > 1" class="hidden md:block" />
@@ -40,19 +42,11 @@ import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 
 const route = useRoute();
-
-const capitalizedSegments = computed(() =>
-  route.path
+const routePath = computed(() => route.path.split('/'));
+const capitalizedSegments = computed(() => {
+  return route.path
     .split('/')
     .filter(segment => segment.length > 0)
-    .map(segment => {
-      if (segment.includes('-')) {
-        return segment
-          .split('-')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ');
-      }
-      return segment.charAt(0).toUpperCase() + segment.slice(1);
-    })
-);
+    .map(segment => segment.charAt(0).toUpperCase() + segment.slice(1));
+});
 </script>

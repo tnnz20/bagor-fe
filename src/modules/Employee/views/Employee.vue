@@ -72,6 +72,7 @@ const filters = reactive<FilterEmployees>({
   department: (route.query.department as string) || 'all',
   employeeType: (route.query.employeeType as string) || 'all',
   search: (route.query.search as string) || '',
+  sort_order: (route.query.sort_order as 'ASC' | 'DESC') || 'ASC',
 });
 
 const filtersForQuery = computed(() => {

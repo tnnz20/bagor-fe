@@ -22,9 +22,18 @@ export const employeeTypes: SelectOption<EmployeeType>[] = [
   { value: 'Pengawas dan Penyetaraan', label: 'Pengawas dan Penyetaraan' },
   { value: 'Murni dan Pelaksana', label: 'Murni dan Pelaksana' },
   { value: 'PTT', label: 'PTT' },
+  { value: 'Struktural', label: 'Struktural' },
 ];
 
 export const roles: SelectOption<UserRole>[] = [
   { value: 'manager', label: 'Manager' },
   { value: 'employee', label: 'Employee' },
 ];
+
+export const ERROR_MESSAGES: Record<number, string> = {
+  400: 'Permintaan tidak valid',
+  401: 'Anda tidak memiliki akses untuk melihat pertanyaan ini',
+  403: 'Akses ditolak',
+  500: 'Server error. Silahkan coba lagi nanti.',
+  503: 'Layanan sedang tidak tersedia',
+};

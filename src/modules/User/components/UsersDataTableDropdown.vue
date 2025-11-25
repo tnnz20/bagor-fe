@@ -9,16 +9,20 @@
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-        <DropdownMenuItem>
-          <Icons.ZoomIn class="mr-2 h-4 w-4" />
-          <RouterLink :to="`/employees/${user.id}`"> Lihat Detail</RouterLink>
+        <RouterLink :to="`/users/detail/${user.id}`">
+          <DropdownMenuItem>
+            <Icons.ZoomIn class="mr-2 h-4 w-4" />
+            Lihat Detail
+          </DropdownMenuItem>
+        </RouterLink>
+        <DropdownMenuItem @click="isEditDialogOpen = true" class="cursor-pointer">
+          <Icons.Edit2 class="mr-2 h-4 w-4" />
+          Edit Pengguna
         </DropdownMenuItem>
-
         <DropdownMenuSeparator />
-
         <DropdownMenuItem
           :class="cn('text-destructive', 'hover:bg-destructive', 'cursor-pointer')"
-          @click="openDialog('delete')"
+          @click="isDeleteDialogOpen = true"
         >
           <Icons.Trash2 class="mr-2 h-4 w-4" />
           Hapus Pengguna
@@ -27,43 +31,21 @@
     </DropdownMenu>
 
     <!-- Delete Confirmation Dialog -->
-    <Dialog v-model:open="isDeleteDialogOpen">
-      <DialogContent class="sm:max-w-[525px]">
-        <DialogHeader>
-          <DialogTitle>Konfirmasi Hapus Pengguna</DialogTitle>
-          <DialogDescription>
-            Apakah Anda yakin ingin menghapus pengguna <strong>{{ user.name }}</strong
-            >? Tindakan ini tidak dapat dibatalkan.
-          </DialogDescription>
-        </DialogHeader>
-        <div class="bg-destructive/10 flex items-center space-x-2 rounded-lg p-4">
-          <Icons.AlertTriangle class="text-destructive h-5 w-5" />
-          <span class="text-destructive text-sm"> Data pengguna akan dihapus secara permanen dari sistem. </span>
-        </div>
-        <DialogFooter>
-          <Button type="button" variant="outline" @click="closeDialog('delete')"> Batal </Button>
-          <Button type="button" variant="destructive"> Hapus Pengguna </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <UsersDeleteDialog :userId="user.id" :fullName="user.name" v-model:open="isDeleteDialogOpen" />
+
+    <!-- Edit Employee Dialog -->
+    <UsersEditEmployeeDialog :userData="transformedUserData" v-model:open="isEditDialogOpen" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 
+import { getDepartmentCode } from '@/lib/users';
 import { cn } from '@/lib/utils';
 
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -72,7 +54,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import UsersDeleteDialog from './dialog/UsersDeleteDialog.vue';
+import UsersEditEmployeeDialog from './dialog/UsersEditEmployeeDialog.vue';
 
+import type { EmployeeDetail } from '@/types/employee';
 import type { UserTableColumn } from '@/types/user';
 
 const props = defineProps<{
@@ -83,36 +68,23 @@ const props = defineProps<{
 const isEditDialogOpen = ref(false);
 const isDeleteDialogOpen = ref(false);
 
-// Form data for editing
-const formData = reactive({
-  name: '',
-  email: '',
-  position: '',
+// Transform UserTableColumn to UserDetail format for the edit dialog
+const transformedUserData = computed(() => {
+  const user = props.user;
+  const employeeDetail: EmployeeDetail = {
+    nip: '',
+    employee_type: user.employeeType || '',
+    department: (user.department as string) || '',
+    department_code: getDepartmentCode(user.department as string) || '',
+    position: user.position || '',
+    employee_created_at: 0,
+    employee_updated_at: 0,
+  };
+
+  return {
+    id: user.id,
+    role: user.role,
+    employee_detail: employeeDetail,
+  };
 });
-
-// Initialize form data when user prop changes
-const initializeFormData = () => {
-  formData.name = props.user.name;
-  formData.position = props.user.position || '';
-};
-
-// Watch for user prop changes
-watch(() => props.user, initializeFormData, { immediate: true });
-
-// Edit dialog methods
-const openDialog = (eventName: string) => {
-  if (eventName === 'edit') {
-    isEditDialogOpen.value = true;
-  } else if (eventName === 'delete') {
-    isDeleteDialogOpen.value = true;
-  }
-};
-
-const closeDialog = (eventName: string) => {
-  if (eventName === 'edit') {
-    isEditDialogOpen.value = false;
-  } else if (eventName === 'delete') {
-    isDeleteDialogOpen.value = false;
-  }
-};
 </script>

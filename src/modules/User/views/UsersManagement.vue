@@ -28,34 +28,28 @@
         <CardDescription> Daftar seluruh pengguna dalam sistem beserta peran dan status mereka </CardDescription>
       </CardHeader>
       <CardContent>
-        <!-- Loading State -->
-        <div v-if="isLoading" class="flex min-h-64 w-full items-center justify-center">
-          <div class="flex flex-col items-center gap-2">
-            <Icons.Loader2 class="text-primary h-16 w-16 animate-spin" />
-            <p class="text-muted-foreground">Memuat data...</p>
-          </div>
-        </div>
-
-        <div v-else-if="hasError" class="flex h-64 w-full flex-col items-center justify-center space-y-4">
+        <div v-if="isError" class="flex h-64 w-full flex-col items-center justify-center space-y-4">
           <Icons.AlertCircle class="text-destructive h-16 w-16" />
           <div class="text-center">
             <h2 class="text-xl font-semibold">Gagal Memuat Data</h2>
-            <p class="text-muted-foreground mt-2">
-              {{ errorMessage }}
-            </p>
+            <p class="text-muted-foreground mt-2">{{ errorMessage }}</p>
+            <Button variant="outline" @click="refetch" class="mt-4">Coba Lagi</Button>
           </div>
         </div>
 
         <UsersDataTable
           v-else
+          :loading="isLoading"
           :data="data?.data"
+          :pagination="data?.pagination"
           v-model:search="searchInput"
-          v-model:page="Page"
-          v-model:page-size="PageSize"
+          v-model:page="page"
+          v-model:page-size="pageSize"
           v-model:filters="filters"
         />
       </CardContent>
     </Card>
+
     <UsersAddDialog v-model="isAddUserDialogOpen" />
   </div>
 </template>
@@ -64,6 +58,8 @@
 import { computed, reactive, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
+import { ERROR_MESSAGES } from '@/constants';
+import type { BaseError } from '@/types';
 import { keepPreviousData, useQuery } from '@tanstack/vue-query';
 import { useDebounceFn } from '@vueuse/core';
 
@@ -82,12 +78,10 @@ const router = useRouter();
 // Dialog State
 const isAddUserDialogOpen = ref(false);
 
-// Search State
+// --- State Initialization (Search, Pagination, Filters from URL) ---
 const searchInput = ref<string>((route.query.search as string) || '');
-
-// Pagination State
-const Page = ref<number>(Number.parseInt((route.query.page as string) || '1', 10));
-const PageSize = ref<number>(Number.parseInt((route.query.pageSize as string) || '10', 10));
+const page = ref<number>(Number(route.query.page) || 1);
+const pageSize = ref<number>(Number(route.query.pageSize) || 10);
 
 // Filters State
 const filters = reactive<FilterUsers>({
@@ -95,93 +89,69 @@ const filters = reactive<FilterUsers>({
   employeeType: (route.query.employeeType as string) || 'all',
   role: (route.query.role as string) || 'all',
   search: (route.query.search as string) || '',
+  sort_order: (route.query.sort_order as 'ASC' | 'DESC') || 'ASC',
 });
 
-const filtersForQuery = computed(() => {
-  const query: Record<string, string> = {};
+const activeFiltersForUrl = computed(() => {
+  const query: Record<string, string> = {
+    page: page.value.toString(),
+    pageSize: pageSize.value.toString(),
+  };
 
   if (filters.search?.trim()) query.search = filters.search.trim();
   if (filters.department !== 'all') query.department = filters.department;
   if (filters.employeeType !== 'all') query.employeeType = filters.employeeType;
   if (filters.role !== 'all') query.role = filters.role;
+  if (filters.sort_order) query.sort_order = filters.sort_order;
 
   return query;
 });
 
-const updateQueryParams = () => {
-  router.replace({
-    query: {
-      ...filtersForQuery.value,
-      page: Page.value.toString(),
-      pageSize: PageSize.value.toString(),
-    },
-  });
+const syncUrl = () => {
+  router.replace({ query: activeFiltersForUrl.value });
 };
 
-// SEARCH — Debounced
-const debouncedSearchUpdate = useDebounceFn(() => {
-  filters.search = searchInput.value;
-  Page.value = 1;
-  updateQueryParams();
+// Handle Search Input (Debounced)
+const handleSearchUpdate = useDebounceFn((newVal: string) => {
+  filters.search = newVal;
+  page.value = 1; // Reset to page 1 on new search
+  syncUrl();
 }, 500);
 
-watch(searchInput, debouncedSearchUpdate);
+watch(searchInput, handleSearchUpdate);
 
-// FILTERS — Reset page to 1, no debounce
+// Handle Filter Dropdowns (Immediate)
 watch(
-  () => ({
-    department: filters.department,
-    employeeType: filters.employeeType,
-    role: filters.role,
-  }),
+  () => [filters.department, filters.employeeType, filters.role, filters.sort_order],
   () => {
-    Page.value = 1;
-    updateQueryParams();
+    page.value = 1; // Reset to page 1 on filter change
+    syncUrl();
   }
 );
 
-// PAGINATION — No reset
-watch([Page, PageSize], () => {
-  updateQueryParams();
-});
+// Handle Pagination (Immediate)
+watch([page, pageSize], syncUrl);
 
-const { data, isLoading, error } = useQuery({
-  queryKey: computed(() => ['users', Page.value, PageSize.value, { ...filters }]),
-  queryFn: () => getUserList({ current_page: Page.value, limit: PageSize.value }, { ...filters }),
-  placeholderData: keepPreviousData,
+const { data, isLoading, isError, error, refetch } = useQuery({
+  queryKey: ['users', page, pageSize, filters],
+  queryFn: () => getUserList({ current_page: page.value, limit: pageSize.value }, filters),
+  placeholderData: keepPreviousData, // Keeps old table data while fetching new page
   retry: false,
-  refetchOnMount: false,
   refetchOnWindowFocus: false,
-  refetchOnReconnect: false,
-});
-
-const hasError = computed(() => {
-  const err = error.value as any;
-  if (err?.response?.status === 404) {
-    return false;
-  }
-  return !!error.value;
 });
 
 const errorMessage = computed(() => {
   if (!error.value) return '';
 
-  const err = error.value as any;
-  const messages: Record<number, string> = {
-    400: 'Permintaan tidak valid',
-    500: 'Server error. Silahkan coba lagi nanti.',
-  };
+  const err = error.value as BaseError;
+  const status = err.response?.status;
+  const dataCode = err.response?.data?.code;
 
-  return messages[err.response?.status] || err.message || 'Terjadi kesalahan';
+  return (
+    (status && ERROR_MESSAGES[status]) ||
+    (dataCode && ERROR_MESSAGES[dataCode]) ||
+    err.message ||
+    'Terjadi kesalahan pada server.'
+  );
 });
-
-// Computed statistics
-// const totalUsers = computed(() => users.value.length);
-// const fungsionalUsers = computed(() => users.value.filter(u => u.employeeType === 'Fungsional').length);
-// const strukturalUsers = computed(() => users.value.filter(u => u.employeeType === 'Struktural').length);
-// const kontrakUsers = computed(() => users.value.filter(u => u.employeeType === 'Kontrak').length);
-// const newUsersThisMonth = computed(() => {
-//   const oneMonthAgo = Date.now() - 30 * 24 * 60 * 60 * 1000;
-//   return users.value.filter(u => u.created_at > oneMonthAgo).length;
-// });
 </script>

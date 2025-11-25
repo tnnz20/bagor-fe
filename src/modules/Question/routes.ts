@@ -11,6 +11,7 @@ export const QuestionRoutes: RouteRecordRaw[] = [
     meta: {
       title: 'Bagor - Questions',
       description: 'Bagor Questions Page',
+      roles: ['admin', 'manager'],
     },
   },
 ];

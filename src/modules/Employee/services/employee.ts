@@ -24,6 +24,10 @@ export const getEmployeesScore = async (
     queryParams.append('search', filterEmployees.search.trim());
   }
 
+  if (filterEmployees.sort_order) {
+    queryParams.append('sort_order', filterEmployees.sort_order);
+  }
+
   const today = new Date();
   const currentYear = today.getFullYear();
   const currentMonth = today.getMonth();
@@ -67,6 +71,6 @@ export const updateScore = async (employeeId: string, payload: UpdateEmployeeSco
   requestBody.quarter = payload.quarter ?? (currentMonth >= 0 && currentMonth <= 5 ? 1 : 2);
   requestBody.year = payload.year ?? currentYear;
 
-  const res = await ApiClient.put<BaseApi>(`/scores/${employeeId}`, requestBody);
+  const res = await ApiClient.put<BaseApi>(`/scores/users/${employeeId}`, requestBody);
   return res.data;
 };

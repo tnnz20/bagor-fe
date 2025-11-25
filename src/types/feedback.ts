@@ -1,4 +1,4 @@
-import type { BaseModel, PaginationMeta } from '.';
+import type { BaseModel } from '.';
 
 // Feedback Category Type
 export type FeedbackCategory =
@@ -33,8 +33,4 @@ export interface Feedback extends BaseModel {
   subject: string;
   message: string;
   is_read: boolean;
-}
-
-export interface FeedbackListResponseWithPagination extends PaginationMeta {
-  feedbacks: Feedback[];
 }

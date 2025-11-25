@@ -1,7 +1,7 @@
 import ApiClient from '@/api/axios';
 import type { BaseApi, PaginationMeta } from '@/types';
 
-import type { FeedbackListResponseWithPagination, FeedbackSubmission } from '@/types/feedback';
+import type { Feedback, FeedbackSubmission } from '@/types/feedback';
 
 export const createFeedback = async (feedbackData: FeedbackSubmission): Promise<BaseApi> => {
   const res = await ApiClient.post<BaseApi>('/feedbacks', feedbackData);
@@ -11,11 +11,11 @@ export const createFeedback = async (feedbackData: FeedbackSubmission): Promise<
 export const getFeedbackList = async (
   paginationMeta?: Partial<PaginationMeta>,
   isRead?: boolean
-): Promise<BaseApi<FeedbackListResponseWithPagination>> => {
+): Promise<BaseApi<Feedback[]>> => {
   const params = new URLSearchParams();
 
-  if (paginationMeta?.page) {
-    params.append('page', paginationMeta.page.toString());
+  if (paginationMeta?.current_page) {
+    params.append('page', paginationMeta.current_page.toString());
   }
 
   if (paginationMeta?.limit) {
@@ -29,7 +29,7 @@ export const getFeedbackList = async (
   const queryString = params.toString();
   const url = queryString ? `/feedbacks?${queryString}` : '/feedbacks';
 
-  const res = await ApiClient.get<BaseApi<FeedbackListResponseWithPagination>>(url);
+  const res = await ApiClient.get<BaseApi<Feedback[]>>(url);
   return res.data;
 };
 

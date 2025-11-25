@@ -32,39 +32,37 @@
     <TabsContent value="all" class="m-0 min-h-0 flex-1">
       <!-- Empty State (404 or no data) -->
       <div
-        v-if="
-          props.error?.response?.status === 404 || (!props.error && (!data?.feedbacks || data.feedbacks.length === 0))
-        "
+        v-if="props.error?.response?.status === 404 || (!props.error && (!data || !data || data.length === 0))"
         class="flex h-full w-full flex-col items-center justify-center p-8 text-center"
       >
         <h3 class="mb-2 text-lg font-semibold">Belum Ada Kritik & Saran</h3>
         <p class="text-muted-foreground text-sm">Saat ini belum ada kritik dan saran yang tersedia untuk ditampilkan</p>
       </div>
       <!-- Content -->
-      <FeedbackListContent v-else :feedbacks="data?.feedbacks" v-model:selectedFeedback="selectedFeedback" />
+      <FeedbackListContent v-else :feedbacks="data" v-model:selectedFeedback="selectedFeedback" />
     </TabsContent>
     <TabsContent value="unread" class="m-0 min-h-0 flex-1">
       <!-- Empty State (404 or no data) -->
       <div
-        v-if="
-          props.error?.response?.status === 404 || (!props.error && (!data?.feedbacks || data.feedbacks.length === 0))
-        "
+        v-if="props.error?.response?.status === 404 || (!props.error && (!data || data.length === 0))"
         class="flex h-full w-full flex-col items-center justify-center p-8 text-center"
       >
         <p class="text-muted-foreground text-sm">Tidak ada kritik dan saran yang belum dibaca</p>
       </div>
       <!-- Content -->
-      <FeedbackListContent v-else :feedbacks="data?.feedbacks" v-model:selectedFeedback="selectedFeedback" />
+      <FeedbackListContent v-else :feedbacks="data" v-model:selectedFeedback="selectedFeedback" />
     </TabsContent>
 
     <!-- Pagination -->
-    <div v-if="!props.error && data?.feedbacks && data.feedbacks.length > 0">
+    <div v-if="!props.error && data && data.length > 0">
       <Separator />
       <div class="flex items-center justify-between px-4 py-2">
         <div class="text-muted-foreground text-sm">
-          <span v-if="data?.total_rows">
-            {{ (data?.page - 1) * data?.limit + 1 }}-{{ Math.min(data.page * data.limit, data.total_rows || 0) }} dari
-            {{ data.total_rows || 0 }} saran
+          <span v-if="props.pagination?.total_rows">
+            {{ (props.pagination.current_page - 1) * props.pagination.limit + 1 }}-{{
+              Math.min(props.pagination.current_page * props.pagination.limit, props.pagination.total_rows || 0)
+            }}
+            dari {{ props.pagination.total_rows || 0 }} saran
           </span>
         </div>
         <div class="flex items-center gap-2">
@@ -72,8 +70,8 @@
             variant="outline"
             class="cursor-pointer"
             size="sm"
-            :disabled="!data || data.page <= 1"
-            @click="page = (data?.page || 1) - 1"
+            :disabled="!props.pagination || props.pagination.current_page <= 1"
+            @click="page = (props.pagination?.current_page || 1) - 1"
           >
             <Icons.ChevronLeft class="h-4 w-4" />
           </Button>
@@ -81,8 +79,8 @@
             variant="outline"
             class="cursor-pointer"
             size="sm"
-            :disabled="!data || data.page >= (data.total_pages || 1)"
-            @click="page = (data?.page || 1) + 1"
+            :disabled="!props.pagination || props.pagination.current_page >= (props.pagination.total_pages || 1)"
+            @click="page = (props.pagination?.current_page || 1) + 1"
           >
             <Icons.ChevronRight class="h-4 w-4" />
           </Button>
@@ -96,7 +94,7 @@
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
-import type { BaseError } from '@/types';
+import type { BaseError, PaginationMeta } from '@/types';
 import { refDebounced } from '@vueuse/core';
 
 import { Icons } from '@/components/icons';
@@ -106,10 +104,11 @@ import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import FeedbackListContent from './FeedbackListContent.vue';
 
-import type { FeedbackListResponseWithPagination } from '@/types/feedback';
+import type { Feedback } from '@/types/feedback';
 
 interface FeedbackListProps {
-  data?: FeedbackListResponseWithPagination | null;
+  data?: Feedback[] | null;
+  pagination?: PaginationMeta;
   error?: BaseError | null;
 }
 

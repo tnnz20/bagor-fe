@@ -1,17 +1,20 @@
 import ApiClient from '@/api/axios';
 
+import type { EmployeeDetail } from '@/types/employee';
 import type { BaseApi, PaginationMeta } from '@/types/index';
-import type { FilterUsers, User, UserListResponseWithPagination, UserRegistration } from '@/types/user';
+import type { FilterUsers, User, UserDetail, UserRegistration } from '@/types/user';
 
+// Get current logged-in user
 export const getUser = async (): Promise<BaseApi<User>> => {
-  const res = await ApiClient.get<BaseApi<User>>(`/users/user`);
+  const res = await ApiClient.get<BaseApi<User>>(`/users/me`);
   return res.data;
 };
 
+// Get user list with pagination and filters
 export const getUserList = async (
   paginationMeta: PaginationMeta,
   filterUsers: FilterUsers
-): Promise<BaseApi<UserListResponseWithPagination>> => {
+): Promise<BaseApi<UserDetail[]>> => {
   const queryParams = new URLSearchParams();
 
   queryParams.append('page', paginationMeta.current_page.toString());
@@ -31,11 +34,39 @@ export const getUserList = async (
     queryParams.append('search', filterUsers.search.trim());
   }
 
-  const res = await ApiClient.get<BaseApi<UserListResponseWithPagination>>('/users', { params: queryParams });
+  if (filterUsers.sort_order) {
+    queryParams.append('sort_order', filterUsers.sort_order);
+  }
+
+  const res = await ApiClient.get<BaseApi<UserDetail[]>>('/users', { params: queryParams });
   return res.data;
 };
 
+// Create new user
 export const createUser = async (userData: UserRegistration): Promise<BaseApi> => {
   const res = await ApiClient.post<BaseApi>('/users', userData);
+  return res.data;
+};
+
+// Delete user by ID
+export const deleteUser = async (userId: string): Promise<BaseApi> => {
+  const res = await ApiClient.delete<BaseApi>(`/users/${userId}`);
+  return res.data;
+};
+
+// Update user employee detail
+export const updateUserEmployeeDetail = async (userId: string, payload: Partial<EmployeeDetail>): Promise<BaseApi> => {
+  const res = await ApiClient.put<BaseApi>(`/users/${userId}/employee-detail`, payload);
+  return res.data;
+};
+
+// Update user active status
+export const updateUserStatus = async (userId: string, isActive: boolean): Promise<BaseApi> => {
+  const res = await ApiClient.patch<BaseApi>(`/users/${userId}/status`, { is_active: isActive });
+  return res.data;
+};
+
+export const getUserDetailById = async (userId: string): Promise<BaseApi<UserDetail>> => {
+  const res = await ApiClient.get<BaseApi<UserDetail>>(`/users/${userId}`);
   return res.data;
 };

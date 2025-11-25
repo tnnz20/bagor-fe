@@ -27,6 +27,7 @@
     <FeedbackContent
       v-else
       :data="data?.data"
+      :pagination="data?.pagination"
       :error="error"
       v-model:page="page"
       v-model:limit="limit"
@@ -57,7 +58,7 @@ const isRead = ref<boolean | undefined>(route.query.tabs === 'unread' ? false : 
 
 const { data, isLoading, error, refetch } = useQuery({
   queryKey: computed(() => ['feedbacks', page.value, limit.value, isRead.value]),
-  queryFn: () => getFeedbackList({ page: page.value, limit: limit.value }, isRead.value),
+  queryFn: () => getFeedbackList({ current_page: page.value, limit: limit.value }, isRead.value),
   retry: 1,
   staleTime: 5 * 60 * 1000,
 });
