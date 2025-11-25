@@ -32,5 +32,5 @@ export const getRoleDefaultRoute = (role: string): string => {
     employee: '/saran', // Employee goes to saran
   };
 
-  return roleRoutes[role] || '/saran'; // Default fallback
+  return roleRoutes[role];
 };
