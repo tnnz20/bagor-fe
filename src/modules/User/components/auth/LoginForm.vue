@@ -54,7 +54,6 @@ import { useRouter } from 'vue-router';
 
 import { useMutation } from '@tanstack/vue-query';
 import { toTypedSchema } from '@vee-validate/zod';
-import type { AxiosError } from 'axios';
 import { useForm } from 'vee-validate';
 import { toast } from 'vue-sonner';
 import * as z from 'zod';
@@ -69,7 +68,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { LoginUser } from '../../services/auth';
 
-import type { BaseApi, BaseError, ErrorResponse } from '@/types/index';
+import type { BaseApi, BaseError } from '@/types/index';
 
 const router = useRouter();
 const authStore = useAuthStore();
