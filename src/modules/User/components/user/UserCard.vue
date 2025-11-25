@@ -24,7 +24,7 @@
               <Badge :variant="getRoleVariant(userData.role)">
                 {{ getRoleName(userData.role) }}
               </Badge>
-              <Badge variant="outline">
+              <Badge variant="outline" v-if="userData.email">
                 <Icons.Mail class="mr-1 h-3 w-3" />
                 {{ userData.email }}
               </Badge>
