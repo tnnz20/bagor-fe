@@ -65,3 +65,8 @@ export const updateUserStatus = async (userId: string, isActive: boolean): Promi
   const res = await ApiClient.patch<BaseApi>(`/users/${userId}/status`, { is_active: isActive });
   return res.data;
 };
+
+export const getUserDetailById = async (userId: string): Promise<BaseApi<UserDetail>> => {
+  const res = await ApiClient.get<BaseApi<UserDetail>>(`/users/${userId}`);
+  return res.data;
+};
