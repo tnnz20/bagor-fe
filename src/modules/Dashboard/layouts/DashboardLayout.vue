@@ -37,11 +37,13 @@
 import { watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
+import type { BaseApi, BaseError } from '@/types';
 import { useQuery } from '@tanstack/vue-query';
 import { toast, Toaster } from 'vue-sonner';
 
 import { getUser } from '@/modules/User/services/user';
 import { useAuthStore } from '@/stores/auth';
+import { useUserStore } from '@/stores/user';
 
 import { getRoleDefaultRoute } from '@/lib/utils';
 
@@ -51,24 +53,32 @@ import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import AppSidebar from '../components/AppSidebar.vue';
 import DashboardHeader from '../components/DashboardHeader.vue';
 
+import type { User, UserRole } from '@/types/user';
+
 const router = useRouter();
 const route = useRoute();
 const authStore = useAuthStore();
+const userStore = useUserStore();
 
 const { data, isLoading, isError, error, isSuccess, refetch } = useQuery({
-  queryKey: ['user'], // ✅ Consistent key for caching
+  queryKey: ['user'],
   queryFn: getUser,
   retry: 2,
-  staleTime: 5 * 60 * 1000,
+  staleTime: 5 * 60 * 1000, // 5 minutes
   gcTime: 10 * 60 * 1000,
 });
 
 // Handler extracted to reduce cognitive complexity
-const handleUserResponse = (response: any) => {
+const handleUserResponse = (response: BaseApi<User> | undefined) => {
   if (!response || response.code !== 200 || !response.data) return;
+
   const userData = response.data;
+
+  // Store user data in the user store
+  userStore.setUser(userData);
+
   const currentPath = route.path;
-  const userRole = userData.role;
+  const userRole = userData.Role as UserRole;
 
   // If user is on /dashboard root, redirect based on role
   if (currentPath === '/dashboard') {
@@ -95,16 +105,16 @@ watch(data, val => handleUserResponse(val), { immediate: true });
 watch(isError, hasError => {
   if (hasError) {
     console.error('Failed to fetch user profile:', error.value);
-
-    const status = (error.value as any)?.response?.status;
+    const err = error.value as BaseError;
+    const status = err.response?.data?.code;
 
     // If 401 Unauthorized, logout and redirect to login
     if (status === 401) {
       toast.error('Sesi Anda telah berakhir. Silakan login kembali.');
       authStore.logout();
+      userStore.clearUser();
       router.push('/login');
     } else {
-      // Other errors - just show error message
       toast.error('Gagal memuat data pengguna');
     }
   }
