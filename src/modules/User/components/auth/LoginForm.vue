@@ -69,7 +69,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { LoginUser } from '../../services/auth';
 
-import type { BaseApi, ErrorResponse } from '@/types/index';
+import type { BaseApi, BaseError, ErrorResponse } from '@/types/index';
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -128,7 +128,7 @@ const loginMutation = useMutation({
     authStore.setAuthenticated(false);
     throw new Error(data?.message || 'Login gagal');
   },
-  onError: (err: AxiosError<ErrorResponse>) => {
+  onError: (err: BaseError) => {
     const errRes = err.response?.data;
     let errMsg = '';
     if (errRes?.code === 404) {
