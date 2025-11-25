@@ -27,11 +27,10 @@ export const UserRoutes: RouteRecordRaw[] = [
 export const UserDashboardRoutes: RouteRecordRaw[] = [
   {
     path: 'users',
-
     children: [
       {
-        path: '',
         name: 'Users Managements',
+        path: '',
         component: UsersManagement,
         meta: {
           title: 'Bagor - Manajemen Pengguna',
@@ -40,12 +39,13 @@ export const UserDashboardRoutes: RouteRecordRaw[] = [
         },
       },
       {
-        path: 'user/:id',
-        name: 'User Details',
+        name: 'User Detail',
+        path: 'detail/:id',
         component: User,
         meta: {
           title: 'Bagor - Detail Pengguna',
           description: 'Bagor User Detail Page',
+          roles: ['admin', 'manager', 'director', 'executive'],
         },
       },
     ],
