@@ -24,6 +24,7 @@
 </template>
 
 <script setup lang="ts">
+import type { BaseError } from '@/types';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { toast } from 'vue-sonner';
 
@@ -44,8 +45,9 @@ const props = defineProps<{
   fullName: string;
 }>();
 
-const queryClient = useQueryClient();
 const isOpen = defineModel<boolean>('open', { default: false });
+
+const queryClient = useQueryClient();
 
 const { mutate: mutateDeleteUser, isPending } = useMutation({
   mutationFn: () => deleteUser(props.userId),
@@ -54,8 +56,8 @@ const { mutate: mutateDeleteUser, isPending } = useMutation({
     isOpen.value = false;
     queryClient.invalidateQueries({ queryKey: ['users'] });
   },
-  onError: (error: any) => {
-    toast.error(`Gagal menghapus pengguna: ${error.message || 'Terjadi kesalahan'}`);
+  onError: (error: BaseError) => {
+    toast.error(`Gagal menghapus pengguna: ${error.message || 'Terjadi kesalahan saat menghapus pengguna.'}`);
   },
 });
 
