@@ -142,7 +142,7 @@ const loginMutation = useMutation({
       errMsg = 'Terjadi kesalahan pada server';
     }
     toast.error(`Login gagal: ${errMsg}`);
-    console.error('Login failed:', errMsg || errRes?.error?.error_description);
+    console.error('Login failed:', errMsg);
   },
 });
 
