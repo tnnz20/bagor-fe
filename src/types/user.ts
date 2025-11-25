@@ -2,7 +2,7 @@ import type { BaseModel } from '.';
 import type { Department, EmployeeDetail, EmployeeType } from './employee';
 
 // User roles enum
-export type UserRole = 'admin' | 'manager' | 'employee';
+export type UserRole = 'admin' | 'manager' | 'employee' | 'director' | 'executive';
 
 // User Form
 export interface UserCredential {
