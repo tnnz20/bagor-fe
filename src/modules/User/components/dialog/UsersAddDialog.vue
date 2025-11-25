@@ -112,6 +112,7 @@
 import { watch } from 'vue';
 
 import { divisions, employeeTypes, roles } from '@/constants';
+import type { BaseError } from '@/types';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { toTypedSchema } from '@vee-validate/zod';
 import { useForm } from 'vee-validate';
@@ -180,10 +181,10 @@ const { mutate: createUserMutation, isPending } = useMutation({
     resetForm();
     AddDialogModel.value = false;
   },
-  onError: (error: any) => {
-    console.error('Failed to create user:', error);
-    const errorMessage =
-      error?.response?.data?.message || error?.message || 'Terjadi kesalahan saat menambahkan pengguna.';
+  onError: (err: BaseError) => {
+    console.error('Failed to create user:', err);
+    const errRes = err.response?.data;
+    const errorMessage = errRes?.error?.error_description || 'Terjadi kesalahan saat menambahkan pengguna.';
     toast.error('Gagal Menambahkan Pengguna', {
       description: errorMessage,
     });
