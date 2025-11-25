@@ -11,7 +11,7 @@
         <DropdownMenuLabel>Aksi</DropdownMenuLabel>
         <DropdownMenuItem>
           <Icons.ZoomIn class="mr-2 h-4 w-4" />
-          <RouterLink :to="`/employees/${user.id}`"> Lihat Detail</RouterLink>
+          <RouterLink :to="`/users/user/${user.id}`"> Lihat Detail</RouterLink>
         </DropdownMenuItem>
         <DropdownMenuItem @click="isEditDialogOpen = true" class="cursor-pointer">
           <Icons.Edit2 class="mr-2 h-4 w-4" />
