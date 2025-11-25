@@ -5,53 +5,40 @@
       <p class="text-muted-foreground text-sm text-balance">Enter your email below to login to your account</p>
     </div>
     <div class="grid gap-6">
-      <FormField v-slot="{ componentField }" name="username">
-        <FormItem>
-          <FormLabel>Username</FormLabel>
-          <FormControl>
-            <Input
-              id="username"
-              type="text"
-              autocomplete="username"
-              placeholder="username"
-              required
-              v-bind="componentField"
-            />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      </FormField>
+      <!-- Username Field -->
+      <div class="space-y-2">
+        <Label for="username">Username</Label>
+        <Input id="username" v-model="username" type="text" autocomplete="username" placeholder="username" />
+        <p v-if="errors.username" class="text-destructive text-sm">{{ errors.username }}</p>
+      </div>
 
-      <FormField v-slot="{ componentField }" name="password">
-        <FormItem>
-          <FormLabel>Password</FormLabel>
-          <FormControl>
-            <div class="relative">
-              <Input
-                id="password"
-                :type="typePassword"
-                required
-                v-bind="componentField"
-                :autocomplete="typePassword === 'password' ? 'current-password' : 'off'"
-                class="pr-10"
-              />
+      <!-- Password Field -->
+      <div class="space-y-2">
+        <Label for="password">Password</Label>
+        <div class="relative">
+          <Input
+            id="password"
+            v-model="password"
+            :type="typePassword"
+            :autocomplete="typePassword === 'password' ? 'current-password' : 'off'"
+            class="pr-10"
+          />
 
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                @click="togglePassword"
-                class="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent"
-                aria-label="Toggle password visibility"
-              >
-                <Icons.Eye v-if="!showPassword" class="text-muted-foreground h-5 w-5" />
-                <Icons.EyeOff v-else class="text-muted-foreground h-5 w-5" />
-              </Button>
-            </div>
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      </FormField>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            @click="togglePassword"
+            class="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent"
+            aria-label="Toggle password visibility"
+          >
+            <Icons.Eye v-if="!showPassword" class="text-muted-foreground h-5 w-5" />
+            <Icons.EyeOff v-else class="text-muted-foreground h-5 w-5" />
+          </Button>
+        </div>
+        <p v-if="errors.password" class="text-destructive text-sm">{{ errors.password }}</p>
+      </div>
+
       <Button type="submit" class="w-full cursor-pointer" :disabled="loginMutation.isPending.value">
         {{ loginMutation.isPending.value ? 'Loading...' : 'Login' }}
       </Button>
@@ -75,8 +62,8 @@ import { cn } from '@/lib/utils';
 
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { LoginUser } from '../../services/auth';
 
 import type { BaseApi } from '@/types/index';
@@ -84,6 +71,7 @@ import type { BaseApi } from '@/types/index';
 const router = useRouter();
 const authStore = useAuthStore();
 
+// Zod validation schema
 const authSchema = toTypedSchema(
   z.object({
     username: z
@@ -104,10 +92,16 @@ const authSchema = toTypedSchema(
   })
 );
 
-const LoginForm = useForm({
+// Initialize form with useForm
+const { errors, handleSubmit, defineField } = useForm({
   validationSchema: authSchema,
 });
 
+// Define form fields with v-model binding
+const [username] = defineField('username');
+const [password] = defineField('password');
+
+// Login mutation
 const loginMutation = useMutation({
   mutationFn: LoginUser,
   onSuccess: async (data: BaseApi) => {
@@ -142,10 +136,12 @@ const loginMutation = useMutation({
   },
 });
 
-const onSubmit = LoginForm.handleSubmit(values => {
+// Form submission handler
+const onSubmit = handleSubmit(values => {
   loginMutation.mutate(values);
 });
 
+// Password visibility toggle
 const showPassword = ref(false);
 const typePassword = ref('password');
 
