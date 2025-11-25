@@ -16,7 +16,7 @@
         <!-- Sort -->
         <div class="grid gap-2">
           <Label for="sortOrder">Urutkan Berdasarkan Nama</Label>
-          <Select v-model="filters.sort_order">
+          <Select v-model="filters.sort_order" id="sortOrder">
             <SelectTrigger class="h-9">
               <SelectValue placeholder="Urutkan" />
             </SelectTrigger>
@@ -30,7 +30,7 @@
         <!-- Department -->
         <div class="grid gap-2">
           <Label for="department">Divisi</Label>
-          <Select v-model="filters.department">
+          <Select v-model="filters.department" id="department">
             <SelectTrigger class="h-9">
               <SelectValue placeholder="Semua Divisi" />
             </SelectTrigger>
@@ -46,8 +46,8 @@
 
         <!-- Employee Type -->
         <div class="grid gap-2">
-          <Label for="employeTypee">Jenis Pegawai</Label>
-          <Select v-model="filters.employeeType">
+          <Label for="employeeType">Jenis Pegawai</Label>
+          <Select v-model="filters.employeeType" id="employeeType">
             <SelectTrigger class="h-9">
               <SelectValue placeholder="Semua Jenis" />
             </SelectTrigger>
