@@ -9,10 +9,12 @@
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-        <DropdownMenuItem>
-          <Icons.ZoomIn class="mr-2 h-4 w-4" />
-          <RouterLink :to="`/users/user/${user.id}`"> Lihat Detail</RouterLink>
-        </DropdownMenuItem>
+        <RouterLink :to="`/users/detail/${user.id}`">
+          <DropdownMenuItem>
+            <Icons.ZoomIn class="mr-2 h-4 w-4" />
+            Lihat Detail
+          </DropdownMenuItem>
+        </RouterLink>
         <DropdownMenuItem @click="isEditDialogOpen = true" class="cursor-pointer">
           <Icons.Edit2 class="mr-2 h-4 w-4" />
           Edit Pengguna
