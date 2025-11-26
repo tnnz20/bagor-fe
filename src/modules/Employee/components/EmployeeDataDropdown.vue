@@ -10,13 +10,22 @@
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Aksi</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem class="cursor-pointer" @click="isPresenceDialogOpen = true">
+        <RouterLink :to="`/users/detail/${employee.user_id}`">
+          <DropdownMenuItem>
+            <Icons.ZoomIn class="mr-2 h-4 w-4" />
+            Lihat Detail
+          </DropdownMenuItem>
+        </RouterLink>
+        <DropdownMenuItem class="cursor-pointer" @click="isPresenceDialogOpen = true" v-if="userRole === 'admin'">
+          <Icons.UserCheck class="mr-2 h-4 w-4" />
           Penilaian Kehadiran
         </DropdownMenuItem>
-        <DropdownMenuItem class="cursor-pointer" @click="isAttendanceDialogOpen = true">
+        <DropdownMenuItem class="cursor-pointer" @click="isAttendanceDialogOpen = true" v-if="userRole === 'admin'">
+          <Icons.Clock class="mr-2 h-4 w-4" />
           Penilaian Keterlambatan
         </DropdownMenuItem>
         <DropdownMenuItem class="cursor-pointer" @click="isSurveyDialogOpen = true">
+          <Icons.ClipboardCheck class="mr-2 h-4 w-4" />
           Penilaian Kinerja
         </DropdownMenuItem>
       </DropdownMenuContent>
@@ -35,6 +44,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+
+import { useUserStore } from '@/stores/user';
 
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
@@ -55,6 +66,10 @@ import type { EmployeeScore } from '@/types/employee';
 defineProps<{
   employee: EmployeeScore;
 }>();
+
+const userStore = useUserStore();
+
+const userRole = userStore.userRole;
 
 // Dialog states
 const isPresenceDialogOpen = ref(false);
