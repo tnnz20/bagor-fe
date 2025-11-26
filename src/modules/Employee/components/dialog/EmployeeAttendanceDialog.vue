@@ -7,7 +7,7 @@
       </DialogHeader>
       <div class="grid gap-4 py-4">
         <div class="grid grid-cols-4 items-center gap-4">
-          <Label>Total Keterlambatan</Label>
+          <Label for="attendance_delay_seconds">Total Keterlambatan</Label>
           <div class="col-span-3 flex items-center gap-2">
             <div class="flex-1">
               <Label for="hours" class="text-muted-foreground text-xs">Jam</Label>
@@ -69,6 +69,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 
+import type { BaseError } from '@/types';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { toast } from 'vue-sonner';
 
@@ -143,11 +144,13 @@ const { mutate: mutateAttendanceDelay, isPending: isUpdating } = useMutation({
   mutationFn: (payload: { attendance_delay_seconds: number }) => updateScore(props.employee.user_id, payload),
   onSuccess: () => {
     toast.success('Skor keterlambatan berhasil diperbarui');
-    queryClient.invalidateQueries({ queryKey: ['score'] });
+    queryClient.invalidateQueries({ queryKey: ['scores'] });
     isOpen.value = false;
   },
-  onError: (error: any) => {
-    toast.error(error?.response?.data?.message || 'Gagal memperbarui skor keterlambatan');
+  onError: (error: BaseError) => {
+    const err = error?.response?.data;
+    const errorMessage = err?.error?.error_name || 'Gagal memperbarui skor keterlambatan';
+    toast.error(errorMessage);
   },
 });
 
