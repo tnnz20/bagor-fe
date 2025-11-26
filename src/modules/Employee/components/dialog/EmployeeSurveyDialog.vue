@@ -64,8 +64,12 @@ const { mutate: mutateStartSurvey, isPending } = useMutation({
   },
   onError: (error: BaseError) => {
     const err = error?.response?.data;
-    const errorMessage = err?.error?.error_name || 'Gagal memulai penilaian kinerja';
+    const alreadyFinished = err?.error?.error_description === 'survey session is already marked as finished';
+    const errorMessage = alreadyFinished
+      ? 'Penilaian kinerja untuk karyawan ini sudah selesai.'
+      : 'Gagal memulai penilaian kinerja';
     toast.error(errorMessage);
+    isOpen.value = false;
   },
 });
 
