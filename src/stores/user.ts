@@ -14,6 +14,7 @@ export const useUserStore = defineStore('user', () => {
   const userName = computed(() => user.value?.full_name || '');
   const userEmail = computed(() => user.value?.email || '');
   const isActive = computed(() => user.value?.is_active || false);
+  const userDepartmentCode = computed(() => user.value?.department_code || '');
 
   // Actions
   const setUser = (userData: User) => {
@@ -32,6 +33,7 @@ export const useUserStore = defineStore('user', () => {
     userRole,
     userName,
     userEmail,
+    userDepartmentCode,
     isActive,
     // Actions
     setUser,
