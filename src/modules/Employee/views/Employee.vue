@@ -44,6 +44,8 @@ import type { BaseError } from '@/types';
 import { keepPreviousData, useQuery } from '@tanstack/vue-query';
 import { useDebounceFn } from '@vueuse/core';
 
+import { useUserStore } from '@/stores/user';
+
 import { Icons } from '@/components/icons';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import EmployeeDataTable from '../components/EmployeeDataTable.vue';
@@ -53,6 +55,14 @@ import type { FilterEmployees } from '@/types/employee';
 
 const route = useRoute();
 const router = useRouter();
+const userStore = useUserStore();
+
+const requiredDepartmentFilter = computed(() => {
+  if (userStore.userRole !== 'admin' && userStore.userDepartmentCode) {
+    return userStore.userDepartmentCode;
+  }
+  return 'all';
+});
 
 // Search State
 const searchInput = ref<string>((route.query.search as string) || '');
@@ -61,9 +71,11 @@ const searchInput = ref<string>((route.query.search as string) || '');
 const page = ref<number>(Number(route.query.page) || 1);
 const pageSize = ref<number>(Number(route.query.pageSize) || 10);
 
+const initialDepartment = (route.query.department as string) || 'all';
+
 // Filters State
 const filters = reactive<FilterEmployees>({
-  department: (route.query.department as string) || 'all',
+  department: initialDepartment,
   employeeType: (route.query.employeeType as string) || 'all',
   search: (route.query.search as string) || '',
   sort_order: (route.query.sort_order as 'ASC' | 'DESC') || 'ASC',
@@ -95,6 +107,25 @@ const handleSearchUpdate = useDebounceFn((newVal: string) => {
 }, 500);
 
 watch(searchInput, handleSearchUpdate);
+
+// Watch for user's role/department code to load/change.
+watch(
+  requiredDepartmentFilter,
+  newRequiredDepartment => {
+    if (newRequiredDepartment === 'all') {
+      // Admin: If previously restricted by URL, reset to 'all' if the URL parameter isn't set.
+      if (!route.query.department) {
+        filters.department = 'all';
+      }
+    } else {
+      // Manager/Restricted Role: FORCE filter to their department code, overriding URL query if it conflicts.
+      filters.department = newRequiredDepartment;
+    }
+    page.value = 1;
+    syncUrl();
+  },
+  { immediate: true }
+);
 
 // Handle Filter Dropdowns (Immediate)
 watch(
