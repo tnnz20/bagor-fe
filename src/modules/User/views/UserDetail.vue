@@ -16,7 +16,7 @@
         </Button>
 
         <!-- Actions Dropdown -->
-        <DropdownMenu>
+        <DropdownMenu v-if="userRole === 'admin'">
           <DropdownMenuTrigger as-child>
             <Button size="sm" class="gap flex cursor-pointer items-center">
               <p class="m-1">Aksi</p>
@@ -129,6 +129,8 @@ import { useRoute, useRouter } from 'vue-router';
 import type { BaseError } from '@/types';
 import { useQuery } from '@tanstack/vue-query';
 
+import { useUserStore } from '@/stores/user';
+
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -152,6 +154,9 @@ import type { EmployeeDetail } from '@/types/employee';
 
 const route = useRoute();
 const router = useRouter();
+const userStore = useUserStore();
+
+const userRole = userStore.userRole;
 
 const id = ref<string>((route.params.id as string) || '');
 
