@@ -7,7 +7,7 @@ import { getDepartmentNameByCode } from '@/lib/users';
 
 import { Icons } from '@/components/icons';
 import Button from '@/components/ui/button/Button.vue';
-import EmployeeDropdownTable from '../components/EmployeeDropdownTable.vue';
+import EmployeeDataDropdown from '../components/EmployeeDataDropdown.vue';
 
 import type { EmployeeScore } from '@/types/employee';
 
@@ -95,7 +95,7 @@ export const EmployeeColumns: ColumnDef<EmployeeScore>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const employee = row.original;
-      return h('div', { class: 'relative' }, h(EmployeeDropdownTable, { employee }));
+      return h('div', { class: 'relative' }, h(EmployeeDataDropdown, { employee }));
     },
   },
 ];
