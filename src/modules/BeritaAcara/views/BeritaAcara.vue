@@ -14,15 +14,15 @@
         <CardDescription>Daftar seluruh berita acara yang telah diupload ke sistem</CardDescription>
       </CardHeader>
       <CardContent>
-        <div class="rounded-md border">
-          <Table>
+        <div class="overflow-x-auto rounded-md border">
+          <Table class="w-full" style="table-layout: auto">
             <TableHeader>
               <TableRow>
-                <TableHead class="w-[300px]">Judul</TableHead>
-                <TableHead class="w-[400px]">Deskripsi</TableHead>
-                <TableHead class="w-[200px]">Nama File</TableHead>
-                <TableHead class="w-[150px]">Dibuat</TableHead>
-                <TableHead class="w-[100px]">Aksi</TableHead>
+                <TableHead class="w-1/3">Judul</TableHead>
+                <TableHead class="w-1/3">Deskripsi</TableHead>
+                <TableHead class="w-1/6">Nama File</TableHead>
+                <TableHead class="w-1/12">Dibuat</TableHead>
+                <TableHead class="w-12 text-center">Aksi</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -32,26 +32,26 @@
                     <div class="flex-shrink-0 rounded-lg bg-red-50 p-2">
                       <Icons.FileText class="text-destructive h-5 w-5" />
                     </div>
-                    <div>
-                      <p class="text-sm font-semibold">{{ item.title }}</p>
+                    <div class="min-w-0">
+                      <p class="truncate text-sm font-semibold">{{ item.title }}</p>
                       <p class="text-muted-foreground text-xs">PDF Document</p>
                     </div>
                   </div>
                 </TableCell>
                 <TableCell>
-                  <p class="text-muted-foreground text-sm">
+                  <p class="text-muted-foreground line-clamp-2 text-sm">
                     {{ item.description || 'Tidak ada deskripsi' }}
                   </p>
                 </TableCell>
                 <TableCell>
                   <div class="flex items-center space-x-2">
-                    <Badge variant="outline" class="text-xs">
+                    <Badge variant="outline" class="max-w-[120px] truncate text-xs">
                       {{ item.fileName }}
                     </Badge>
                   </div>
                 </TableCell>
                 <TableCell>
-                  <div class="text-sm">
+                  <div class="text-sm whitespace-nowrap">
                     <p class="font-medium">{{ formatDate(item.createdAt) }}</p>
                   </div>
                 </TableCell>
