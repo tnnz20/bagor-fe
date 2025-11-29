@@ -7,6 +7,7 @@ import { computed } from 'vue';
 
 import { useUserStore } from '@/stores/user';
 
+import DirectorEmployee from './DirectorEmployee.vue';
 // Import the sub-views
 import ManagerEmployee from './ManagerEmployee.vue';
 
@@ -15,13 +16,10 @@ const userStore = useUserStore();
 const activeComponent = computed(() => {
   const role = userStore.userRole;
 
-  // 1. Director gets their specific view
-  // if (role === 'director') {
-  //   return DirectorEmployee;
-  // }
+  if (role === 'director') {
+    return DirectorEmployee;
+  }
 
-  // 2. Admin and Manager share the same view (and route)
-  // Default to ManagerEmployee for everyone else
   return ManagerEmployee;
 });
 </script>
