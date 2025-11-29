@@ -1,6 +1,8 @@
 import ApiClient from '@/api/axios';
 import type { BaseApi, PaginationMeta } from '@/types';
 
+import { getCurrentPeriod } from '@/lib/utils';
+
 import type { EmployeeScore, FilterEmployees, UpdateEmployeeScorePayload } from '@/types/employee';
 
 export const getEmployeesScore = async (
@@ -28,17 +30,11 @@ export const getEmployeesScore = async (
     queryParams.append('sort_order', filterEmployees.sort_order);
   }
 
-  const today = new Date();
-  const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth();
+  const { year, quarter } = getCurrentPeriod();
 
-  if (currentMonth >= 0 && currentMonth <= 5) {
-    queryParams.append('quarter', '1');
-  } else {
-    queryParams.append('quarter', '2');
-  }
+  queryParams.append('quarter', quarter.toString());
 
-  queryParams.append('year', currentYear.toString());
+  queryParams.append('year', year.toString());
 
   const res = await ApiClient.get<BaseApi<EmployeeScore[]>>('/scores', {
     params: queryParams,
@@ -64,12 +60,10 @@ export const updateScore = async (employeeId: string, payload: UpdateEmployeeSco
   }
 
   // Quarter and year are required - use provided values or calculate defaults
-  const today = new Date();
-  const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth();
+  const { year, quarter } = getCurrentPeriod();
 
-  requestBody.quarter = payload.quarter ?? (currentMonth >= 0 && currentMonth <= 5 ? 1 : 2);
-  requestBody.year = payload.year ?? currentYear;
+  requestBody.quarter = payload.quarter ?? quarter;
+  requestBody.year = payload.year ?? year;
 
   const res = await ApiClient.put<BaseApi>(`/scores/users/${employeeId}`, requestBody);
   return res.data;

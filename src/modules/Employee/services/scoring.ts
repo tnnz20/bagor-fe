@@ -1,17 +1,17 @@
 import ApiClient from '@/api/axios';
 import type { BaseApi } from '@/types';
 
+import { getCurrentPeriod } from '@/lib/utils';
+
 import type { ScoringDetail, StartScoringPayload, SurveySessionResponse } from '@/types/scoring';
 
 export const StartScoring = async (payload: StartScoringPayload): Promise<BaseApi<SurveySessionResponse>> => {
-  const today = new Date();
-  const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth();
+  const { year, quarter } = getCurrentPeriod();
 
   const requestPayload = {
     ...payload,
-    year: currentYear,
-    quarter: currentMonth >= 0 && currentMonth <= 5 ? 1 : 2,
+    year: year,
+    quarter: quarter,
   };
 
   const res = await ApiClient.post<BaseApi<SurveySessionResponse>>(`/survey-sessions`, requestPayload);

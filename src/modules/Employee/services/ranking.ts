@@ -1,19 +1,19 @@
 import ApiClient from '@/api/axios';
 import type { BaseApi } from '@/types';
 
+import { getCurrentPeriod } from '@/lib/utils';
+
 import type { NominatePayload, NominationDetail } from '@/types/ranking';
 
 // Nomination APIs
 
 export const createNomination = async (payload: NominatePayload): Promise<BaseApi> => {
-  const today = new Date();
-  const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth();
+  const { year, quarter } = getCurrentPeriod();
 
   const requestPayload: NominatePayload = {
     ...payload,
-    year: currentYear,
-    quarter: currentMonth >= 0 && currentMonth <= 5 ? 1 : 2,
+    year: year,
+    quarter: quarter,
   };
 
   const res = await ApiClient.post<BaseApi>('/rankings/nominations', requestPayload);
@@ -23,17 +23,11 @@ export const createNomination = async (payload: NominatePayload): Promise<BaseAp
 export const getNominations = async (): Promise<BaseApi<NominationDetail[]>> => {
   const queryParams = new URLSearchParams();
 
-  const today = new Date();
-  const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth();
+  const { year, quarter } = getCurrentPeriod();
 
-  if (currentMonth >= 0 && currentMonth <= 5) {
-    queryParams.append('quarter', '1');
-  } else {
-    queryParams.append('quarter', '2');
-  }
+  queryParams.append('quarter', quarter.toString());
 
-  queryParams.append('year', currentYear.toString());
+  queryParams.append('year', year.toString());
 
   const res = await ApiClient.get<BaseApi<NominationDetail[]>>('/rankings/nominations', {
     params: queryParams,
@@ -43,13 +37,12 @@ export const getNominations = async (): Promise<BaseApi<NominationDetail[]>> => 
 };
 
 export const deleteNomination = async (payload: NominatePayload): Promise<BaseApi> => {
-  const today = new Date();
-  const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth();
+  const { year, quarter } = getCurrentPeriod();
+
   const requestPayload: NominatePayload = {
     ...payload,
-    year: currentYear,
-    quarter: currentMonth >= 0 && currentMonth <= 5 ? 1 : 2,
+    year: year,
+    quarter: quarter,
   };
 
   const res = await ApiClient.delete<BaseApi>('/rankings/nominations', {
@@ -63,17 +56,11 @@ export const deleteNomination = async (payload: NominatePayload): Promise<BaseAp
 export const getNominationShortlist = async (): Promise<BaseApi<NominationDetail[]>> => {
   const queryParams = new URLSearchParams();
 
-  const today = new Date();
-  const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth();
+  const { year, quarter } = getCurrentPeriod();
 
-  if (currentMonth >= 0 && currentMonth <= 5) {
-    queryParams.append('quarter', '1');
-  } else {
-    queryParams.append('quarter', '2');
-  }
+  queryParams.append('quarter', quarter.toString());
 
-  queryParams.append('year', currentYear.toString());
+  queryParams.append('year', year.toString());
 
   const res = await ApiClient.get<BaseApi<NominationDetail[]>>('/rankings/shortlists/nominations', {
     params: queryParams,
@@ -85,16 +72,11 @@ export const getNominationShortlist = async (): Promise<BaseApi<NominationDetail
 export const getShortlist = async (): Promise<BaseApi<NominationDetail[]>> => {
   const queryParams = new URLSearchParams();
 
-  const today = new Date();
-  const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth();
-  if (currentMonth >= 0 && currentMonth <= 5) {
-    queryParams.append('quarter', '1');
-  } else {
-    queryParams.append('quarter', '2');
-  }
+  const { year, quarter } = getCurrentPeriod();
 
-  queryParams.append('year', currentYear.toString());
+  queryParams.append('quarter', quarter.toString());
+
+  queryParams.append('year', year.toString());
 
   const res = await ApiClient.get<BaseApi<NominationDetail[]>>('/rankings/shortlists', {
     params: queryParams,
@@ -104,13 +86,12 @@ export const getShortlist = async (): Promise<BaseApi<NominationDetail[]>> => {
 };
 
 export const createShortlist = async (payload: NominatePayload): Promise<BaseApi> => {
-  const today = new Date();
-  const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth();
+  const { year, quarter } = getCurrentPeriod();
+
   const requestPayload: NominatePayload = {
     ...payload,
-    year: currentYear,
-    quarter: currentMonth >= 0 && currentMonth <= 5 ? 1 : 2,
+    year: year,
+    quarter: quarter,
   };
 
   const res = await ApiClient.post<BaseApi>('/rankings/shortlists', requestPayload);
@@ -118,13 +99,12 @@ export const createShortlist = async (payload: NominatePayload): Promise<BaseApi
 };
 
 export const deleteShortlist = async (payload: NominatePayload): Promise<BaseApi> => {
-  const today = new Date();
-  const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth();
+  const { year, quarter } = getCurrentPeriod();
+
   const requestPayload: NominatePayload = {
     ...payload,
-    year: currentYear,
-    quarter: currentMonth >= 0 && currentMonth <= 5 ? 1 : 2,
+    year: year,
+    quarter: quarter,
   };
 
   const res = await ApiClient.delete<BaseApi>('/rankings/shortlists', {
