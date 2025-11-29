@@ -128,6 +128,6 @@ const filteredNavItems = computed(() => {
   const role = currentUserRole.value;
   if (!role) return [];
 
-  return navItems.filter(item => item.role.includes(role));
+  return navItems.filter(item => item.role?.includes(role));
 });
 </script>
