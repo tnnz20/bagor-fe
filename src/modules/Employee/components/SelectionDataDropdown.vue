@@ -46,8 +46,8 @@ defineProps<{
   employee: NominationDetail;
 }>();
 
-const useStore = useUserStore();
-const userRole = useStore.userRole;
+const userStore = useUserStore();
+const userRole = userStore.userRole;
 const isDeleteNominateDialogOpen = ref(false);
 
 const type = computed(() => {
