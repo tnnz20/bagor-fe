@@ -42,7 +42,11 @@
           <DropdownMenuGroup>
             <DropdownMenuItem class="cursor-pointer">
               <Icons.UserRound />
-              <RouterLink to="/profile">Profile Saya </RouterLink>
+              <RouterLink to="/profile/me">Profile Saya </RouterLink>
+            </DropdownMenuItem>
+            <DropdownMenuItem class="cursor-pointer">
+              <Icons.Shield />
+              <RouterLink to="/profile/change-password">Ubah Password </RouterLink>
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
