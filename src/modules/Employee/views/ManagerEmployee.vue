@@ -15,24 +15,25 @@
       v-model:page-size="pageSize"
       v-model:filters="filters"
     />
-
-    <Card v-if="userRole === 'manager'">
-      <CardHeader>
-        <CardTitle>Daftar Nominasi Pegawai</CardTitle>
-        <CardDescription>Daftar Nominasi Yang anda pilih</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div v-if="selectionError" class="flex h-64 w-full flex-col items-center justify-center space-y-4">
-          <Icons.AlertCircle class="text-destructive h-16 w-16" />
-          <div class="text-center">
-            <h2 class="text-xl font-semibold">Gagal Memuat Data</h2>
-            <p class="text-muted-foreground mt-2">{{ selectionErrorMessage }}</p>
-            <Button variant="outline" @click="selectionRefetch" class="mt-4">Coba Lagi</Button>
+    <template #second-card>
+      <Card v-if="userRole === 'manager'">
+        <CardHeader>
+          <CardTitle>Daftar Nominasi Pegawai</CardTitle>
+          <CardDescription>Daftar Nominasi Yang anda pilih</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div v-if="selectionError" class="flex h-64 w-full flex-col items-center justify-center space-y-4">
+            <Icons.AlertCircle class="text-destructive h-16 w-16" />
+            <div class="text-center">
+              <h2 class="text-xl font-semibold">Gagal Memuat Data</h2>
+              <p class="text-muted-foreground mt-2">{{ selectionErrorMessage }}</p>
+              <Button variant="outline" @click="selectionRefetch" class="mt-4">Coba Lagi</Button>
+            </div>
           </div>
-        </div>
-        <SelectionDataTable v-else :loading="selectionLoading" :data="selectionData?.data" />
-      </CardContent>
-    </Card>
+          <SelectionDataTable v-else :loading="selectionLoading" :data="selectionData?.data" />
+        </CardContent>
+      </Card>
+    </template>
   </DataPageLayout>
 </template>
 
