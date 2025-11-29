@@ -23,7 +23,7 @@ export interface UserRegistration {
 
 // User Model
 export interface User extends BaseModel {
-  Id: string;
+  id: string;
   email: string;
   username: string;
   full_name: string;
@@ -76,4 +76,11 @@ export interface UserStats {
   activeUsers: number;
   adminUsers: number;
   newUsersThisMonth: number;
+}
+
+export interface UpdateProfileUserPayload {
+  phone: string; // make sure the input is number
+  gender: string; // value is male or female
+  address: string;
+  birth_date: number; //convert to timestamp
 }
