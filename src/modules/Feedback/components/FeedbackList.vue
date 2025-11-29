@@ -95,7 +95,6 @@ import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 import type { BaseError, PaginationMeta } from '@/types';
-import { refDebounced } from '@vueuse/core';
 
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
@@ -119,11 +118,9 @@ const props = defineProps<FeedbackListProps>();
 const tabsValue = ref((route.query.tabs as string) || 'all');
 
 const page = defineModel<number>('page', { required: true });
-const limit = defineModel<number>('limit', { required: true });
 const isRead = defineModel<boolean | undefined>('isRead');
 
 const searchValue = ref('');
-const debouncedSearch = refDebounced(searchValue, 250);
 
 const handleValue = (value: string | number) => {
   if (value === 'all') {
