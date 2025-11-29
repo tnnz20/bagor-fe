@@ -56,7 +56,9 @@ const { mutate: mutateCreateNomination, isPending } = useMutation({
   },
   onError: (error: BaseError) => {
     const err = error.response?.data;
-    toast.error(err?.error.error_description || 'Gagal menambahkan nominasi');
+    let errMessage =
+      err?.code === 400 ? 'Tidak Boleh Memilih Pegawai dengan Jenis Jabatan yang Sama' : 'Gagal menambahkan nominasi';
+    toast.error(errMessage);
   },
 });
 
