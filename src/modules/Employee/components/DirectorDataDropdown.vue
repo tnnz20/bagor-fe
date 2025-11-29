@@ -10,7 +10,12 @@
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Aksi</DropdownMenuLabel>
         <DropdownMenuSeparator />
-
+        <RouterLink :to="`/users/detail/${employee.employee_id}`">
+          <DropdownMenuItem>
+            <Icons.ZoomIn class="mr-2 h-4 w-4" />
+            Lihat Detail
+          </DropdownMenuItem>
+        </RouterLink>
         <DropdownMenuItem class="cursor-pointer" @click="isNominateShortlistOpen = true">
           <Icons.Check class="mr-2 h-4 w-4" />
           Pilih Sebagai Nominasi
