@@ -17,70 +17,9 @@
       </div>
 
       <div class="flex items-center space-x-2">
-        <Popover>
-          <PopoverTrigger as-child>
-            <Button variant="outline" class="ml-auto">
-              Filter Data
-              <Icons.ChevronDown class="ml-2 h-4 w-4" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent class="w-full">
-            <div class="grid gap-4">
-              <div class="space-y-2">
-                <h4 class="leading-none font-medium">Filter Data</h4>
-                <p class="text-muted-foreground text-sm">Saring pegawai berdasarkan berbagai kriteria.</p>
-              </div>
-              <div class="grid grid-cols-3 items-center gap-4">
-                <Label for="sortOrder">Urutkan Nama</Label>
-                <Select v-model="filters.sort_order" defaultValue="ASC">
-                  <SelectTrigger class="col-span-2 h-8">
-                    <SelectValue placeholder="Dari A" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="ASC">Dari A-Z</SelectItem>
-                    <SelectItem value="DESC">Dari Z-A</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div class="grid gap-4">
-                <div class="grid grid-cols-3 items-center gap-4">
-                  <Label for="department">Divisi</Label>
-                  <Select v-model="filters.department" defaultValue="all" class="w-full">
-                    <SelectTrigger class="col-span-2 h-auto">
-                      <SelectValue placeholder="Semua Divisi" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">Semua Divisi</SelectItem>
-                      <SelectSeparator />
-                      <template v-for="division in divisions" :key="division.value">
-                        <SelectItem :value="division.value">{{ division.label }}</SelectItem>
-                      </template>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div class="grid grid-cols-3 items-center gap-4">
-                  <Label for="employeeType">Jenis Pegawai</Label>
-                  <Select v-model="filters.employeeType" defaultValue="all">
-                    <SelectTrigger class="col-span-2 h-8">
-                      <SelectValue placeholder="Semua Jenis" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">Semua Jenis</SelectItem>
-                      <SelectSeparator />
-                      <template v-for="type in employeeTypes" :key="type.value">
-                        <SelectItem :value="type.value">{{ type.label }}</SelectItem>
-                      </template>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div class="mt-4 flex items-center justify-end">
-                  <Button class="cursor-pointer" @click="handleReset">Reset Filter</Button>
-                </div>
-              </div>
-            </div>
-          </PopoverContent>
-        </Popover>
+        <!-- Filter Popover -->
+        <EmployeeDataFilter v-model:filters="filters" :loading="loading" />
+        <!-- Column Visibility -->
         <DropdownMenu>
           <DropdownMenuTrigger as-child>
             <Button variant="outline" size="sm">
@@ -135,7 +74,7 @@
               </TableCell>
             </TableRow>
           </template>
-
+          <!-- Empty State -->
           <TableRow v-else>
             <TableCell :colspan="EmployeeColumns.length" class="h-24 text-center">
               <div class="flex flex-col items-center justify-center space-y-2">
@@ -149,59 +88,50 @@
     </div>
 
     <!-- Pagination -->
-    <div class="flex items-center justify-between space-x-2 py-4">
+    <div class="flex items-center justify-between px-2">
       <div class="flex items-center space-x-2">
         <p class="text-sm font-medium">Baris per halaman</p>
-        <DropdownMenu>
-          <DropdownMenuTrigger as-child>
-            <Button variant="outline" size="sm" class="h-8 px-3">
-              {{ PageSize }}
-              <Icons.ChevronsUpDown class="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem v-for="pageSize in [10, 20, 30, 40, 50]" :key="pageSize" @click="PageSize = pageSize">
-              {{ pageSize }}
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Select :model-value="PageSize.toString()" @update:model-value="val => (PageSize = Number(val))">
+          <SelectTrigger class="h-8 w-[70px]">
+            <SelectValue :placeholder="PageSize.toString()" />
+          </SelectTrigger>
+          <SelectContent side="top">
+            <SelectItem v-for="size in [10, 20, 30, 40, 50]" :key="size" :value="size.toString()">
+              {{ size }}
+            </SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
-      <div class="flex items-center space-x-6 lg:space-x-8">
+      <div class="flex items-center space-x-4">
         <div class="flex w-[120px] items-center justify-center text-sm font-medium">
-          Halaman {{ Page }} dari {{ pagination?.total_pages || 1 }}
+          <p class="hidden md:block">Halaman {{ Page }} dari {{ totalPages }}</p>
         </div>
-
         <div class="flex items-center space-x-2">
           <Button
             variant="outline"
-            class="hidden h-8 w-8 cursor-pointer p-0 lg:flex"
-            :disabled="Page === 1"
+            class="hidden h-8 w-8 p-0 lg:flex"
+            :disabled="Page <= 1 || loading"
             @click="Page = 1"
           >
-            <span class="sr-only">Go to first page</span>
+            <span class="sr-only">First</span>
             <Icons.ChevronsLeft class="h-4 w-4" />
           </Button>
-          <Button variant="outline" class="h-8 w-8 cursor-pointer p-0" :disabled="Page <= 1" @click="Page -= 1">
-            <span class="sr-only">Go to previous page</span>
+          <Button variant="outline" class="h-8 w-8 p-0" :disabled="Page <= 1 || loading" @click="Page -= 1">
+            <span class="sr-only">Previous</span>
             <Icons.ChevronLeft class="h-4 w-4" />
           </Button>
-          <Button
-            variant="outline"
-            class="h-8 w-8 cursor-pointer p-0"
-            :disabled="Page === pagination?.total_pages"
-            @click="Page += 1"
-          >
-            <span class="sr-only">Go to next page</span>
+          <Button variant="outline" class="h-8 w-8 p-0" :disabled="Page >= totalPages || loading" @click="Page += 1">
+            <span class="sr-only">Next</span>
             <Icons.ChevronRight class="h-4 w-4" />
           </Button>
           <Button
             variant="outline"
-            class="hidden h-8 w-8 cursor-pointer p-0 lg:flex"
-            :disabled="Page === pagination?.total_pages"
-            @click="Page = pagination?.total_pages as number"
+            class="hidden h-8 w-8 p-0 lg:flex"
+            :disabled="Page >= totalPages || loading"
+            @click="Page = totalPages"
           >
-            <span class="sr-only">Go to last page</span>
+            <span class="sr-only">Last</span>
             <Icons.ChevronsRight class="h-4 w-4" />
           </Button>
         </div>
@@ -213,7 +143,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-import { divisions, employeeTypes } from '@/constants';
 import type { PaginationMeta } from '@/types';
 import { FlexRender, getCoreRowModel, getSortedRowModel, useVueTable } from '@tanstack/vue-table';
 
@@ -223,27 +152,29 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Select, SelectContent, SelectItem, SelectSeparator, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { EmployeeColumns } from '../table/employee_columns';
+import EmployeeDataFilter from './EmployeeDataFilter.vue';
 
 import type { DepartmentCode, EmployeeScore, EmployeeType, FilterEmployees } from '@/types/employee';
 import type { UserRole } from '@/types/user';
 
-interface UsersDataTableProps {
+interface EmployeeDataTableProps {
   data?: EmployeeScore[] | null;
   pagination?: PaginationMeta;
+  loading?: boolean;
 }
 
-const props = defineProps<UsersDataTableProps>();
+const props = withDefaults(defineProps<EmployeeDataTableProps>(), {
+  data: () => [],
+  loading: false,
+});
 
 // Model
 const search = defineModel<string>('search', { default: '' });
@@ -257,6 +188,8 @@ const filters = defineModel<FilterEmployees>('filters', {
     sort_order: 'ASC',
   }),
 });
+
+const totalPages = computed(() => props.pagination?.total_pages || 1);
 
 const columnLabels: Record<string, string> = {
   full_name: 'Nama',
@@ -298,16 +231,5 @@ const table = useVueTable({
   rowCount: props.pagination?.total_rows ?? 0,
   getCoreRowModel: getCoreRowModel(),
   getSortedRowModel: getSortedRowModel(),
-  initialState: {
-    pagination: {
-      pageSize: props.pagination?.limit || 10,
-    },
-  },
 });
-
-const handleReset = () => {
-  filters.value.department = 'all';
-  filters.value.employeeType = 'all';
-  filters.value.sort_order = 'ASC';
-};
 </script>

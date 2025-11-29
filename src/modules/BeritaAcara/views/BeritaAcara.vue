@@ -179,11 +179,11 @@ const downloadFile = (item: BeritaAcara) => {
   console.log('Downloading file:', item.fileName);
 };
 
-const viewFile = (item: BeritaAcara) => {
-  // Open PDF in new window/tab
-  window.open(item.filePath, '_blank');
-  console.log('Viewing file:', item.fileName);
-};
+// const viewFile = (item: BeritaAcara) => {
+//   // Open PDF in new window/tab
+//   window.open(item.filePath, '_blank');
+//   console.log('Viewing file:', item.fileName);
+// };
 
 const deleteFile = (item: BeritaAcara) => {
   if (confirm(`Apakah Anda yakin ingin menghapus "${item.title}"?`)) {

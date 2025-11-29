@@ -29,8 +29,21 @@ export const getRoleDefaultRoute = (role: string): string => {
   const roleRoutes: Record<string, string> = {
     admin: '/dashboard', // Admin goes to dashboard home
     manager: '/pegawai', // Manager goes to data pegawai
+    director: '/pegawai', // Director goes to data pegawai
     employee: '/saran', // Employee goes to saran
   };
 
   return roleRoutes[role];
+};
+
+export const getCurrentPeriod = () => {
+  const today = new Date();
+  const currentMonth = today.getMonth(); // Returns 0-11
+
+  return {
+    year: today.getFullYear(),
+    // Logic from your screenshot:
+    // Jan-June (0-5) = 1, July-Dec (6-11) = 2
+    quarter: currentMonth <= 5 ? 1 : 2,
+  };
 };

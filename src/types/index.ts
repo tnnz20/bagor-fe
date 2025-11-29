@@ -35,7 +35,7 @@ export interface MenuItem {
   title: string;
   href?: string;
   icon?: string | Component;
-  role: UserRole[];
+  role?: UserRole[];
   description?: string;
 }
 

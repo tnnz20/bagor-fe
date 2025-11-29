@@ -101,7 +101,7 @@ const navItems: MenuItem[] = [
     title: 'Data Pegawai',
     href: 'pegawai',
     icon: Icons.FileText,
-    role: ['admin', 'manager'],
+    role: ['admin', 'manager', 'director'],
   },
   {
     title: 'Berita Acara',
@@ -128,6 +128,6 @@ const filteredNavItems = computed(() => {
   const role = currentUserRole.value;
   if (!role) return [];
 
-  return navItems.filter(item => item.role.includes(role));
+  return navItems.filter(item => item.role?.includes(role));
 });
 </script>

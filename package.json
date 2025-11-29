@@ -20,7 +20,6 @@
     "clsx": "^2.1.1",
     "lucide-vue-next": "^0.542.0",
     "luxon": "^3.7.2",
-    "motion-v": "^1.7.1",
     "pinia": "^3.0.3",
     "reka-ui": "^2.6.0",
     "tailwind-merge": "^3.3.1",

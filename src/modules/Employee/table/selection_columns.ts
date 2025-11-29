@@ -3,17 +3,17 @@ import { h } from 'vue';
 import type { ColumnDef } from '@tanstack/vue-table';
 import { Duration } from 'luxon';
 
-import { getDepartmentNameByCode } from '@/lib/users';
+import { getDepartmentName } from '@/lib/users';
 
 import { Icons } from '@/components/icons';
 import Button from '@/components/ui/button/Button.vue';
-import EmployeeDataDropdown from '../components/EmployeeDataDropdown.vue';
+import SelectionDataDropdown from '../components/SelectionDataDropdown.vue';
 
-import type { EmployeeScore } from '@/types/employee';
+import type { NominationDetail } from '@/types/ranking';
 
-export const EmployeeColumns: ColumnDef<EmployeeScore>[] = [
+export const SelectionColumns: ColumnDef<NominationDetail>[] = [
   {
-    accessorKey: 'full_name',
+    accessorKey: 'employee_name',
     header: ({ column }) => {
       return h(
         Button,
@@ -25,17 +25,17 @@ export const EmployeeColumns: ColumnDef<EmployeeScore>[] = [
       );
     },
     cell: ({ row }) => {
-      const user = row.original;
-      return h('div', { class: 'font-medium' }, `${user.full_name}`);
+      const employee = row.original;
+      return h('div', { class: 'font-medium' }, `${employee.employee_name}`);
     },
   },
 
   {
-    accessorKey: 'department_code',
+    accessorKey: 'department_name',
     header: 'Divisi',
     cell: ({ row }) => {
-      const dept = row.getValue('department_code');
-      return h('div', { class: 'text-sm' }, getDepartmentNameByCode(dept as string) || '-');
+      const dept = row.getValue('department_name');
+      return h('div', { class: 'text-sm' }, getDepartmentName(dept as string) || '-');
     },
   },
   {
@@ -95,7 +95,7 @@ export const EmployeeColumns: ColumnDef<EmployeeScore>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const employee = row.original;
-      return h('div', { class: 'relative' }, h(EmployeeDataDropdown, { employee }));
+      return h('div', { class: 'relative' }, h(SelectionDataDropdown, { employee }));
     },
   },
 ];

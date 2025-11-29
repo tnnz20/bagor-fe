@@ -34,6 +34,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 
+import type { BaseError } from '@/types';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { toast } from 'vue-sonner';
 
@@ -76,11 +77,14 @@ const { mutate: mutatePresenceScore, isPending: isUpdating } = useMutation({
   mutationFn: (payload: { presence_score: number }) => updateScore(props.employee.user_id, payload),
   onSuccess: () => {
     toast.success('Skor kehadiran berhasil diperbarui');
-    queryClient.invalidateQueries({ queryKey: ['score'] });
+    queryClient.invalidateQueries({ queryKey: ['scores'] });
     isOpen.value = false;
   },
-  onError: (error: any) => {
-    toast.error(error?.response?.data?.message || 'Gagal memperbarui skor kehadiran');
+  onError: (error: BaseError) => {
+    const err = error?.response?.data;
+    const errorMessage = err?.error?.error_name || 'Gagal memperbarui skor kehadiran';
+    toast.error(errorMessage);
+    isOpen.value = false;
   },
 });
 

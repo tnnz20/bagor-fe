@@ -20,6 +20,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 
+import type { BaseError } from '@/types';
 import { useMutation } from '@tanstack/vue-query';
 import { toast } from 'vue-sonner';
 
@@ -61,8 +62,14 @@ const { mutate: mutateStartSurvey, isPending } = useMutation({
       toast.error('Gagal mendapatkan slug penilaian');
     }
   },
-  onError: (error: any) => {
-    toast.error(error?.response?.data?.message || 'Gagal memulai penilaian kinerja');
+  onError: (error: BaseError) => {
+    const err = error?.response?.data;
+    const alreadyFinished = err?.error?.error_description === 'survey session is already marked as finished';
+    const errorMessage = alreadyFinished
+      ? 'Penilaian kinerja untuk karyawan ini sudah selesai.'
+      : 'Gagal memulai penilaian kinerja';
+    toast.error(errorMessage);
+    isOpen.value = false;
   },
 });
 

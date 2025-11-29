@@ -8,7 +8,7 @@ import { getDepartmentName, getRoleVariant } from '@/lib/users';
 import { Icons } from '@/components/icons';
 import Badge from '@/components/ui/badge/Badge.vue';
 import Button from '@/components/ui/button/Button.vue';
-import UsersDataTableDropdown from '../components/UsersDataTableDropdown.vue';
+import UsersDataDropdown from '../components/UsersDataDropdown.vue';
 
 import type { UserRole, UserTableColumn } from '@/types/user';
 
@@ -87,7 +87,7 @@ export const UserColumns: ColumnDef<UserTableColumn>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const user = row.original;
-      return h('div', { class: 'relative' }, h(UsersDataTableDropdown, { user }));
+      return h('div', { class: 'relative' }, h(UsersDataDropdown, { user }));
     },
   },
 ];
