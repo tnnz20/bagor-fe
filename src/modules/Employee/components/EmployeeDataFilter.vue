@@ -10,7 +10,7 @@
       <div class="grid gap-4">
         <div class="space-y-2">
           <h4 class="leading-none font-medium">Filter Data</h4>
-          <p class="text-muted-foreground text-sm">Saring pengguna berdasarkan kriteria.</p>
+          <p class="text-muted-foreground text-sm">Saring pegawai berdasarkan kriteria.</p>
         </div>
 
         <!-- Sort -->
