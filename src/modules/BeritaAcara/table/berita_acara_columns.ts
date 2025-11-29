@@ -69,7 +69,7 @@ export const BeritaAcaraColumns: ColumnDef<BeritaAcara>[] = [
       return h(
         'p',
         { class: 'text-sm font-medium' },
-        DateTime.fromSeconds(Number(beritaAcara.created_at)).toFormat('dd LLL yyyy')
+        DateTime.fromSeconds(beritaAcara.created_at).setLocale('id').toFormat('DD')
       );
     },
   },

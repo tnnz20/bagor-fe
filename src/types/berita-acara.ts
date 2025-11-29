@@ -5,7 +5,7 @@ export interface BeritaAcara {
   mime_type: string;
   file_name: string;
   size: number; // size in bytes
-  created_at: string; // ISO date string
+  created_at: number;
 }
 
 export type BeritaAcaraPayload = {
