@@ -12,7 +12,7 @@
         <Button variant="outline" @click="isOpen = false" class="cursor-pointer">Batal</Button>
         <Button @click="handleDelete" :disabled="isPending" class="cursor-pointer">
           <Icons.Loader2 v-if="isPending" class="mr-2 h-4 w-4 animate-spin" />
-          {{ isPending ? 'Memulai...' : 'Ya' }}
+          {{ isPending ? 'Memproses...' : 'Ya' }}
         </Button>
       </DialogFooter>
     </DialogContent>
