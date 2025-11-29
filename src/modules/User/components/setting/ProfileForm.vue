@@ -148,7 +148,7 @@ const profileSchema = z.object({
       required_error: 'Jenis kelamin harus dipilih',
     })
     .or(z.literal('')),
-  address: z.string().max(500, 'Alamat maksimal 500 karakter').or(z.literal('')),
+  address: z.string().min(5, 'Alamat Minimal 5').max(200, 'Alamat maksimal 200 karakter').or(z.literal('')),
 });
 
 // Initialize form with useForm
@@ -251,26 +251,41 @@ const { mutate: mutateUpdate, isPending } = useMutation({
 });
 
 // Submit handler with validation
-const onSubmit = handleSubmit(values => {
-  if (!hasChanges.value) return;
+const onSubmit = handleSubmit(
+  // Success callback - called when validation passes
+  values => {
+    if (!hasChanges.value) {
+      toast.info('Tidak ada perubahan untuk disimpan');
+      return;
+    }
 
-  // Convert birthDate to timestamp
-  let birthTimestamp = 0;
-  if (birthDate.value) {
-    birthTimestamp = DateTime.fromObject({
-      year: birthDate.value.year,
-      month: birthDate.value.month,
-      day: birthDate.value.day,
-    }).toSeconds();
+    // Convert birthDate to timestamp
+    let birthTimestamp = 0;
+    if (birthDate.value) {
+      birthTimestamp = DateTime.fromObject({
+        year: birthDate.value.year,
+        month: birthDate.value.month,
+        day: birthDate.value.day,
+      }).toSeconds();
+    }
+
+    const payload: UpdateProfileUserPayload = {
+      phone: values.phone || '',
+      gender: values.gender || '',
+      address: values.address || '',
+      birth_date: birthTimestamp,
+    };
+
+    mutateUpdate(payload);
+  },
+  // Error callback - called when validation fails
+  ({ errors: validationErrors }) => {
+    const errorMessages = Object.values(validationErrors).filter(Boolean);
+    if (errorMessages.length > 0) {
+      toast.error('Validasi Gagal', {
+        description: errorMessages.join(', '),
+      });
+    }
   }
-
-  const payload: UpdateProfileUserPayload = {
-    phone: values.phone || '',
-    gender: values.gender || '',
-    address: values.address || '',
-    birth_date: birthTimestamp,
-  };
-
-  mutateUpdate(payload);
-});
+);
 </script>
