@@ -15,7 +15,7 @@
           </TableRow>
         </TableHeader>
         <TableBody>
-          <template v-if="props.data && props.data.length > 0">
+          <template v-if="props.data && props.data.length > 0 && !props.loading">
             <TableRow
               v-for="row in table.getRowModel().rows"
               :key="row.id"
