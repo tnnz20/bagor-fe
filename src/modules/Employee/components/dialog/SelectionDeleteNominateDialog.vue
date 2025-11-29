@@ -10,7 +10,7 @@
 
       <DialogFooter>
         <Button variant="outline" @click="isOpen = false" class="cursor-pointer">Batal</Button>
-        <Button @click="handleNominate" :disabled="isPending" class="cursor-pointer">
+        <Button @click="handleDelete" :disabled="isPending" class="cursor-pointer">
           <Icons.Loader2 v-if="isPending" class="mr-2 h-4 w-4 animate-spin" />
           {{ isPending ? 'Memulai...' : 'Ya' }}
         </Button>
@@ -20,6 +20,8 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
+
 import type { BaseError } from '@/types';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { toast } from 'vue-sonner';
@@ -34,32 +36,46 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { deleteNomination } from '../../services/ranking';
+import { deleteNomination, deleteShortlist } from '../../services/ranking';
 
 import type { NominationDetail } from '@/types/ranking';
 
 const props = defineProps<{
   employee: NominationDetail;
+  type: 'nomination' | 'shortlist';
 }>();
 
 const queryClient = useQueryClient();
 const isOpen = defineModel<boolean>('open', { default: false });
 
-const { mutate: mutateDeleteNomination, isPending } = useMutation({
-  mutationFn: () => deleteNomination({ employee_id: props.employee.employee_id }),
-  onSuccess: _ => {
-    toast.success('Berhasil menghapus nominasi');
-    queryClient.invalidateQueries({ queryKey: ['nominations'] });
+const mutationOptions = computed(() => {
+  if (props.type === 'nomination') {
+    return {
+      fn: () => deleteNomination({ employee_id: props.employee.employee_id }),
+      key: ['nominations'],
+    };
+  } else {
+    return {
+      fn: () => deleteShortlist({ employee_id: props.employee.employee_id }),
+      key: ['shortlist'],
+    };
+  }
+});
+
+const { mutate, isPending } = useMutation({
+  mutationFn: () => mutationOptions.value.fn(), // Call the selected function
+  onSuccess: () => {
+    toast.success('Berhasil menghapus data');
+    queryClient.invalidateQueries({ queryKey: mutationOptions.value.key });
     isOpen.value = false;
   },
   onError: (error: BaseError) => {
     const err = error.response?.data;
-    toast.error(err?.error.error_description || 'Gagal menghapus nominasi');
-    isOpen.value = false;
+    toast.error(err?.error.error_description || 'Gagal menghapus data');
   },
 });
 
-function handleNominate() {
-  mutateDeleteNomination();
+function handleDelete() {
+  mutate();
 }
 </script>

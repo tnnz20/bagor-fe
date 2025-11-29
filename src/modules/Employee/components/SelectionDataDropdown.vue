@@ -11,11 +11,7 @@
         <DropdownMenuLabel>Aksi</DropdownMenuLabel>
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem
-          class="cursor-pointer"
-          @click="isDeleteNominateDialogOpen = true"
-          v-if="userRole === 'manager'"
-        >
+        <DropdownMenuItem class="cursor-pointer" @click="isDeleteNominateDialogOpen = true">
           <Icons.X class="mr-2 h-4 w-4" />
           Hapus Nominasi
         </DropdownMenuItem>
@@ -23,12 +19,12 @@
     </DropdownMenu>
 
     <!-- Remove Nomination Dialog -->
-    <SelectionDeleteNominateDialog v-model:open="isDeleteNominateDialogOpen" :employee="employee" />
+    <SelectionDeleteNominateDialog v-model:open="isDeleteNominateDialogOpen" :employee="employee" :type="type" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import { useUserStore } from '@/stores/user';
 
@@ -50,8 +46,15 @@ defineProps<{
   employee: NominationDetail;
 }>();
 
+const useStore = useUserStore();
+const userRole = useStore.userRole;
 const isDeleteNominateDialogOpen = ref(false);
 
-const userStore = useUserStore();
-const userRole = userStore.userRole;
+const type = computed(() => {
+  if (userRole === 'director') {
+    return 'shortlist';
+  } else {
+    return 'nomination';
+  }
+});
 </script>
