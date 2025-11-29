@@ -9,9 +9,9 @@ import { Icons } from '@/components/icons';
 import Badge from '@/components/ui/badge/Badge.vue';
 import BeritaAcaraDataDropdown from '../components/BeritaAcaraDataDropdown.vue';
 
-import type { BeritaAcara } from '@/types/berita-acara';
+import type { Document } from '@/types/document';
 
-export const BeritaAcaraColumns: ColumnDef<BeritaAcara>[] = [
+export const BeritaAcaraColumns: ColumnDef<Document>[] = [
   {
     accessorKey: 'title',
     header: 'Judul',

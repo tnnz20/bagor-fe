@@ -78,10 +78,10 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { BeritaAcaraColumns } from '../table/berita_acara_columns';
 
-import type { BeritaAcara } from '@/types/berita-acara';
+import type { Document } from '@/types/document';
 
 const props = defineProps<{
-  data?: BeritaAcara[];
+  data?: Document[];
   loading?: boolean;
 }>();
 

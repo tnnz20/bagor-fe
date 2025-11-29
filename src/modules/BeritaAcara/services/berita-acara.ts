@@ -1,10 +1,10 @@
 import ApiClient from '@/api/axios';
 import type { BaseApi } from '@/types';
 
-import type { BeritaAcara } from '@/types/berita-acara';
+import type { Document } from '@/types/document';
 
-export const getBeritaAcaraList = async (): Promise<BaseApi<BeritaAcara[]>> => {
-  const res = await ApiClient.get<BaseApi<BeritaAcara[]>>('documents/berita-acara');
+export const getBeritaAcaraList = async (): Promise<BaseApi<Document[]>> => {
+  const res = await ApiClient.get<BaseApi<Document[]>>('documents/berita-acara');
   return res.data;
 };
 
