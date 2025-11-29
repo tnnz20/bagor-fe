@@ -2,7 +2,7 @@ import ApiClient from '@/api/axios';
 
 import type { EmployeeDetail } from '@/types/employee';
 import type { BaseApi, PaginationMeta } from '@/types/index';
-import type { FilterUsers, User, UserDetail, UserRegistration } from '@/types/user';
+import type { FilterUsers, UpdateProfileUserPayload, User, UserDetail, UserRegistration } from '@/types/user';
 
 // Get current logged-in user
 export const getUser = async (): Promise<BaseApi<User>> => {
@@ -66,7 +66,23 @@ export const updateUserStatus = async (userId: string, isActive: boolean): Promi
   return res.data;
 };
 
+// Get user detail by ID
 export const getUserDetailById = async (userId: string): Promise<BaseApi<UserDetail>> => {
   const res = await ApiClient.get<BaseApi<UserDetail>>(`/users/${userId}`);
+  return res.data;
+};
+
+// Update profile of current logged-in user
+export const updateProfileUser = async (payload: UpdateProfileUserPayload): Promise<BaseApi> => {
+  const res = await ApiClient.put<BaseApi>(`/users/me`, payload);
+  return res.data;
+};
+
+// Change password of current logged-in user
+export const changePasswordUser = async (currentPassword: string, newPassword: string): Promise<BaseApi> => {
+  const res = await ApiClient.put<BaseApi>(`/users/me/password`, {
+    current_password: currentPassword,
+    new_password: newPassword,
+  });
   return res.data;
 };

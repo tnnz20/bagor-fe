@@ -80,10 +80,10 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { deleteBeritaAcara, downloadBeritaAcara } from '../services/berita-acara';
 
-import type { BeritaAcara } from '@/types/berita-acara';
+import type { Document } from '@/types/document';
 
 const props = defineProps<{
-  beritaAcara: BeritaAcara;
+  beritaAcara: Document;
 }>();
 
 const queryClient = useQueryClient();
