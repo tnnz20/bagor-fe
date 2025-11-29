@@ -28,7 +28,7 @@
           </template>
           <!-- Empty State -->
           <TableRow v-else>
-            <TableCell :colspan="SelectionColumns.length" class="h-24 text-center">
+            <TableCell :colspan="ShortlistColumns.length" class="h-24 text-center">
               <div class="flex flex-col items-center justify-center space-y-2">
                 <Icons.Search class="text-muted-foreground h-8 w-8" />
                 <p class="text-muted-foreground">Tidak ada pegawai yang ditemukan.</p>
@@ -48,7 +48,6 @@ import { FlexRender, getCoreRowModel, getSortedRowModel, useVueTable } from '@ta
 
 import { Icons } from '@/components/icons';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { SelectionColumns } from '../table/selection_columns';
 import { ShortlistColumns } from '../table/shortlist_columns';
 
 import type { NominationDetail } from '@/types/ranking';
