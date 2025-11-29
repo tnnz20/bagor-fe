@@ -52,7 +52,7 @@ export const UserRoutes: RouteRecordRaw[] = [
         },
       },
       {
-        path: 'upload-certificate',
+        path: 'upload-sertifikat',
         component: Certificate,
         meta: {
           title: 'Bagor - Unggah Sertifikat',
