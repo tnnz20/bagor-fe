@@ -35,3 +35,15 @@ export const getRoleDefaultRoute = (role: string): string => {
 
   return roleRoutes[role];
 };
+
+export const getCurrentPeriod = () => {
+  const today = new Date();
+  const currentMonth = today.getMonth(); // Returns 0-11
+
+  return {
+    year: today.getFullYear(),
+    // Logic from your screenshot:
+    // Jan-June (0-5) = 1, July-Dec (6-11) = 2
+    quarter: currentMonth <= 5 ? 1 : 2,
+  };
+};
