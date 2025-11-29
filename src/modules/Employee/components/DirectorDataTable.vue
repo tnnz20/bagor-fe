@@ -63,11 +63,7 @@ const props = withDefaults(defineProps<DirectorDataTableProps>(), {
 });
 
 const tableData = computed<NominationDetail[]>(() => {
-  if (!props.data) return [];
-
-  return props.data.map((employee: NominationDetail) => ({
-    ...employee,
-  }));
+  return props.data ?? [];
 });
 
 const table = useVueTable({
