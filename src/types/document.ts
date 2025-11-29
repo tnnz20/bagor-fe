@@ -1,6 +1,7 @@
-export interface BeritaAcara {
+export interface Document {
   id: number;
   title: string;
+  user_id?: string;
   description: string;
   mime_type: string;
   file_name: string;
@@ -8,7 +9,7 @@ export interface BeritaAcara {
   created_at: number;
 }
 
-export type BeritaAcaraPayload = {
+export type DocumentPayload = {
   title: string;
   description: string;
   file: File; // assuming file is uploaded as a File object
