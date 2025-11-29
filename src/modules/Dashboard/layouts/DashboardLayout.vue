@@ -53,7 +53,7 @@ import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import AppSidebar from '../components/AppSidebar.vue';
 import DashboardHeader from '../components/DashboardHeader.vue';
 
-import type { User, UserRole } from '@/types/user';
+import type { User } from '@/types/user';
 
 const router = useRouter();
 const route = useRoute();
