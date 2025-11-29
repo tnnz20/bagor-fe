@@ -39,3 +39,19 @@ export const getNominations = async (): Promise<BaseApi<NominationDetail[]>> => 
 
   return res.data;
 };
+
+export const deleteNomination = async (payload: NominatePayload): Promise<BaseApi> => {
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth();
+  const requestPayload: NominatePayload = {
+    ...payload,
+    year: currentYear,
+    quarter: currentMonth >= 0 && currentMonth <= 5 ? 1 : 2,
+  };
+
+  const res = await ApiClient.delete<BaseApi>('/rankings/nominations', {
+    data: requestPayload,
+  });
+  return res.data;
+};
