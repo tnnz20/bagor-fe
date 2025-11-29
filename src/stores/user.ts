@@ -10,6 +10,7 @@ export const useUserStore = defineStore('user', () => {
 
   // Getters
   const isAuthenticated = computed(() => !!user.value);
+  const userId = computed(() => user.value?.id || '');
   const userRole = computed(() => user.value?.role || null);
   const userName = computed(() => user.value?.full_name || '');
   const userEmail = computed(() => user.value?.email || '');
@@ -30,6 +31,7 @@ export const useUserStore = defineStore('user', () => {
     user,
     // Getters
     isAuthenticated,
+    userId,
     userRole,
     userName,
     userEmail,
