@@ -21,15 +21,11 @@ export function useEmployeeFilters() {
   });
 
   // --- 2. State Initialization ---
-  // Search State
   const searchInput = ref<string>((route.query.search as string) || '');
-
-  // Pagination State
   const page = ref<number>(Number(route.query.page) || 1);
   const pageSize = ref<number>(Number(route.query.pageSize) || 10);
   const initialDepartment = (route.query.department as string) || 'all';
 
-  // Filters State
   const filters = reactive<FilterEmployees>({
     department: initialDepartment,
     employeeType: (route.query.employeeType as string) || 'all',
@@ -58,47 +54,43 @@ export function useEmployeeFilters() {
 
   // --- 4. Watchers & Handlers ---
 
-  // Handle Search Input (Debounced)
   const handleSearchUpdate = useDebounceFn((newVal: string) => {
     filters.search = newVal;
-    page.value = 1; // Reset to page 1 on new search
+    page.value = 1;
     syncUrl();
   }, 500);
 
   watch(searchInput, handleSearchUpdate);
 
-  // Watch for user's role/department code to load/change.
+  // FIX: User Role/Department Watcher
   watch(
     requiredDepartmentFilter,
     newRequiredDepartment => {
       if (newRequiredDepartment === 'all') {
         // Admin: If previously restricted by URL, reset to 'all' if the URL parameter isn't set.
-        if (!route.query.department) {
+        if (!route.query.department && filters.department !== 'all') {
           filters.department = 'all';
         }
-      } else {
+      } else if (filters.department !== newRequiredDepartment) {
         // Manager/Restricted Role: FORCE filter to their department code
+        // (We merged 'else' + 'if' into 'else if' here)
         filters.department = newRequiredDepartment;
       }
-      page.value = 1;
-      syncUrl();
     },
     { immediate: true }
   );
 
-  // Handle Filter Dropdowns (Immediate)
+  // This handles the side effects for Department, Type, and Sort
   watch(
     () => [filters.department, filters.employeeType, filters.sort_order],
     () => {
-      page.value = 1; // Reset to page 1 on filter change
-      syncUrl();
+      page.value = 1; // Reset page on any filter change
+      syncUrl(); // Sync the URL
     }
   );
 
-  // Handle Pagination (Immediate)
   watch([page, pageSize], syncUrl);
 
-  // --- Return the state and methods needed by the View ---
   return {
     searchInput,
     page,
