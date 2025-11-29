@@ -29,6 +29,7 @@ export const getRoleDefaultRoute = (role: string): string => {
   const roleRoutes: Record<string, string> = {
     admin: '/dashboard', // Admin goes to dashboard home
     manager: '/pegawai', // Manager goes to data pegawai
+    director: '/pegawai', // Manager goes to data pegawai
     employee: '/saran', // Employee goes to saran
   };
 

@@ -101,7 +101,7 @@ const navItems: MenuItem[] = [
     title: 'Data Pegawai',
     href: 'pegawai',
     icon: Icons.FileText,
-    role: ['admin', 'manager'],
+    role: ['admin', 'manager', 'director'],
   },
   {
     title: 'Berita Acara',

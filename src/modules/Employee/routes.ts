@@ -10,7 +10,7 @@ export const EmployeeRoutes: RouteRecordRaw[] = [
     meta: {
       title: 'Bagor - Data Pegawai',
       description: 'Manage employee data',
-      roles: ['admin', 'manager'],
+      roles: ['admin', 'manager', 'director'],
     },
   },
 ];
