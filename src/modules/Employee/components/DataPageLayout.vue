@@ -4,13 +4,11 @@
       <h1 class="text-3xl font-bold tracking-tight">Data Pegawai</h1>
       <p class="text-muted-foreground">Kelola data pegawai Bagor</p>
     </div>
-
     <Card>
       <CardHeader>
         <CardTitle>{{ title }}</CardTitle>
         <CardDescription>{{ description }} </CardDescription>
       </CardHeader>
-
       <CardContent>
         <div v-if="isError" class="flex h-64 w-full flex-col items-center justify-center space-y-4">
           <Icons.AlertCircle class="text-destructive h-16 w-16" />
@@ -20,12 +18,12 @@
             <Button variant="outline" @click="$emit('retry')" class="mt-4">Coba Lagi</Button>
           </div>
         </div>
-
         <div v-else>
           <slot></slot>
         </div>
       </CardContent>
     </Card>
+    <slot name="second-card"></slot>
   </div>
 </template>
 
