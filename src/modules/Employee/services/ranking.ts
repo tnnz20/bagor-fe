@@ -60,7 +60,7 @@ export const deleteNomination = async (payload: NominatePayload): Promise<BaseAp
 
 // Shortlist APIs
 
-export const getNomanationShortlist = async (): Promise<BaseApi<NominationDetail[]>> => {
+export const getNominationShortlist = async (): Promise<BaseApi<NominationDetail[]>> => {
   const queryParams = new URLSearchParams();
 
   const today = new Date();

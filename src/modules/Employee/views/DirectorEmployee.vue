@@ -43,11 +43,11 @@ import DataPageLayout from '../components/DataPageLayout.vue';
 import DirectorDataTable from '../components/DirectorDataTable.vue';
 // Components
 import SelectionDataTable from '../components/SelectionDataTable.vue';
-import { getNomanationShortlist, getShortlist } from '../services/ranking';
+import { getNominationShortlist, getShortlist } from '../services/ranking';
 
 const { data, isLoading, isError, error, refetch } = useQuery({
   queryKey: ['shortlist-nominations'],
-  queryFn: () => getNomanationShortlist(),
+  queryFn: () => getNominationShortlist(),
   placeholderData: keepPreviousData,
   retry: false,
   refetchOnWindowFocus: false,
