@@ -8,11 +8,7 @@ import type { ScoringDetail, StartScoringPayload, SurveySessionResponse } from '
 export const StartScoring = async (payload: StartScoringPayload): Promise<BaseApi<SurveySessionResponse>> => {
   const { year, quarter } = getCurrentPeriod();
 
-  const requestPayload = {
-    ...payload,
-    year: year,
-    quarter: quarter,
-  };
+  const requestPayload: StartScoringPayload = { ...payload, year, quarter };
 
   const res = await ApiClient.post<BaseApi<SurveySessionResponse>>(`/survey-sessions`, requestPayload);
   return res.data;

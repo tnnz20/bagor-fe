@@ -10,11 +10,7 @@ import type { NominatePayload, NominationDetail } from '@/types/ranking';
 export const createNomination = async (payload: NominatePayload): Promise<BaseApi> => {
   const { year, quarter } = getCurrentPeriod();
 
-  const requestPayload: NominatePayload = {
-    ...payload,
-    year: year,
-    quarter: quarter,
-  };
+  const requestPayload: NominatePayload = { ...payload, year, quarter };
 
   const res = await ApiClient.post<BaseApi>('/rankings/nominations', requestPayload);
   return res.data;
@@ -39,11 +35,7 @@ export const getNominations = async (): Promise<BaseApi<NominationDetail[]>> => 
 export const deleteNomination = async (payload: NominatePayload): Promise<BaseApi> => {
   const { year, quarter } = getCurrentPeriod();
 
-  const requestPayload: NominatePayload = {
-    ...payload,
-    year: year,
-    quarter: quarter,
-  };
+  const requestPayload: NominatePayload = { ...payload, year, quarter };
 
   const res = await ApiClient.delete<BaseApi>('/rankings/nominations', {
     data: requestPayload,
@@ -88,11 +80,7 @@ export const getShortlist = async (): Promise<BaseApi<NominationDetail[]>> => {
 export const createShortlist = async (payload: NominatePayload): Promise<BaseApi> => {
   const { year, quarter } = getCurrentPeriod();
 
-  const requestPayload: NominatePayload = {
-    ...payload,
-    year: year,
-    quarter: quarter,
-  };
+  const requestPayload: NominatePayload = { ...payload, year, quarter };
 
   const res = await ApiClient.post<BaseApi>('/rankings/shortlists', requestPayload);
   return res.data;
@@ -101,11 +89,7 @@ export const createShortlist = async (payload: NominatePayload): Promise<BaseApi
 export const deleteShortlist = async (payload: NominatePayload): Promise<BaseApi> => {
   const { year, quarter } = getCurrentPeriod();
 
-  const requestPayload: NominatePayload = {
-    ...payload,
-    year: year,
-    quarter: quarter,
-  };
+  const requestPayload: NominatePayload = { ...payload, year, quarter };
 
   const res = await ApiClient.delete<BaseApi>('/rankings/shortlists', {
     data: requestPayload,
