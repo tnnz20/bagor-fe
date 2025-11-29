@@ -1,5 +1,5 @@
 <template>
-  <Dialog>
+  <Dialog v-model:open="isDialogOpen">
     <DialogTrigger as-child>
       <Button>
         <Icons.Plus class="mr-2 h-4 w-4" />
@@ -97,10 +97,15 @@
         </div>
       </div>
       <DialogFooter>
-        <DialogClose as-child>
-          <Button variant="outline" @click="resetForm">Batal</Button>
-        </DialogClose>
-        <Button type="submit" :disabled="!selectedFile || hasError" @click="handleSubmit"> Tambah Berita Acara </Button>
+        <Button variant="outline" @click="handleCancel" :disabled="isPending">Batal</Button>
+        <Button
+          type="submit"
+          :disabled="!selectedFile || hasError || isPending || !formData.title.trim()"
+          @click="handleSubmit"
+        >
+          <Icons.Loader2 v-if="isPending" class="mr-2 h-4 w-4 animate-spin" />
+          {{ isPending ? 'Mengunggah...' : 'Tambah Berita Acara' }}
+        </Button>
       </DialogFooter>
     </DialogContent>
   </Dialog>
@@ -109,11 +114,14 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
 
+import type { BaseError } from '@/types';
+import { useMutation, useQueryClient } from '@tanstack/vue-query';
+import { toast } from 'vue-sonner';
+
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -123,6 +131,10 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { uploadBeritaAcara } from '../../services/berita-acara';
+
+// Dialog state
+const isDialogOpen = ref(false);
 
 // File upload state
 const fileInput = ref<HTMLInputElement>();
@@ -138,13 +150,29 @@ const formData = reactive({
   description: '',
 });
 
+const queryClient = useQueryClient();
+
+// Upload mutation
+const { mutate: mutateUpload, isPending } = useMutation({
+  mutationFn: (data: FormData) => uploadBeritaAcara(data),
+  onSuccess: () => {
+    toast.success('Berita acara berhasil ditambahkan');
+    queryClient.invalidateQueries({ queryKey: ['berita-acara'] });
+    resetForm();
+    isDialogOpen.value = false;
+  },
+  onError: (error: BaseError) => {
+    toast.error(`Gagal menambahkan berita acara: ${error.message || 'Terjadi kesalahan'}`);
+  },
+});
+
 // File size formatter
 const formatFileSize = (bytes: number): string => {
   if (bytes === 0) return '0 Bytes';
   const k = 1024;
   const sizes = ['Bytes', 'KB', 'MB', 'GB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  return Number.parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 };
 
 // File validation
@@ -228,6 +256,11 @@ const resetForm = () => {
   }
 };
 
+const handleCancel = () => {
+  resetForm();
+  isDialogOpen.value = false;
+};
+
 const handleSubmit = () => {
   if (!selectedFile.value) {
     hasError.value = true;
@@ -236,19 +269,19 @@ const handleSubmit = () => {
   }
 
   if (!formData.title.trim()) {
-    alert('Judul berita acara harus diisi');
+    toast.error('Judul berita acara harus diisi');
     return;
   }
 
-  // Handle form submission here
+  // Create FormData for file upload
+  const uploadData = new FormData();
+  uploadData.append('file', selectedFile.value);
+  uploadData.append('title', formData.title.trim());
+  if (formData.description.trim()) {
+    uploadData.append('description', formData.description.trim());
+  }
 
-  console.log('Submitting:', {
-    file: selectedFile.value,
-    title: formData.title,
-    description: formData.description,
-  });
-
-  // Reset form after successful submission
-  resetForm();
+  // Submit the form
+  mutateUpload(uploadData);
 };
 </script>
