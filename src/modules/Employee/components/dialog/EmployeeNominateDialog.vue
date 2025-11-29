@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import type { BaseError } from '@/types';
-import { useMutation } from '@tanstack/vue-query';
+import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { toast } from 'vue-sonner';
 
 import { Icons } from '@/components/icons';
@@ -41,6 +41,7 @@ const props = defineProps<{
   employee: EmployeeScore;
 }>();
 
+const queryClient = useQueryClient();
 const isOpen = defineModel<boolean>('open', { default: false });
 
 const { mutate: mutateCreateNomination, isPending } = useMutation({
@@ -51,6 +52,7 @@ const { mutate: mutateCreateNomination, isPending } = useMutation({
   onSuccess: _ => {
     toast.success('Berhasil menambahkan nominasi');
     isOpen.value = false;
+    queryClient.invalidateQueries({ queryKey: ['nominations'] });
   },
   onError: (error: BaseError) => {
     const err = error.response?.data;
