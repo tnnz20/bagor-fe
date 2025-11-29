@@ -3,6 +3,8 @@ import type { RouteRecordRaw } from 'vue-router';
 import AuthUserLogin from '@/modules/User/views/AuthUserLogin.vue';
 
 import AuthLayout from './layouts/AuthLayout.vue';
+import SettingLayout from './layouts/SettingLayout.vue';
+import Profile from './views/Profile.vue';
 import User from './views/UserDetail.vue';
 import UsersManagement from './views/UsersManagement.vue';
 
@@ -19,6 +21,21 @@ export const UserRoutes: RouteRecordRaw[] = [
       {
         path: 'login',
         component: AuthUserLogin,
+      },
+    ],
+  },
+  {
+    path: '/profile',
+    name: 'User Profile',
+    component: SettingLayout,
+    meta: {
+      title: 'Bagor - Setting Profile',
+      description: 'Bagor User Profile Page',
+    },
+    children: [
+      {
+        path: 'me',
+        component: Profile,
       },
     ],
   },
