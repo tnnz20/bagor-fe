@@ -72,7 +72,17 @@ export const getUserDetailById = async (userId: string): Promise<BaseApi<UserDet
   return res.data;
 };
 
+// Update profile of current logged-in user
 export const updateProfileUser = async (payload: UpdateProfileUserPayload): Promise<BaseApi> => {
   const res = await ApiClient.put<BaseApi>(`/users/me`, payload);
+  return res.data;
+};
+
+// Change password of current logged-in user
+export const changePasswordUser = async (currentPassword: string, newPassword: string): Promise<BaseApi> => {
+  const res = await ApiClient.put<BaseApi>(`/users/me/password`, {
+    current_password: currentPassword,
+    new_password: newPassword,
+  });
   return res.data;
 };
