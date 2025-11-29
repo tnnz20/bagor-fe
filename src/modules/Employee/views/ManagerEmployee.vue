@@ -102,7 +102,7 @@ const {
 const selectionErrorMessage = computed(() => {
   if (!selectionErrorObj.value) return '';
 
-  const err = error.value as BaseError;
+  const err = selectionErrorObj.value as BaseError;
   const status = err.response?.status;
   const dataCode = err.response?.data?.code;
 
