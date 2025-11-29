@@ -84,6 +84,7 @@ const { mutate: mutatePresenceScore, isPending: isUpdating } = useMutation({
     const err = error?.response?.data;
     const errorMessage = err?.error?.error_name || 'Gagal memperbarui skor kehadiran';
     toast.error(errorMessage);
+    isOpen.value = false;
   },
 });
 

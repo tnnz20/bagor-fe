@@ -72,6 +72,7 @@ const { mutate, isPending } = useMutation({
   onError: (error: BaseError) => {
     const err = error.response?.data;
     toast.error(err?.error.error_description || 'Gagal menghapus data');
+    isOpen.value = false;
   },
 });
 

@@ -59,6 +59,7 @@ const { mutate: mutateCreateNomination, isPending } = useMutation({
     let errMessage =
       err?.code === 400 ? 'Tidak Boleh Memilih Pegawai dengan Jenis Jabatan yang Sama' : 'Gagal menambahkan nominasi';
     toast.error(errMessage);
+    isOpen.value = false;
   },
 });
 

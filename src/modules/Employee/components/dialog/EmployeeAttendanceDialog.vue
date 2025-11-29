@@ -151,6 +151,7 @@ const { mutate: mutateAttendanceDelay, isPending: isUpdating } = useMutation({
     const err = error?.response?.data;
     const errorMessage = err?.error?.error_name || 'Gagal memperbarui skor keterlambatan';
     toast.error(errorMessage);
+    isOpen.value = false;
   },
 });
 
